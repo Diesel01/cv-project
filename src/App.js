@@ -16,6 +16,7 @@ class App extends React.Component{
     }
 
     this.getGeneralInfo = this.getGeneralInfo.bind(this)
+    this.editGeneralInfo = this.editGeneralInfo.bind(this)
   }
 
   getGeneralInfo(e){ 
@@ -29,28 +30,35 @@ class App extends React.Component{
     // let phoneInput = document.getElementById('phoneInput').value
 
     this.setState(
-      { firstName: document.getElementById("firNameInput").value, 
-        secondName: document.getElementById('secNameInput').value, 
+      { firstName: document.getElementById("firstNameInput").value, 
+        secondName: document.getElementById('secondNameInput').value, 
         dateBirth: stringDate,  
         email: document.getElementById('emailInput').value, 
         phone: document.getElementById('phoneInput').value 
       }, 
       () => { console.log(this.state); } 
     )
-  } 
+  }
+  
+  editGeneralInfo(e){ 
+    this.setState({
+      [e.target.name]: e.target.value
+    }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) } )
+  }
   
   render(){ 
     return(
+
       <div>
         <form onSubmit = {this.getGeneralInfo}> 
-          <label htmlFor = "firNameInput" name = 'firstName'>First name: </label>
-          <input type = 'text' id = "firNameInput" name = 'firstName' />
+          <label htmlFor = "firstNameInput" name = 'firstName'>First name: </label>
+          <input type = 'text' id = "firstNameInput" name = 'firstName' />
 
-          <label htmlFor = "secNameInput" name = 'secondName'>Second name: </label>
-          <input type = 'text' id = "secNameInput" name = 'secondName' />
+          <label htmlFor = "secondNameInput" name = 'secondName'>Second name: </label>
+          <input type = 'text' id = "secondNameInput" name = 'secondName' />
 
           <label htmlFor = "dateInput" name = 'dateBirth'>Date of birth: </label>
-          <input type = 'date' id = "dateInput" name = 'dateBirth'  max = {new Date()}/>
+          <input type = 'date' id = "dateInput" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")}/>
 
           <label htmlFor = "emailInput" name = 'email'>Email: </label>
           <input type = 'email' id = "emailInput" name = 'email' />
@@ -63,6 +71,27 @@ class App extends React.Component{
           <input type = 'submit'></input>
         </form>
         <GeneralInfo {... this.state} />
+
+        <form> 
+          <label htmlFor = "firstNameEdit" name = 'firstName'>First name: </label>
+          <input type = 'text' id = "firstNameEdit" name = 'firstName' onChange = {this.editGeneralInfo} />
+
+          <label htmlFor = "secondNameEdit" name = 'secondName'>Second name: </label>
+          <input type = 'text' id = "secondNameEdit" name = 'secondName' onChange = {this.editGeneralInfo}/>
+
+          <label htmlFor = "dateEdit" name = 'dateBirth'>Date of birth: </label>
+          <input type = 'date' id = "dateEdit" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")}/>
+
+          <label htmlFor = "emailEdit" name = 'email'>Email: </label>
+          <input type = 'email' id = "emailEdit" name = 'email' onChange = {this.editGeneralInfo}/>
+
+          <label htmlFor = "phoneEdit" name = 'phone'>Phone: </label>
+          <input type = 'tel' id = "phoneEdit" name = 'phone' 
+            pattern = "[0-9]{2}[0-9]{5}[0-9]{4}" onChange = {this.editGeneralInfo}/>
+          <small>Format: (55) 54321 - 4321</small>
+
+          <input type = 'submit'></input>
+        </form>
       </div>
 
     )
