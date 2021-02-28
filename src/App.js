@@ -21,18 +21,19 @@ class App extends React.Component{
 
   getGeneralInfo(e){ 
     e.preventDefault(); 
-    // let firNameInput = document.getElementById("firNameInput").value
-    // let secNameInput = document.getElementById('secNameInput').value
+
     let dateInput = document.getElementById('dateInput').value
-      let date = parseISO(dateInput)
-      let stringDate = format(date, "do 'of' MMMM, yyyy")
-    // let emailInput = document.getElementById('emailInput').value
-    // let phoneInput = document.getElementById('phoneInput').value
+    if (dateInput !== ""){ 
+      let date = parseISO(dateInput);
+      let stringDate = format(date, "do 'of' MMMM, yyyy");
+      this.setState({
+        dateBirth: stringDate
+      })
+    }
 
     this.setState(
       { firstName: document.getElementById("firstNameInput").value, 
-        secondName: document.getElementById('secondNameInput').value, 
-        dateBirth: stringDate,  
+        secondName: document.getElementById('secondNameInput').value,   
         email: document.getElementById('emailInput').value, 
         phone: document.getElementById('phoneInput').value 
       }, 
@@ -44,7 +45,7 @@ class App extends React.Component{
     if(e.target.name !== 'dateBirth'){ 
       this.setState({
       [e.target.name]: e.target.value
-      }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) } )
+      }, () => { return (<GeneralInfo {...this.state} />) })
     
     }else{ 
       let dateInput = e.target.value; 
@@ -52,8 +53,9 @@ class App extends React.Component{
       let stringDate = format(date, "do 'of' MMMM, yyyy") 
       this.setState({
         [e.target.name]: stringDate
-        }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) } )
+      }, () => { return (<GeneralInfo {...this.state} />) })
     }
+    e.preventDefault()
   }
   
   render(){ 
@@ -82,7 +84,7 @@ class App extends React.Component{
         </form>
         <GeneralInfo {... this.state} />
 
-        <form> 
+        <form hidden id = "editGenInfoForm"> 
           <label htmlFor = "firstNameEdit" name = 'firstName'>First name: </label>
           <input type = 'text' id = "firstNameEdit" name = 'firstName' onChange = {this.editGeneralInfo} />
 
@@ -100,7 +102,7 @@ class App extends React.Component{
             pattern = "[0-9]{2}[0-9]{5}[0-9]{4}" onChange = {this.editGeneralInfo}/>
           <small>Format: (55) 54321 - 4321</small>
 
-          <input type = 'submit'></input>
+          <button onClick = {() => {document.getElementById("editGenInfoForm").hidden = true}}> Close </button>
         </form>
       </div>
 

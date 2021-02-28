@@ -6,7 +6,7 @@ export class GeneralInfo extends React.Component{
             <div> 
                 <h2>
                     {this.props.firstName} {this.props.secondName} 
-                    <button>Edit</button>
+                    <button onClick = {() => {document.getElementById("editGenInfoForm").hidden = false}}> Edit </button>
                 </h2>
 
                 <p> Date of birth: {this.props.dateBirth} </p>
