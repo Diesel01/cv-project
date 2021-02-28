@@ -9,11 +9,11 @@ export class GeneralInfo extends React.Component{
                     <button>Edit</button>
                 </h2>
 
-                <p> {this.props.dateBirth} </p>
+                <p> Date of birth: {this.props.dateBirth} </p>
 
-                <p> {this.props.email} </p>
+                <p> Email:  {this.props.email} </p>
 
-                <p> {this.props.phone} </p>
+                <p> Phone: {this.props.phone} </p>
             </div>
         )
     }

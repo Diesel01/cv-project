@@ -41,9 +41,19 @@ class App extends React.Component{
   }
   
   editGeneralInfo(e){ 
-    this.setState({
+    if(e.target.name !== 'dateBirth'){ 
+      this.setState({
       [e.target.name]: e.target.value
-    }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) } )
+      }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) } )
+    
+    }else{ 
+      let dateInput = e.target.value; 
+      let date = parseISO(dateInput)
+      let stringDate = format(date, "do 'of' MMMM, yyyy") 
+      this.setState({
+        [e.target.name]: stringDate
+        }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) } )
+    }
   }
   
   render(){ 
@@ -58,7 +68,7 @@ class App extends React.Component{
           <input type = 'text' id = "secondNameInput" name = 'secondName' />
 
           <label htmlFor = "dateInput" name = 'dateBirth'>Date of birth: </label>
-          <input type = 'date' id = "dateInput" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")}/>
+          <input type = 'date' id = "dateInput" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")} />
 
           <label htmlFor = "emailInput" name = 'email'>Email: </label>
           <input type = 'email' id = "emailInput" name = 'email' />
@@ -80,7 +90,7 @@ class App extends React.Component{
           <input type = 'text' id = "secondNameEdit" name = 'secondName' onChange = {this.editGeneralInfo}/>
 
           <label htmlFor = "dateEdit" name = 'dateBirth'>Date of birth: </label>
-          <input type = 'date' id = "dateEdit" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")}/>
+          <input type = 'date' id = "dateEdit" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")} onChange = {this.editGeneralInfo}/>
 
           <label htmlFor = "emailEdit" name = 'email'>Email: </label>
           <input type = 'email' id = "emailEdit" name = 'email' onChange = {this.editGeneralInfo}/>
