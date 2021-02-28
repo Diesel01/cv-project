@@ -15,37 +15,37 @@ class App extends React.Component{
       phone: ''
     }
 
-    this.getGeneralInfo = this.getGeneralInfo.bind(this)
+    // this.getGeneralInfo = this.getGeneralInfo.bind(this)
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
   }
 
-  getGeneralInfo(e){ 
-    e.preventDefault(); 
+  // getGeneralInfo(e){ 
+  //   e.preventDefault(); 
 
-    let dateInput = document.getElementById('dateInput').value
-    if (dateInput !== ""){ 
-      let date = parseISO(dateInput);
-      let stringDate = format(date, "do 'of' MMMM, yyyy");
-      this.setState({
-        dateBirth: stringDate
-      })
-    }
+  //   let dateInput = document.getElementById('dateInput').value
+  //   if (dateInput !== ""){ 
+  //     let date = parseISO(dateInput);
+  //     let stringDate = format(date, "do 'of' MMMM, yyyy");
+  //     this.setState({
+  //       dateBirth: stringDate
+  //     })
+  //   }
 
-    this.setState(
-      { firstName: document.getElementById("firstNameInput").value, 
-        secondName: document.getElementById('secondNameInput').value,   
-        email: document.getElementById('emailInput').value, 
-        phone: document.getElementById('phoneInput').value 
-      }, 
-      () => { console.log(this.state); } 
-    )
-  }
+  //   this.setState(
+  //     { firstName: document.getElementById("firstNameInput").value, 
+  //       secondName: document.getElementById('secondNameInput').value,   
+  //       email: document.getElementById('emailInput').value, 
+  //       phone: document.getElementById('phoneInput').value 
+  //     }, 
+  //     () => { console.log(this.state); } 
+  //   )
+  // }
   
   editGeneralInfo(e){ 
     if(e.target.name !== 'dateBirth'){ 
       this.setState({
       [e.target.name]: e.target.value
-      }, () => { return (<GeneralInfo {...this.state} />) })
+      }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) })
     
     }else{ 
       let dateInput = e.target.value; 
@@ -53,16 +53,15 @@ class App extends React.Component{
       let stringDate = format(date, "do 'of' MMMM, yyyy") 
       this.setState({
         [e.target.name]: stringDate
-      }, () => { return (<GeneralInfo {...this.state} />) })
+      }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) })
     }
-    e.preventDefault()
   }
   
   render(){ 
     return(
 
       <div>
-        <form onSubmit = {this.getGeneralInfo}> 
+        {/* <form onSubmit = {this.getGeneralInfo}> 
           <label htmlFor = "firstNameInput" name = 'firstName'>First name: </label>
           <input type = 'text' id = "firstNameInput" name = 'firstName' />
 
@@ -81,7 +80,7 @@ class App extends React.Component{
           <small>Format: (55) 54321 - 4321</small>
 
           <input type = 'submit'></input>
-        </form>
+        </form> */}
         <GeneralInfo {... this.state} />
 
         <form hidden id = "editGenInfoForm"> 
@@ -102,7 +101,7 @@ class App extends React.Component{
             pattern = "[0-9]{2}[0-9]{5}[0-9]{4}" onChange = {this.editGeneralInfo}/>
           <small>Format: (55) 54321 - 4321</small>
 
-          <button onClick = {() => {document.getElementById("editGenInfoForm").hidden = true}}> Close </button>
+          <button onClick = {(e) => {e.preventDefault(); document.getElementById("editGenInfoForm").hidden = true}}> Close </button>
         </form>
       </div>
 
