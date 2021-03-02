@@ -1,6 +1,9 @@
 import  React from "react";
-import { GeneralInfo } from "./components/GeneralInfo";
+import GeneralInfo from "./components/GeneralInfo";
 import { parseISO, format } from "date-fns";
+import GenInfoForm from "./components/GenInfoForm";
+import Education from "./components/Education";
+import GraduateForm from "./components/EducationForm";
 
 
 class App extends React.Component{ 
@@ -8,118 +11,109 @@ class App extends React.Component{
     super(); 
 
     this.state = { 
-      firstName: "",  
-      secondName: '', 
-      dateBirth: '', 
-      email: '', 
-      phone: ''
-    }
 
-    // this.getGeneralInfo = this.getGeneralInfo.bind(this)
+      generalInfo: {
+        firstName: '',  
+        secondName: '', 
+        dateBirth: '', 
+        email: '', 
+        phone: ''
+      }, 
+
+      education: {
+        graduateSchool: {
+          institutionG:'', 
+          startDateG: '', 
+          endDateG: '', 
+          courseG: '',
+          levelG: ''
+        }, 
+        undergraduate:{ 
+          institution:'', 
+          startDate: '', 
+          endDate: '', 
+          course: '',
+          level: '', 
+        },
+      }
+    } 
+
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
     this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
+
+    this.editEduGraduate = this.editEduGraduate.bind(this)
   }
 
-  // getGeneralInfo(e){ 
-  //   e.preventDefault(); 
-
-  //   let dateInput = document.getElementById('dateInput').value
-  //   if (dateInput !== ""){ 
-  //     let date = parseISO(dateInput);
-  //     let stringDate = format(date, "do 'of' MMMM, yyyy");
-  //     this.setState({
-  //       dateBirth: stringDate
-  //     })
-  //   }
-
-  //   this.setState(
-  //     { firstName: document.getElementById("firstNameInput").value, 
-  //       secondName: document.getElementById('secondNameInput').value,   
-  //       email: document.getElementById('emailInput').value, 
-  //       phone: document.getElementById('phoneInput').value 
-  //     }, 
-  //     () => { console.log(this.state); } 
-  //   )
-  // }
-  
   editGeneralInfo(e){ 
     if(e.target.name !== 'dateBirth'){ 
       this.setState({
-      [e.target.name]: e.target.value
-      }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) })
+        generalInfo: { ...this.state.generalInfo, [e.target.name]: e.target.value }
+      }, () => { console.log(this.state) })
     
     }else{ 
       let dateInput = e.target.value; 
-      let date = parseISO(dateInput)
-      let stringDate = format(date, "do 'of' MMMM, yyyy") 
-      this.setState({
-        [e.target.name]: stringDate
-      }, () => { return (<GeneralInfo {...this.state} />, console.log(this.state)) })
+      let date = parseISO(dateInput); 
+      let today = new Date(); 
+        if (date < today){
+          let stringDate = format(date, "do 'of' MMMM, yyyy") 
+          this.setState({
+            generalInfo: { ...this.state.generalInfo, [e.target.name]: stringDate }
+          }, () => { console.log(this.state) }) 
+        }else{
+          alert("Please insert a valid date")
+        }
     }
   }
   
   deleteGeneralInfo(){ 
     this.setState({ 
-      firstName: "", 
-      secondName: "",
-      dateBirth: "",   
-      email: "", 
-      phone: ""
+      generalInfo: {
+        firstName: "", 
+        secondName: "",
+        dateBirth: "",   
+        email: "", 
+        phone: ""
+      }
     }, () => { console.log(this.state) })
   }
+
+  editEduGraduate(e){ 
+    if(e.target.name !== 'startDate' || 'endDate'){ 
+      this.setState({
+        education: { ...this.state.education, graduateSchool: {...this.state.education.graduateSchool, [e.target.name]: e.target.value } }
+        }, () => { console.log(this.state) }
+      )
+    
+    }else{ 
+      let dateInput = e.target.value; 
+      let date = parseISO(dateInput); 
+      let today = new Date(); 
+        if (date < today){
+          let stringDate = format(date, "do 'of' MMMM, yyyy") 
+          this.setState({
+            education: { ...this.state.education, graduateSchool: {...this.state.education.graduateSchool, [e.target.name]: stringDate } }
+          }, () => { console.log(this.state) }) 
+        }else{
+          alert("Please insert a valid date")
+      }
+    }
+  }
+
   render(){ 
     return(
-
       <div>
-        {/* <form onSubmit = {this.getGeneralInfo}> 
-          <label htmlFor = "firstNameInput" name = 'firstName'>First name: </label>
-          <input type = 'text' id = "firstNameInput" name = 'firstName' />
 
-          <label htmlFor = "secondNameInput" name = 'secondName'>Second name: </label>
-          <input type = 'text' id = "secondNameInput" name = 'secondName' />
+        <section>
+          <GeneralInfo {... this.state.generalInfo} />
+          <GenInfoForm  editGeneralInfo = {this.editGeneralInfo}/>
+          <button onClick = {this.deleteGeneralInfo}> Delete </button>
+        </section>
 
-          <label htmlFor = "dateInput" name = 'dateBirth'>Date of birth: </label>
-          <input type = 'date' id = "dateInput" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")} />
-
-          <label htmlFor = "emailInput" name = 'email'>Email: </label>
-          <input type = 'email' id = "emailInput" name = 'email' />
-
-          <label htmlFor = "phoneInput" name = 'phone'>Phone: </label>
-          <input type = 'tel' id = "phoneInput" name = 'phone' 
-            pattern = "[0-9]{2}[0-9]{5}[0-9]{4}"/>
-          <small>Format: (55) 54321 - 4321</small>
-
-          <input type = 'submit'></input>
-        </form> */}
-        <GeneralInfo {... this.state} />
-
-        <form hidden id = "editGenInfoForm"> 
-          <label htmlFor = "firstNameEdit" name = 'firstName'>First name: </label>
-          <input type = 'text' id = "firstNameEdit" name = 'firstName' onChange = {this.editGeneralInfo} />
-
-          <label htmlFor = "secondNameEdit" name = 'secondName'>Second name: </label>
-          <input type = 'text' id = "secondNameEdit" name = 'secondName' onChange = {this.editGeneralInfo}/>
-
-          <label htmlFor = "dateEdit" name = 'dateBirth'>Date of birth: </label>
-          <input type = 'date' id = "dateEdit" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")} onChange = {this.editGeneralInfo}/>
-
-          <label htmlFor = "emailEdit" name = 'email'>Email: </label>
-          <input type = 'email' id = "emailEdit" name = 'email' onChange = {this.editGeneralInfo}/>
-
-          <label htmlFor = "phoneEdit" name = 'phone'>Phone: </label>
-          <input type = 'tel' id = "phoneEdit" name = 'phone' 
-            pattern = "[0-9]{2}[0-9]{5}[0-9]{4}" onChange = {this.editGeneralInfo}/>
-          <small>Format: (55) 54321 - 4321</small>
-
-          <button 
-            onClick = { (e) => { e.preventDefault();
-            let form = document.getElementById("editGenInfoForm");  form.hidden = true; form.reset() } }
-          > 
-          Close 
-          </button>
-        </form>
-
-        <button onClick = {this.deleteGeneralInfo}> Delete </button>
+        <section>
+          <Education {...this.state.education.graduateSchool} />
+          <GraduateForm editEduGraduate = {this.editEduGraduate}/>
+        </section>
+        
       </div>
 
     )
