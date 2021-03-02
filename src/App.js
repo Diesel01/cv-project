@@ -17,6 +17,7 @@ class App extends React.Component{
 
     // this.getGeneralInfo = this.getGeneralInfo.bind(this)
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
+    this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
   }
 
   // getGeneralInfo(e){ 
@@ -57,6 +58,15 @@ class App extends React.Component{
     }
   }
   
+  deleteGeneralInfo(){ 
+    this.setState({ 
+      firstName: "", 
+      secondName: "",
+      dateBirth: "",   
+      email: "", 
+      phone: ""
+    }, () => { console.log(this.state) })
+  }
   render(){ 
     return(
 
@@ -101,8 +111,15 @@ class App extends React.Component{
             pattern = "[0-9]{2}[0-9]{5}[0-9]{4}" onChange = {this.editGeneralInfo}/>
           <small>Format: (55) 54321 - 4321</small>
 
-          <button onClick = {(e) => {e.preventDefault(); document.getElementById("editGenInfoForm").hidden = true}}> Close </button>
+          <button 
+            onClick = { (e) => { e.preventDefault();
+            let form = document.getElementById("editGenInfoForm");  form.hidden = true; form.reset() } }
+          > 
+          Close 
+          </button>
         </form>
+
+        <button onClick = {this.deleteGeneralInfo}> Delete </button>
       </div>
 
     )
