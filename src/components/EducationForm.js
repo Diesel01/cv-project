@@ -9,15 +9,15 @@ const EducationForm = (props) => {
 
                 <br />
                 <label htmlFor = "highSchool" name = 'level'>Highschool </label>
-                <input type = 'radio' id = "highSchool" name = 'level' value = "highSchool" onChange = {editEducation}/>
+                <input type = 'radio' id = "highSchool" name = 'level' value = "Highschool" onChange = {editEducation}/>
 
                 <br />
                 <label htmlFor = "undergraduate" name = 'level'>Undergraduate </label>
-                <input type = 'radio' id = "undergraduate" name = 'level' value = "undergraduate" onChange = {editEducation}/>
+                <input type = 'radio' id = "undergraduate" name = 'level' value = "Undergraduate" onChange = {editEducation}/>
 
                 <br />
                 <label htmlFor = "graduate" name = 'level'>Graduate </label>
-                <input type = 'radio' id = "graduate" name = 'level' value = 'graduate' onChange = {editEducation}/>
+                <input type = 'radio' id = "graduate" name = 'level' value = 'Graduate' onChange = {editEducation}/>
 
 
                 <label htmlFor = "course" name = 'course'>Course: </label>

@@ -1,6 +1,6 @@
 import  React from "react";
-import GeneralInfo from "./components/GeneralInfo";
 import { parseISO, format } from "date-fns";
+import GeneralInfo from "./components/GeneralInfo";
 import GenInfoForm from "./components/GenInfoForm";
 import Education from "./components/Education";
 import { EducationForm } from "./components/EducationForm";
@@ -20,7 +20,7 @@ class App extends React.Component{
         phone: ''
       }, 
 
-      education: { },
+      education: [ ],
 
       jobExp: { }
     } 
@@ -81,18 +81,18 @@ class App extends React.Component{
     if(e.target.name !== 'startDate' || 'endDate'){ 
       this.setState({
         education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
-        }, () => { console.log(this.state.education[stateProp]) } )
+        }, () => { console.log(this.state.education) } )
 
     }else{ 
       let date = parseISO(e.target.value); 
       let today = new Date(); 
-        if (date < today){
-          let stringDate = format(date, "do 'of' MMMM, yyyy") 
-          this.setState({
-            education: { ...this.state.education, stateProp: {...this.state.education.stateProp, [e.target.name]: stringDate } }
-          }, () => { console.log(this.state.education.stateProp) }) 
-        }else{
-          alert("Please insert a valid date")
+      if (date < today){
+        let stringDate = format(date, "do 'of' MMMM, yyyy") 
+        this.setState({
+          education: { ...this.state.education, stateProp: {...this.state.education.stateProp, [e.target.name]: stringDate } }
+        }, () => { console.log(this.state.education.stateProp) }) 
+      }else{
+        alert("Please insert a valid date")
       }
     }
   }
@@ -108,7 +108,12 @@ class App extends React.Component{
         </section>
 
         <section>
-          <Education {...this.state.education.graduateSchool} />
+          <ul>
+          <Education {...this.state.education.Graduate} />
+          <Education {...this.state.education.Undergraduate} />
+          <Education {...this.state.education.Highschool} />
+          </ul>
+          <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit </button>
           <EducationForm editEducation = {this.editEducation}/>
         </section>
         
