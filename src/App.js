@@ -3,7 +3,7 @@ import GeneralInfo from "./components/GeneralInfo";
 import { parseISO, format } from "date-fns";
 import GenInfoForm from "./components/GenInfoForm";
 import Education from "./components/Education";
-import GraduateForm from "./components/EducationForm";
+import { EducationForm } from "./components/EducationForm";
 
 
 class App extends React.Component{ 
@@ -21,27 +21,27 @@ class App extends React.Component{
       }, 
 
       education: {
-        graduateSchool: {
-          institutionG:'', 
-          startDateG: '', 
-          endDateG: '', 
-          courseG: '',
-          levelG: ''
-        }, 
-        undergraduate:{ 
-          institution:'', 
-          startDate: '', 
-          endDate: '', 
-          course: '',
-          level: '', 
-        },
+        // graduateSchool: {
+        //   institutionGraduate:'', 
+        //   startDateGraduate: '', 
+        //   endDateGraduate: '', 
+        //   courseGraduate: '',
+        //   levelGraduate: ''
+        // }, 
+        // undergraduate:{ 
+        //   institution:'', 
+        //   startDate: '', 
+        //   endDate: '', 
+        //   course: '',
+        //   level: '', 
+        // },
       }
     } 
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
     this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
 
-    this.editEduGraduate = this.editEduGraduate.bind(this)
+    this.editEducation = this.editEducation.bind(this)
   }
 
   editGeneralInfo(e){ 
@@ -51,8 +51,7 @@ class App extends React.Component{
       }, () => { console.log(this.state) })
     
     }else{ 
-      let dateInput = e.target.value; 
-      let date = parseISO(dateInput); 
+      let date = parseISO(e.target.value); 
       let today = new Date(); 
         if (date < today){
           let stringDate = format(date, "do 'of' MMMM, yyyy") 
@@ -77,27 +76,60 @@ class App extends React.Component{
     }, () => { console.log(this.state) })
   }
 
-  editEduGraduate(e){ 
+  editEducation(e){ 
+    let stateProp
+    let array = document.getElementsByName('level'); 
+    
+    for (let index = 0; index < array.length; index++) {
+      if (array[index].checked === true){ 
+        stateProp = array[index].value;
+        this.setState({
+          education: {...this.state.education, [stateProp]: { 
+            level: stateProp, course: '', institution: '', startDate: '', endDate: ''
+          } }
+        })
+      }    
+    }
+  
     if(e.target.name !== 'startDate' || 'endDate'){ 
       this.setState({
-        education: { ...this.state.education, graduateSchool: {...this.state.education.graduateSchool, [e.target.name]: e.target.value } }
-        }, () => { console.log(this.state) }
-      )
-    
+        education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
+        }, () => { console.log(this.state.education) } )
+
     }else{ 
-      let dateInput = e.target.value; 
-      let date = parseISO(dateInput); 
+      let date = parseISO(e.target.value); 
       let today = new Date(); 
         if (date < today){
           let stringDate = format(date, "do 'of' MMMM, yyyy") 
           this.setState({
-            education: { ...this.state.education, graduateSchool: {...this.state.education.graduateSchool, [e.target.name]: stringDate } }
-          }, () => { console.log(this.state) }) 
+            education: { ...this.state.education, stateProp: {...this.state.education.stateProp, [e.target.name]: stringDate } }
+          }, () => { console.log(this.state.education.stateProp) }) 
         }else{
           alert("Please insert a valid date")
       }
     }
   }
+
+  // editUndegraduate(e){ 
+  //   if(e.target.name !== 'startDate' || 'endDate'){ 
+  //     this.setState({
+  //       education: { ...this.state.education, undergraduate: {...this.state.education.graduateSchool, [e.target.name]: e.target.value } }
+  //       }, () => { console.log(this.state) }
+  //     )
+    
+  //   }else{ 
+  //     let date = parseISO(e.target.value);  
+  //     let today = new Date(); 
+  //       if (date < today){
+  //         let stringDate = format(date, "do 'of' MMMM, yyyy") 
+  //         this.setState({
+  //           education: { ...this.state.education, undergraduate: {...this.state.education.graduateSchool, [e.target.name]: stringDate } }
+  //         }, () => { console.log(this.state) }) 
+  //       }else{
+  //         alert("Please insert a valid date")
+  //     }
+  //   }
+  // }
 
   render(){ 
     return(
@@ -111,7 +143,7 @@ class App extends React.Component{
 
         <section>
           <Education {...this.state.education.graduateSchool} />
-          <GraduateForm editEduGraduate = {this.editEduGraduate}/>
+          <EducationForm editEducation = {this.editEducation}/>
         </section>
         
       </div>
