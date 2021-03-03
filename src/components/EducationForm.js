@@ -1,5 +1,4 @@
 import React from "react"; 
-// import {format} from "date-fns"; 
 
 const EducationForm = (props) => { 
     const { editEducation } = props; 
@@ -44,36 +43,4 @@ const EducationForm = (props) => {
     
 }
 
-// const UndergraduateForm = (props) => { 
-//     const { editEduUndergraduate } = props; 
-//     return(
-//         <div>
-//             <form hidden id = "editUndergraduateForm"> 
-//                 <label htmlFor = "level" name = 'levelUndergraduate'>Level: </label>
-//                 <input type = 'text' id = "level" name = 'levelUndergraduate' onChange = {editEduUndergraduate}/>
-
-//                 <label htmlFor = "course" name = 'courseUndergraduate'>Course: </label>
-//                 <input type = 'text' id = "course" name = 'courseUndergraduate' onChange = {editEduUndergraduate}/>
-
-//                 <label htmlFor = "institution" name = 'institutionUndergraduate'>Institution: </label>
-//                 <input type = 'text' id = "institution" name = 'institutionUndergraduate' onChange = {editEduUndergraduate} />
-                
-//                 <label htmlFor = "startDate" name = 'startDateUndergraduate'>Start date: </label>
-//                 <input type = 'month' id = 'startDate' name = 'startDateUndergraduate' onChange = {editEduUndergraduate}/>
-
-//                 <label htmlFor = "endDate" name = 'endDateUndergraduate'>End date: </label>
-//                 <input type = 'month' id = 'endDate' name = 'endDateUndergraduate' onChange = {editEduUndergraduate}/>
-
-//                 <button onClick = { 
-//                     (e) => { e.preventDefault();
-//                     let form = document.getElementById("editUndergraduateForm"); form.hidden = true; form.reset() } }> 
-//                     Close 
-//                 </button>
-//             </form>
-//         </div>
-//     )
-    
-// }
-
 export {EducationForm} ;  
-// export {UndergraduateForm}; 

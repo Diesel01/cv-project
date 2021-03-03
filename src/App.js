@@ -20,22 +20,9 @@ class App extends React.Component{
         phone: ''
       }, 
 
-      education: {
-        // graduateSchool: {
-        //   institutionGraduate:'', 
-        //   startDateGraduate: '', 
-        //   endDateGraduate: '', 
-        //   courseGraduate: '',
-        //   levelGraduate: ''
-        // }, 
-        // undergraduate:{ 
-        //   institution:'', 
-        //   startDate: '', 
-        //   endDate: '', 
-        //   course: '',
-        //   level: '', 
-        // },
-      }
+      education: { },
+
+      jobExp: { }
     } 
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
@@ -94,7 +81,7 @@ class App extends React.Component{
     if(e.target.name !== 'startDate' || 'endDate'){ 
       this.setState({
         education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
-        }, () => { console.log(this.state.education) } )
+        }, () => { console.log(this.state.education[stateProp]) } )
 
     }else{ 
       let date = parseISO(e.target.value); 
@@ -109,27 +96,6 @@ class App extends React.Component{
       }
     }
   }
-
-  // editUndegraduate(e){ 
-  //   if(e.target.name !== 'startDate' || 'endDate'){ 
-  //     this.setState({
-  //       education: { ...this.state.education, undergraduate: {...this.state.education.graduateSchool, [e.target.name]: e.target.value } }
-  //       }, () => { console.log(this.state) }
-  //     )
-    
-  //   }else{ 
-  //     let date = parseISO(e.target.value);  
-  //     let today = new Date(); 
-  //       if (date < today){
-  //         let stringDate = format(date, "do 'of' MMMM, yyyy") 
-  //         this.setState({
-  //           education: { ...this.state.education, undergraduate: {...this.state.education.graduateSchool, [e.target.name]: stringDate } }
-  //         }, () => { console.log(this.state) }) 
-  //       }else{
-  //         alert("Please insert a valid date")
-  //     }
-  //   }
-  // }
 
   render(){ 
     return(
