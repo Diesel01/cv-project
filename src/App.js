@@ -29,6 +29,7 @@ class App extends React.Component{
     this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
 
     this.editEducation = this.editEducation.bind(this)
+    this.deleteEducation = this.deleteEducation.bind(this)
   }
 
   editGeneralInfo(e){ 
@@ -81,7 +82,7 @@ class App extends React.Component{
     if(e.target.name !== 'startDate' || 'endDate'){ 
       this.setState({
         education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
-        }, () => { console.log(this.state.education) } )
+        }, () => { console.log(this.state) } )
 
     }else{ 
       let date = parseISO(e.target.value); 
@@ -97,6 +98,12 @@ class App extends React.Component{
     }
   }
 
+  deleteEducation(degree){ 
+    this.setState({
+      education: {...this.state.education, [degree]: { course: "", institution: "", startDate: "", endDate: "" } }
+    }, console.log(this.state.education))
+  }
+
   render(){ 
     return(
       <div>
@@ -109,9 +116,9 @@ class App extends React.Component{
 
         <section>
           <ul>
-          <Education {...this.state.education.Graduate} />
-          <Education {...this.state.education.Undergraduate} />
-          <Education {...this.state.education.Highschool} />
+          <Education {...this.state.education.Graduate} deleteEducation = {this.deleteEducation}/>
+          <Education {...this.state.education.Undergraduate} deleteEducation = {this.deleteEducation}/>
+          <Education {...this.state.education.Highschool} deleteEducation = {this.deleteEducation}/>
           </ul>
           <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit </button>
           <EducationForm editEducation = {this.editEducation}/>
