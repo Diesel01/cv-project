@@ -4,7 +4,7 @@ import GeneralInfo from "./components/GeneralInfo";
 import GenInfoForm from "./components/GenInfoForm";
 import Education from "./components/Education";
 import { EducationForm } from "./components/EducationForm";
-
+import { JobExpForm } from "./components/JobExpForm";
 
 class App extends React.Component{ 
   constructor(){ 
@@ -22,7 +22,7 @@ class App extends React.Component{
 
       education: [ ],
 
-      jobExp: { }
+      jobExp: [ ]
     } 
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
@@ -30,6 +30,8 @@ class App extends React.Component{
 
     this.editEducation = this.editEducation.bind(this)
     this.deleteEducation = this.deleteEducation.bind(this)
+
+    this.editJobExp = this.editJobExp.bind(this)
   }
 
   editGeneralInfo(e){ 
@@ -64,6 +66,7 @@ class App extends React.Component{
     }, () => { console.log(this.state) })
   }
 
+
   editEducation(e){ 
     let stateProp
     let array = document.getElementsByName('level'); 
@@ -86,22 +89,33 @@ class App extends React.Component{
 
     }else{ 
       let date = parseISO(e.target.value); 
-      let today = new Date(); 
-      if (date < today){
-        let stringDate = format(date, "do 'of' MMMM, yyyy") 
-        this.setState({
-          education: { ...this.state.education, stateProp: {...this.state.education.stateProp, [e.target.name]: stringDate } }
-        }, () => { console.log(this.state.education.stateProp) }) 
-      }else{
-        alert("Please insert a valid date")
-      }
+      let stringDate = format(date, "do 'of' MMMM, yyyy") 
+      this.setState({
+        education: { ...this.state.education, stateProp: {...this.state.education.stateProp, [e.target.name]: stringDate } }
+      }, () => { console.log(this.state.education.stateProp) }) 
     }
   }
 
   deleteEducation(degree){ 
     this.setState({
       education: {...this.state.education, [degree]: { course: "", institution: "", startDate: "", endDate: "" } }
-    }, console.log(this.state.education))
+    }, ()=>{console.log(this.state.education)} )
+  }
+
+
+  editJobExp(){ 
+    let stateProp
+    // if (e.target.name === "submit"){ 
+      stateProp = document.getElementById("company").value; 
+      this.setState({
+        jobExp: {...this.state.jobExp, [stateProp]: { 
+          company: stateProp, 
+          positionTitle: document.getElementById("positionTitle").value, 
+          responsibleFor: document.getElementById("responsibleFor").value, 
+          startDate: document.getElementById("startDate").value, 
+          endDate: document.getElementById("endDate").value
+        } }
+      },() =>{console.log(this.state.jobExp); console.log(document.getElementById("startDate").value)} )
   }
 
   render(){ 
@@ -116,12 +130,17 @@ class App extends React.Component{
 
         <section>
           <ul>
-          <Education {...this.state.education.Graduate} deleteEducation = {this.deleteEducation}/>
-          <Education {...this.state.education.Undergraduate} deleteEducation = {this.deleteEducation}/>
-          <Education {...this.state.education.Highschool} deleteEducation = {this.deleteEducation}/>
+            <Education {...this.state.education.Graduate} deleteEducation = {this.deleteEducation}/>
+            <Education {...this.state.education.Undergraduate} deleteEducation = {this.deleteEducation}/>
+            <Education {...this.state.education.Highschool} deleteEducation = {this.deleteEducation}/>
           </ul>
           <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit </button>
           <EducationForm editEducation = {this.editEducation}/>
+        </section>
+
+        <section>
+           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
+          <JobExpForm  editJobExp = {this.editJobExp}/>
         </section>
         
       </div>
