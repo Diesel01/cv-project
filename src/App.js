@@ -83,14 +83,12 @@ class App extends React.Component{
     }
   
     if(e.target.name === 'institution' || e.target.name === 'course'){ 
-      console.log('godshatesusall')
       this.setState({
         education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
-        }, () => { console.log(this.state) } )
+      }, () => { console.log(this.state) } )
 
     }else if(e.target.name === 'startDate' || e.target.name === 'endDate'){ 
       let date = parseISO(e.target.value); 
-      console.log(e.target.value)
       let stringDate = format(date, "MMMM, yyyy") 
       this.setState({
         education: { ...this.state.education, [stateProp]: {...this.state.education[stateProp], [e.target.name]: stringDate } }
@@ -107,6 +105,13 @@ class App extends React.Component{
 
   editJobExp(){ 
     let stateProp = document.getElementById("company").value; 
+      
+    let startDate = parseISO(document.getElementById("startDateJob").value); 
+    alert(startDate)
+    let stringStart = format(startDate, "MMMM, yyyy") 
+
+    let endDate = parseISO(document.getElementById("endDateJob").value); 
+    let stringEnd = format(endDate, "MMMM, yyyy") 
 
     this.setState({
       jobExp: {...this.state.jobExp, 
@@ -114,8 +119,8 @@ class App extends React.Component{
           company: stateProp, 
           positionTitle: document.getElementById("positionTitle").value, 
           responsibleFor: document.getElementById("responsibleFor").value, 
-          startDate: document.getElementById("startDate").value, 
-          endDate: document.getElementById("endDate").value
+          startDate: stringStart, 
+          endDate: stringEnd
         } 
       }
     },()=>{console.log(this.state.jobExp); console.log(document.getElementById("startDate").value)} )

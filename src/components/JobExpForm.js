@@ -13,19 +13,19 @@ const JobExpForm = (props) => {
                 <label htmlFor = "positionTitle" name = 'positionTitle'>Position title: </label>
                 <input type = 'text' id = "positionTitle" name = 'positionTitle' />
 
-                <label htmlFor = "responsibleFor" name = 'responsibleFor'>Responsoible for: </label>
+                <label htmlFor = "responsibleFor" name = 'responsibleFor'>Responsible for: </label>
                 <input type = 'text' id = "responsibleFor" name = 'responsibleFor' />
                 
-                <label htmlFor = "startDate" name = 'startDate'>Start date: </label>
-                <input type = 'month' id = 'startDate' name = 'startDate' />
+                <label htmlFor = "startDate" name = 'startDateJob'>Start date: </label>
+                <input type = 'month' id = 'startDateJob' name = 'startDateJob' />
 
-                <label htmlFor = "endDate" name = 'endDateGraduate'>End date: </label>
-                <input type = 'month' id = 'endDate' name = 'endDate' />
+                <label htmlFor = "endDate" name = 'endDateJob'>End date: </label>
+                <input type = 'month' id = 'endDateJob' name = 'endDateJob' />
 
                 <button type = "submit" name = "submit" onClick = { 
                     (e) => { 
+                    e.preventDefault();                     
                     editJobExp();
-                    e.preventDefault()
                     let form = document.getElementById("jobExpForm"); 
                     form.hidden = true; form.reset();  } 
                     }
