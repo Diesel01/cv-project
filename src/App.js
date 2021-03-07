@@ -82,17 +82,19 @@ class App extends React.Component{
       }    
     }
   
-    if(e.target.name !== 'startDate' || 'endDate'){ 
+    if(e.target.name === 'institution' || e.target.name === 'course'){ 
+      console.log('godshatesusall')
       this.setState({
         education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
         }, () => { console.log(this.state) } )
 
-    }else{ 
+    }else if(e.target.name === 'startDate' || e.target.name === 'endDate'){ 
       let date = parseISO(e.target.value); 
-      let stringDate = format(date, "do 'of' MMMM, yyyy") 
+      console.log(e.target.value)
+      let stringDate = format(date, "MMMM, yyyy") 
       this.setState({
-        education: { ...this.state.education, stateProp: {...this.state.education.stateProp, [e.target.name]: stringDate } }
-      }, () => { console.log(this.state.education.stateProp) }) 
+        education: { ...this.state.education, [stateProp]: {...this.state.education[stateProp], [e.target.name]: stringDate } }
+      }, () => { console.log(this.state.education[stateProp] ) }) 
     }
   }
 
@@ -104,18 +106,19 @@ class App extends React.Component{
 
 
   editJobExp(){ 
-    let stateProp
-    // if (e.target.name === "submit"){ 
-      stateProp = document.getElementById("company").value; 
-      this.setState({
-        jobExp: {...this.state.jobExp, [stateProp]: { 
+    let stateProp = document.getElementById("company").value; 
+
+    this.setState({
+      jobExp: {...this.state.jobExp, 
+        [stateProp]: { 
           company: stateProp, 
           positionTitle: document.getElementById("positionTitle").value, 
           responsibleFor: document.getElementById("responsibleFor").value, 
           startDate: document.getElementById("startDate").value, 
           endDate: document.getElementById("endDate").value
-        } }
-      },() =>{console.log(this.state.jobExp); console.log(document.getElementById("startDate").value)} )
+        } 
+      }
+    },()=>{console.log(this.state.jobExp); console.log(document.getElementById("startDate").value)} )
   }
 
   render(){ 
@@ -139,12 +142,11 @@ class App extends React.Component{
         </section>
 
         <section>
-           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
+          <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>
         </section>
         
       </div>
-
     )
   }
 }
