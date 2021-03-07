@@ -4,6 +4,7 @@ import GeneralInfo from "./components/GeneralInfo";
 import GenInfoForm from "./components/GenInfoForm";
 import Education from "./components/Education";
 import { EducationForm } from "./components/EducationForm";
+import JobExp from './components/JobExp';
 import { JobExpForm } from "./components/JobExpForm";
 
 class App extends React.Component{ 
@@ -107,7 +108,6 @@ class App extends React.Component{
     let stateProp = document.getElementById("company").value; 
       
     let startDate = parseISO(document.getElementById("startDateJob").value); 
-    alert(startDate)
     let stringStart = format(startDate, "MMMM, yyyy") 
 
     let endDate = parseISO(document.getElementById("endDateJob").value); 
@@ -123,7 +123,7 @@ class App extends React.Component{
           endDate: stringEnd
         } 
       }
-    },()=>{console.log(this.state.jobExp); console.log(document.getElementById("startDate").value)} )
+    },()=>{console.log(typeof([stateProp]) ) } )
   }
 
   render(){ 
@@ -147,6 +147,7 @@ class App extends React.Component{
         </section>
 
         <section>
+          <JobExp {...this.state.jobExp} />
           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>
         </section>
