@@ -105,7 +105,9 @@ class App extends React.Component{
 
 
   editJobExp(){ 
-    let stateProp = document.getElementById("company").value; 
+    let company = document.getElementById("company").value; 
+    let position = document.getElementById("positionTitle").value; 
+    let responsibility = document.getElementById("responsibleFor").value; 
       
     let startDate = parseISO(document.getElementById("startDateJob").value); 
     let stringStart = format(startDate, "MMMM, yyyy") 
@@ -113,17 +115,31 @@ class App extends React.Component{
     let endDate = parseISO(document.getElementById("endDateJob").value); 
     let stringEnd = format(endDate, "MMMM, yyyy") 
 
-    this.setState({
-      jobExp: {...this.state.jobExp, 
-        [stateProp]: { 
-          company: stateProp, 
-          positionTitle: document.getElementById("positionTitle").value, 
-          responsibleFor: document.getElementById("responsibleFor").value, 
+    this.setState(prevState => ({
+      jobExp: [
+          { 
+          company: company, 
+          positionTitle: position, 
+          responsibleFor: responsibility, 
           startDate: stringStart, 
-          endDate: stringEnd
-        } 
-      }
-    },()=>{console.log(typeof([stateProp]) ) } )
+          endDate: stringEnd 
+        }, 
+        ...prevState.jobExp
+      ]
+    }), ()=>{ console.log(this.state) } )
+
+    // this.setState({
+    //   jobExp: [ {
+    //     ...this.state.jobExp, 
+    //     [stateProp]: { 
+    //       company: stateProp, 
+    //       positionTitle: document.getElementById("positionTitle").value, 
+    //       responsibleFor: document.getElementById("responsibleFor").value, 
+    //       startDate: stringStart, 
+    //       endDate: stringEnd 
+    //     } 
+    //   } ]
+    // },()=>{ console.log(this.state) } )
   }
 
   render(){ 
@@ -147,7 +163,14 @@ class App extends React.Component{
         </section>
 
         <section>
-          <JobExp {...this.state.jobExp} />
+          <ul>
+            {this.state.jobExp.map(object =>{
+              console.log(object)
+              return(
+                <JobExp {...object} />
+              )
+            })}
+          </ul>
           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>
         </section>

@@ -2,22 +2,36 @@ import React from "react";
 
 export default class JobExp extends React.Component{ 
     render(){ 
-        // const {company, positionTitle, responsibleFor, startDate, endDate} = this.props
+        const {company, positionTitle, responsibleFor, startDate, endDate} = this.props
 
         return(
-            <ul>
-            { (() => { for (let value in this.props) { 
-                        for (let object in value){
-                            console.log(typeof(object)); 
-                            console.log(this.props)
-                            return <li>{object.positionTitle} in {object.company}, from {object.startDate} until {object.endDate}, responsible for {object.responsibleFor}</li> 
-                        }
-                    }
-                })()
-            } 
-            </ul>
+            // <ul>
+            // { (() => { 
+            //         let objects = this.props.map((key) => { 
+            //             let { positionTitle, company, startDate, endDate, responsibleFor } = this.props[key]; 
+            //             return (
+            //                 <li id = {`${[key]+positionTitle}`}>
+            //                     {positionTitle} in {company}, from {startDate} until {endDate}, responsible for {responsibleFor}
+            //                 </li> 
+            //             )
+            //         })
+
+            //         // for (let value in this.props) { 
+            //         //     console.log(this.props)
+            //         //     let { positionTitle, company, startDate, endDate, responsibleFor } = this.props[value]; 
+            //         //     if (document.getElementById(`${[value]+positionTitle}`) == null){
+            //         //         return (
+            //         //             <li id = {`${[value]+positionTitle}`}>
+            //         //                 {positionTitle} in {company}, from {startDate} until {endDate}, responsible for {responsibleFor}
+            //         //             </li> 
+            //         //         )
+            //         //     }
+            //         // }
+            //     })()
+            // } 
+            // </ul>
         
-            // <li>{positionTitle} in {company}, from {startDate} until {endDate}, responsible for {responsibleFor} {console.log(this.props)}</li>
+            <li>{positionTitle} in {company}, from {startDate} until {endDate}, responsible for {responsibleFor} {console.log(this.props)}</li>
         
         )
     }
