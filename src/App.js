@@ -128,18 +128,6 @@ class App extends React.Component{
       ]
     }), ()=>{ console.log(this.state) } )
 
-    // this.setState({
-    //   jobExp: [ {
-    //     ...this.state.jobExp, 
-    //     [stateProp]: { 
-    //       company: stateProp, 
-    //       positionTitle: document.getElementById("positionTitle").value, 
-    //       responsibleFor: document.getElementById("responsibleFor").value, 
-    //       startDate: stringStart, 
-    //       endDate: stringEnd 
-    //     } 
-    //   } ]
-    // },()=>{ console.log(this.state) } )
   }
 
   render(){ 
@@ -164,12 +152,7 @@ class App extends React.Component{
 
         <section>
           <ul>
-            {this.state.jobExp.map(object =>{
-              console.log(object)
-              return(
-                <JobExp {...object} />
-              )
-            })}
+            {this.state.jobExp.map( object => { return(<JobExp {...object} />) } ) }
           </ul>
           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>
