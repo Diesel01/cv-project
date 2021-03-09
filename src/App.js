@@ -12,25 +12,20 @@ class App extends React.Component{
     super(); 
 
     this.state = { 
+      generalInfo: { }, 
 
-      generalInfo: {
-        firstName: '',  
-        secondName: '', 
-        dateBirth: '', 
-        email: '', 
-        phone: ''
-      }, 
-
-      education: [ ],
+      education: { },
 
       jobExp: [ ]
     } 
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
-    this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
+
+    this.deleteState = this.deleteState.bind(this)
+
+    this.deleteJobExp = this.deleteJobExp.bind(this)
 
     this.editEducation = this.editEducation.bind(this)
-    this.deleteEducation = this.deleteEducation.bind(this)
 
     this.editJobExp = this.editJobExp.bind(this)
   }
@@ -97,12 +92,14 @@ class App extends React.Component{
     }
   }
 
-  deleteEducation(degree){ 
-    this.setState({
-      education: {...this.state.education, [degree]: { course: "", institution: "", startDate: "", endDate: "" } }
-    }, ()=>{console.log(this.state.education)} )
+  deleteState(object, property){ 
+   let alteredState = this.state[object]; 
+   delete alteredState[property]; 
+   console.log(alteredState)
+   console.log(alteredState[property])
+   
+   this.setState({ [object]: {...alteredState} }, () =>{console.log(this.state)})
   }
-
 
   editJobExp(){ 
     let company = document.getElementById("company").value; 
@@ -130,21 +127,33 @@ class App extends React.Component{
 
   }
 
+  deleteJobExp(company, positionTitle){ 
+    let array = this.state.jobExp; 
+    
+    let indexofRemoval = array.findIndex((job)=>{
+      return job[company] && job[positionTitle]
+    })
+
+    array.splice(indexofRemoval, 1);   
+    console.log(array); 
+
+    this.setState({ jobExp: array })
+  }
+
   render(){ 
     return(
       <div>
 
         <section>
-          <GeneralInfo {... this.state.generalInfo} />
+          <GeneralInfo {... this.state.generalInfo} deleteState = {this.deleteState} />
           <GenInfoForm  editGeneralInfo = {this.editGeneralInfo}/>
-          <button onClick = {this.deleteGeneralInfo}> Delete </button>
         </section>
 
         <section>
           <ul>
-            <Education {...this.state.education.Graduate} deleteEducation = {this.deleteEducation}/>
-            <Education {...this.state.education.Undergraduate} deleteEducation = {this.deleteEducation}/>
-            <Education {...this.state.education.Highschool} deleteEducation = {this.deleteEducation}/>
+            <Education {...this.state.education.Graduate} deleteState = {this.deleteState}/>
+            <Education {...this.state.education.Undergraduate} deleteState = {this.deleteState}/>
+            <Education {...this.state.education.Highschool} deleteState = {this.deleteState}/>
           </ul>
           <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit </button>
           <EducationForm editEducation = {this.editEducation}/>
@@ -152,7 +161,7 @@ class App extends React.Component{
 
         <section>
           <ul>
-            {this.state.jobExp.map( object => { return(<JobExp {...object} />) } ) }
+            {this.state.jobExp.map( object => { return(<JobExp {...object} deleteState = {this.deleteJobExp}/>) } ) }
           </ul>
           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>
