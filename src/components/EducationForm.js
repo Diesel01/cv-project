@@ -9,32 +9,35 @@ const EducationForm = (props) => {
 
                 <br />
                 <label htmlFor = "highSchool" name = 'level'>Highschool </label>
-                <input type = 'radio' id = "highSchool" name = 'level' value = "Highschool" onChange = {editEducation}/>
+                <input type = 'radio' id = "highSchool" name = 'level' value = "Highschool" />
 
                 <br />
                 <label htmlFor = "undergraduate" name = 'level'>Undergraduate </label>
-                <input type = 'radio' id = "undergraduate" name = 'level' value = "Undergraduate" onChange = {editEducation}/>
+                <input type = 'radio' id = "undergraduate" name = 'level' value = "Undergraduate" />
 
                 <br />
                 <label htmlFor = "graduate" name = 'level'>Graduate </label>
-                <input type = 'radio' id = "graduate" name = 'level' value = 'Graduate' onChange = {editEducation}/>
+                <input type = 'radio' id = "graduate" name = 'level' value = 'Graduate' />
 
 
                 <label htmlFor = "course" name = 'course'>Course: </label>
-                <input type = 'text' id = "course" name = 'course' onChange = {editEducation}/>
+                <input type = 'text' id = "course" name = 'course' />
 
                 <label htmlFor = "institution" name = 'institution'>Institution: </label>
-                <input type = 'text' id = "institution" name = 'institution' onChange = {editEducation} />
+                <input type = 'text' id = "institution" name = 'institution'  />
                 
                 <label htmlFor = "startDate" name = 'startDate'>Start date: </label>
-                <input type = 'month' id = 'startDate' name = 'startDate' onChange = {editEducation}/>
+                <input type = 'month' id = 'startDate' name = 'startDate' />
 
                 <label htmlFor = "endDate" name = 'endDateGraduate'>End date: </label>
-                <input type = 'month' id = 'endDate' name = 'endDate' onChange = {editEducation}/>
+                <input type = 'month' id = 'endDate' name = 'endDate' />
 
-                <button onClick = { 
-                    (e) => { e.preventDefault();
-                    let form = document.getElementById("educationForm"); form.hidden = true; form.reset() } }> 
+                <button type = "submit" name = "submit" onClick = { 
+                    (e) => { 
+                    e.preventDefault();
+                    editEducation(); 
+                    let form = document.getElementById("educationForm"); form.hidden = true; form.reset() } 
+                }> 
                     Close 
                 </button>
             </form>

@@ -1,4 +1,5 @@
 import  React from "react";
+import uniqid from "uniqid"; 
 import { parseISO, format } from "date-fns";
 import GeneralInfo from "./components/GeneralInfo";
 import GenInfoForm from "./components/GenInfoForm";
@@ -14,20 +15,20 @@ class App extends React.Component{
     this.state = { 
       generalInfo: { }, 
 
-      education: { },
+      education: [ ],
 
       jobExp: [ ]
     } 
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
 
-    this.deleteState = this.deleteState.bind(this)
-
-    this.deleteJobExp = this.deleteJobExp.bind(this)
-
     this.editEducation = this.editEducation.bind(this)
 
     this.editJobExp = this.editJobExp.bind(this)
+
+    this.deleteState = this.deleteState.bind(this)
+
+    this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
   }
 
   editGeneralInfo(e){ 
@@ -50,55 +51,87 @@ class App extends React.Component{
     }
   }
   
-  deleteGeneralInfo(){ 
-    this.setState({ 
-      generalInfo: {
-        firstName: "", 
-        secondName: "",
-        dateBirth: "",   
-        email: "", 
-        phone: ""
-      }
-    }, () => { console.log(this.state) })
-  }
+  editEducation(){ 
+    let course = document.getElementById('course').value; 
+    let institution = document.getElementById('institution').value; 
 
+    let startDate = document.getElementById('startDate').value;
+      let startDateISO = parseISO(startDate); 
+      let startDString = format(startDateISO, "MMMM, yyyy");
 
-  editEducation(e){ 
-    let stateProp
+    let endDate = document.getElementById('endDate').value;
+      let endDateISO = parseISO(endDate); 
+      let endDString = format(endDateISO, "MMMM, yyyy"); 
+
+    let id = uniqid(); 
+
     let array = document.getElementsByName('level'); 
-    
-    for (let index = 0; index < array.length; index++) {
-      if (array[index].checked === true){ 
-        stateProp = array[index].value;
-        this.setState({
-          education: {...this.state.education, [stateProp]: { 
-            level: stateProp, course: '', institution: '', startDate: '', endDate: ''
-          } }
-        })
-      }    
-    }
-  
-    if(e.target.name === 'institution' || e.target.name === 'course'){ 
-      this.setState({
-        education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
-      }, () => { console.log(this.state) } )
+      for (let index = 0; index < array.length; index++) {
+        if (array[index].checked === true){ 
+          let level = array[index].value;
+          this.setState({
+            education: [ 
+              { 
+                id: id, 
+                level: level,
+                course: course, 
+                institution: institution, 
+                startDate: startDString, 
+                endDate: endDString
+              },
+              ...this.state.education
+            ]
+          }, ()=>{console.log(this.state)})
+        }    
+      }
 
-    }else if(e.target.name === 'startDate' || e.target.name === 'endDate'){ 
-      let date = parseISO(e.target.value); 
-      let stringDate = format(date, "MMMM, yyyy") 
-      this.setState({
-        education: { ...this.state.education, [stateProp]: {...this.state.education[stateProp], [e.target.name]: stringDate } }
-      }, () => { console.log(this.state.education[stateProp] ) }) 
-    }
+    
+    // let stateProp
+    // let array = document.getElementsByName('level'); 
+    
+    // for (let index = 0; index < array.length; index++) {
+    //   if (array[index].checked === true){ 
+    //     stateProp = array[index].value;
+    //     this.setState({
+    //       education: {...this.state.education, [stateProp]: { 
+    //         level: stateProp, course: '', institution: '', startDate: '', endDate: ''
+    //       } }
+    //     })
+    //   }    
+    // }
+  
+    // if(e.target.name === 'institution' || e.target.name === 'course'){ 
+    //   this.setState({
+    //     education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
+    //   }, () => { console.log(this.state) } )
+
+    // }else if(e.target.name === 'startDate' || e.target.name === 'endDate'){ 
+    //   let date = parseISO(e.target.value); 
+    //   let stringDate = format(date, "MMMM, yyyy") 
+    //   this.setState({
+    //     education: { ...this.state.education, [stateProp]: {...this.state.education[stateProp], [e.target.name]: stringDate } }
+    //   }, () => { console.log(this.state.education[stateProp] ) }) 
+    // }
   }
 
-  deleteState(object, property){ 
-   let alteredState = this.state[object]; 
+  deleteState(property, id){ 
+    let array = this.state[property]; 
+    
+    let indexofRemoval = array.findIndex((object)=>{
+      return object[id]
+    })
+
+    array.splice(indexofRemoval, 1);   
+    console.log(array); 
+
+    this.setState({ [property]: array })
+  }
+
+  deleteGeneralInfo(property){ 
+   let alteredState = this.state.generalInfo; 
    delete alteredState[property]; 
-   console.log(alteredState)
-   console.log(alteredState[property])
    
-   this.setState({ [object]: {...alteredState} }, () =>{console.log(this.state)})
+   this.setState({ generalInfo: {...alteredState} }, () =>{console.log(this.state)})
   }
 
   editJobExp(){ 
@@ -112,9 +145,12 @@ class App extends React.Component{
     let endDate = parseISO(document.getElementById("endDateJob").value); 
     let stringEnd = format(endDate, "MMMM, yyyy") 
 
+    let id = uniqid(); 
+
     this.setState(prevState => ({
       jobExp: [
           { 
+          id: id, 
           company: company, 
           positionTitle: position, 
           responsibleFor: responsibility, 
@@ -127,41 +163,31 @@ class App extends React.Component{
 
   }
 
-  deleteJobExp(company, positionTitle){ 
-    let array = this.state.jobExp; 
-    
-    let indexofRemoval = array.findIndex((job)=>{
-      return job[company] && job[positionTitle]
-    })
-
-    array.splice(indexofRemoval, 1);   
-    console.log(array); 
-
-    this.setState({ jobExp: array })
-  }
-
   render(){ 
     return(
       <div>
 
         <section>
-          <GeneralInfo {... this.state.generalInfo} deleteState = {this.deleteState} />
+          <GeneralInfo {... this.state.generalInfo} deleteGeneralInfo = {this.deleteGeneralInfo} />
+          <button onClick = { () => {document.getElementById("editGenInfoForm").hidden = false} }> Edit general information </button>
           <GenInfoForm  editGeneralInfo = {this.editGeneralInfo}/>
         </section>
 
         <section>
           <ul>
-            <Education {...this.state.education.Graduate} deleteState = {this.deleteState}/>
-            <Education {...this.state.education.Undergraduate} deleteState = {this.deleteState}/>
-            <Education {...this.state.education.Highschool} deleteState = {this.deleteState}/>
+            {this.state.education.map( object => { 
+              return(<Education {...object} deleteState = {this.deleteState} key = {uniqid()}/>) 
+            } ) }
           </ul>
-          <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit </button>
+          <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit education </button>
           <EducationForm editEducation = {this.editEducation}/>
         </section>
 
         <section>
           <ul>
-            {this.state.jobExp.map( object => { return(<JobExp {...object} deleteState = {this.deleteJobExp}/>) } ) }
+            {this.state.jobExp.map( object => { 
+              return(<JobExp {...object} deleteState = {this.deleteState} key = {uniqid()}/>) 
+            } ) }
           </ul>
           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>

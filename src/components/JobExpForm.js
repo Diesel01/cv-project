@@ -29,7 +29,8 @@ const JobExpForm = (props) => {
                     let form = document.getElementById("jobExpForm"); 
                     form.hidden = true; form.reset();  } 
                     }
-                /> 
+                >Close 
+                </button> 
             </form>
     )
     
