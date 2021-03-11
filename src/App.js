@@ -84,34 +84,6 @@ class App extends React.Component{
           }, ()=>{console.log(this.state)})
         }    
       }
-
-    
-    // let stateProp
-    // let array = document.getElementsByName('level'); 
-    
-    // for (let index = 0; index < array.length; index++) {
-    //   if (array[index].checked === true){ 
-    //     stateProp = array[index].value;
-    //     this.setState({
-    //       education: {...this.state.education, [stateProp]: { 
-    //         level: stateProp, course: '', institution: '', startDate: '', endDate: ''
-    //       } }
-    //     })
-    //   }    
-    // }
-  
-    // if(e.target.name === 'institution' || e.target.name === 'course'){ 
-    //   this.setState({
-    //     education: { ...this.state.education, [stateProp]: { ...this.state.education[stateProp], [e.target.name]: e.target.value } }
-    //   }, () => { console.log(this.state) } )
-
-    // }else if(e.target.name === 'startDate' || e.target.name === 'endDate'){ 
-    //   let date = parseISO(e.target.value); 
-    //   let stringDate = format(date, "MMMM, yyyy") 
-    //   this.setState({
-    //     education: { ...this.state.education, [stateProp]: {...this.state.education[stateProp], [e.target.name]: stringDate } }
-    //   }, () => { console.log(this.state.education[stateProp] ) }) 
-    // }
   }
 
   deleteState(property, id){ 
