@@ -2,12 +2,11 @@ import React from "react";
 
 export default class JobExp extends React.Component{ 
     render(){ 
-        const {id, company, positionTitle, responsibleFor, startDate, endDate, deleteState} = this.props
+        const {company, positionTitle, responsibleFor, startDate, endDate} = this.props
         
         return (
             <li>
                 {positionTitle} in {company}, from {startDate} until {endDate}, responsible for {responsibleFor}
-                <button onClick = {()=>{deleteState("jobExp",id)}}>x</button>
             </li>
         )
     }

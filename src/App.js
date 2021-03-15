@@ -1,4 +1,5 @@
 import  React from "react";
+import Draggable from 'react-draggable';
 import uniqid from "uniqid"; 
 import { parseISO, format } from "date-fns";
 import GeneralInfo from "./components/GeneralInfo";
@@ -7,6 +8,7 @@ import Education from "./components/Education";
 import { EducationForm } from "./components/EducationForm";
 import JobExp from './components/JobExp';
 import { JobExpForm } from "./components/JobExpForm";
+import ViewMode from "./components/ViewMode";
 
 class App extends React.Component{ 
   constructor(){ 
@@ -137,8 +139,7 @@ class App extends React.Component{
 
   render(){ 
     return(
-      <div>
-
+      <>
         <section>
           <GeneralInfo {... this.state.generalInfo} deleteGeneralInfo = {this.deleteGeneralInfo} />
           <button onClick = { () => {document.getElementById("editGenInfoForm").hidden = false} }> Edit general information </button>
@@ -148,9 +149,15 @@ class App extends React.Component{
         <section>
           <ul>
             {this.state.education.map( object => { 
-              return(<Education {...object} deleteState = {this.deleteState} key = {uniqid()}/>) 
+              return(
+                <>
+                  <Education {...object} deleteState = {this.deleteState} key = {object.id}/>
+                  <button onClick = {() => {this.deleteState("education", object.id)} }> X </button>
+                </>
+              ) 
             } ) }
           </ul>
+          
           <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit education </button>
           <EducationForm editEducation = {this.editEducation}/>
         </section>
@@ -158,14 +165,22 @@ class App extends React.Component{
         <section>
           <ul>
             {this.state.jobExp.map( object => { 
-              return(<JobExp {...object} deleteState = {this.deleteState} key = {uniqid()}/>) 
+              return(
+                <>
+                  <JobExp {...object} deleteState = {this.deleteState} key = {object.id}/>
+                  <button onClick = {() => {this.deleteState("jobExp", object.id)} }> X </button>
+                </>
+              ) 
             } ) }
           </ul>
+
           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>
         </section>
         
-      </div>
+        <ViewMode {...this.state} />
+        <button onClick = {() => { document.getElementById("viewMode").hidden = false } }>Toggle full view mode</button>
+      </>
     )
   }
 }
