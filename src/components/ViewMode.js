@@ -10,7 +10,7 @@ export default class ViewMode extends React.Component{
             <div id = "viewMode" hidden = {true}>
                 <Draggable>
                 <div> 
-                    <h2>
+                    <h2 id = "fullName">
                         {generalInfo.firstName} {generalInfo.secondName} 
                     </h2>
 

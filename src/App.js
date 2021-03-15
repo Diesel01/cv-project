@@ -1,5 +1,4 @@
 import  React from "react";
-import Draggable from 'react-draggable';
 import uniqid from "uniqid"; 
 import { parseISO, format } from "date-fns";
 import GeneralInfo from "./components/GeneralInfo";
@@ -9,6 +8,7 @@ import { EducationForm } from "./components/EducationForm";
 import JobExp from './components/JobExp';
 import { JobExpForm } from "./components/JobExpForm";
 import ViewMode from "./components/ViewMode";
+import FontSelector from "./components/FontSelector"
 
 class App extends React.Component{ 
   constructor(){ 
@@ -157,7 +157,7 @@ class App extends React.Component{
               ) 
             } ) }
           </ul>
-          
+
           <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit education </button>
           <EducationForm editEducation = {this.editEducation}/>
         </section>
@@ -180,6 +180,8 @@ class App extends React.Component{
         
         <ViewMode {...this.state} />
         <button onClick = {() => { document.getElementById("viewMode").hidden = false } }>Toggle full view mode</button>
+
+        <FontSelector></FontSelector>
       </>
     )
   }
