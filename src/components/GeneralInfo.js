@@ -7,8 +7,8 @@ export default class GeneralInfo extends React.Component{
             <div> 
                 <h2 id = "fullName">
                     {firstName} {secondName} 
-                    <button onClick = {() => {deleteGeneralInfo("generalInfo", "firstName")}}>x</button>                    
                 </h2>
+                <button onClick = {() => {deleteGeneralInfo("generalInfo", "firstName")}}>x</button>                    
 
                 <p> Date of birth: {dateBirth} <button onClick = {() => {deleteGeneralInfo("dateBirth")}}>x</button> </p>
 
