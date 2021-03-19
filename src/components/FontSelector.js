@@ -10,10 +10,12 @@ export default class FormSelector extends React.Component{
         super(); 
         this.state = { 
             fonts: [], 
+            selectedFamily: "", 
             fontVariants: []
         }
         this.applyFont = this.applyFont.bind(this)
         this.fontHandler = this.fontHandler.bind(this)
+        this.displayFontVariant = this.displayFontVariant.bind(this)
     }
 
     async componentDidMount(){ 
@@ -22,7 +24,7 @@ export default class FormSelector extends React.Component{
         try { 
             let dataJson = await data.json(); 
             let families = dataJson.items; 
-                families.length = 20; 
+                families.length = 25; 
             this.setState({
                 fonts: families
             })
@@ -31,32 +33,39 @@ export default class FormSelector extends React.Component{
     }
 
     fontHandler(font){
-        let variants = font.variants;
-
         this.setState({ 
-            fontVariants: variants
-        }, () => {console.log(this.state.fontVariants)})
 
-        let weightInput = document.getElementById("weightInput");
-            weightInput.min = parseInt(variants[0]); 
-            weightInput.max = parseInt(variants[variants.length-1]);
-        
-        let italicsForm = document.getElementById("italicsForm"); 
-            if (variants.includes("italic") == false){
-                italicsForm.hidden = true
-            }
+            selectedFamily: font.family, 
+            fontVariants: font.variants
+
+        }, () => {console.log(this.state)})
     }
 
-    applyFont(id){ 
-        let family = document.getElementById("fontInput").value; 
-        let weight = document.getElementById("weightInput").value; 
-        let italic = document.getElementById("italicInput").value;
+    displayFontVariant(variant){ 
+        if (variant === "regular" || variant === "italic"){ 
+            return { __html: variant[0].toUpperCase() + variant.slice(1) }
 
+        } else { 
+            let weight = variant.slice(0, 3) 
+            let italic = variant.slice(3)
+            return { __html: `Weight: ${weight}; ${italic} `}
+        }
+    }
+    
+
+    applyFont(variant, id){ 
         let element = document.getElementById(`${id}`); 
         let text = element.innerHTML
 
-        let input = family.replace(/\s+/g, "+").trim();
-        let url = `https://fonts.googleapis.com/css2?family=${input}:ital,wght@0,${weight}&display=swap;text=${text}`
+        let fam = this.state.selectedFamily.replace(/\s+/g, "+");
+        let weight; 
+        let italic;
+        let url; 
+        
+        if (variant === "regular"){ 
+            weight = "400"; 
+            url = `https://fonts.googleapis.com/css2?family=${fam}:wght@${weight}&display=swap;text=${text}`
+        }
         
         if (document.getElementById(`font-for-${id}`) === null){
             let style = document.createElement("link");
@@ -69,7 +78,7 @@ export default class FormSelector extends React.Component{
             style.href = url; 
         }
           
-        element.style.fontFamily = `${family}`
+        element.style.fontFamily = `${this.state.selectedFamily}`
         element.style.fontWeight = weight
     }   
 
@@ -91,17 +100,20 @@ export default class FormSelector extends React.Component{
                     )
                 })}
 
-                <input type = "number" id = "weightInput" min = "100" max = "900" step = "100" defaultValue = "400"/>
+                {this.state.fontVariants.map( (variant, index) => { 
+                    return (
+                        <div>  
+                            <input name = "font" id = {variant} type = "radio" key = {`inputVariant-${index}`}
+                                onClick = {() => { this.applyFont(variant, "fullName") }}
+                            >
+                            </input> 
 
-                <div id = "italicsForm">
-                    <label name = 'italics' htmlFor = "italics">Italics?</label>
-                    <input name = 'italics' type = "radio" id = "italics" value = {true}></input>
-                    <input name = 'italics' type = "radio" id = "italics" value = {false}></input>
-                </div>
-                    
-                <button onClick = { 
-                    ()=>{ this.applyFont("fullName") }
-                } />
+                            <label name = "font" htmlFor = {variant} id = {`label-${variant}`} key = {`labelVariant-${index}`}
+                                dangerouslySetInnerHTML =  { this.displayFontVariant(variant) }>
+                            </label>
+                        </div>
+                    )
+                })}
             </>
         )
     }
