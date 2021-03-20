@@ -33,8 +33,8 @@ export default class FormSelector extends React.Component{
     }
 
     fontHandler(font){
-        this.setState({ 
 
+        this.setState({ 
             selectedFamily: font.family, 
             fontVariants: font.variants
 
@@ -62,10 +62,27 @@ export default class FormSelector extends React.Component{
         let italic;
         let url; 
         
-        if (variant === "regular"){ 
-            weight = "400"; 
-            url = `https://fonts.googleapis.com/css2?family=${fam}:wght@${weight}&display=swap;text=${text}`
+        if (variant.slice(3) === "italic"){
+            if ( parseInt(variant.slice(0, 3)) ){ 
+                weight = variant.slice(0, 3); 
+                url = `https://fonts.googleapis.com/css2?family=${fam}:ital,wght@1,${weight}&display=swap;text=${text}`
+            }else { 
+                weight = 400; 
+                url = `https://fonts.googleapis.com/css2?family=${fam}:ital,wght@1,${weight}&display=swap;text=${text}`
+            }
+        }else{ 
+            if ( parseInt(variant.slice(0, 3)) ){ 
+                weight = variant.slice(0, 3); 
+                url = `https://fonts.googleapis.com/css2?family=${fam}:wght@${weight}&display=swap;text=${text}`
+            }else { 
+                if (variant === "italic"){
+                    url = `https://fonts.googleapis.com/css2?family=${fam}:ital@1&display=swap;text=${text}`
+                } else{ 
+                    url = `https://fonts.googleapis.com/css2?family=${fam}&display=swap;text=${text}`
+                }
+            }
         }
+
         
         if (document.getElementById(`font-for-${id}`) === null){
             let style = document.createElement("link");
