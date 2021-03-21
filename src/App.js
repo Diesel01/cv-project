@@ -157,7 +157,7 @@ class App extends React.Component{
         </section>
 
         <section>
-          <ul>
+          <ul id = "educationList">
             {this.state.education.map( object => { 
               return(
                 <>
@@ -173,7 +173,7 @@ class App extends React.Component{
         </section>
 
         <section>
-          <ul>
+          <ul id = "jobExpList">
             {this.state.jobExp.map( object => { 
               return(
                 <>

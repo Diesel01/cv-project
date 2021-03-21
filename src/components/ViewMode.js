@@ -1,7 +1,6 @@
 import React from "react";
 import Education from "./Education";
 import JobExp from './JobExp';
-import FontSelector from "./StyleSelector";
 import Draggable from 'react-draggable';
 
 export default class ViewMode extends React.Component{ 

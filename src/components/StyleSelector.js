@@ -48,7 +48,6 @@ export default class StyleSelector extends React.Component{
             return { __html: `Weight: ${weight}; ${italic} `}
         }
     }
-    
 
     applyFont(variant, id){ 
         let fam = this.state.selectedFamily.replace(/\s+/g, "+");
