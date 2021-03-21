@@ -5,7 +5,6 @@ export default class Education extends React.Component{
         const { level, course, institution, startDate, endDate } = this.props; 
         return(
             <li> {level} in {course} at {institution}, from {startDate} until {endDate} </li>
-        )
-        
+        ) 
     }
 }
