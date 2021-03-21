@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class FontSelector extends React.Component{ 
+export default class StyleSelector extends React.Component{ 
     constructor(props){ 
         super(props); 
         
@@ -13,6 +13,9 @@ export default class FontSelector extends React.Component{
         this.applyFont = this.applyFont.bind(this)
         this.fontHandler = this.fontHandler.bind(this)
         this.displayFontVariant = this.displayFontVariant.bind(this)
+
+        this.colorHandler = this.colorHandler.bind(this)
+        this.sizeHandler = this.sizeHandler.bind(this)
     }
 
     async componentDidMount(){ 
@@ -78,44 +81,66 @@ export default class FontSelector extends React.Component{
                 }
             }
         }
-        
+
         let element = document.getElementById(`${id}`); 
         element.style.fontFamily = `${this.state.selectedFamily}`
         element.style.fontWeight = weight
     }   
 
+    colorHandler(id){ 
+        let element = document.getElementById(`${id}`); 
+        element.style.color = document.getElementById("colorInput").value; 
+    }
+
+    sizeHandler(id){ 
+        let element = document.getElementById(`${id}`); 
+        element.style.fontSize = `${document.getElementById("sizeInput").value}%`; 
+    }
+
     render(){ 
         return(
-            <div id = "fontSelector">
-                {this.state.fonts.map( (font, index) => { 
-                    return (
-                        <div>  
-                            <input name = "font" id = {font.family} type = "radio" key = {`input-${index}`}
-                                onClick = {() => { this.fontHandler(font) }}
-                            >
-                            </input> 
+            <div>
+                <div id = "fontSelector">
+                    {this.state.fonts.map( (font, index) => { 
+                        return (
+                            <div>  
+                                <input name = "font" id = {font.family} type = "radio" key = {`input-${index}`}
+                                    onClick = {() => { this.fontHandler(font) }}
+                                >
+                                </input> 
 
-                            <label name = "font" htmlFor = {font.family} key = {`label-${index}`}>
-                                {font.family}
-                            </label>
-                        </div>
-                    )
-                })}
+                                <label name = "font" htmlFor = {font.family} key = {`label-${index}`}>
+                                    {font.family}
+                                </label>
+                            </div>
+                        )
+                    })}
 
-                {this.state.fontVariants.map( (variant, index) => { 
-                    return (
-                        <div>  
-                            <input name = "font" id = {variant} type = "radio" key = {`inputVariant-${index}`}
-                                onClick = {() => { this.applyFont(variant, this.props.elementId) }}
-                            >
-                            </input> 
+                    {this.state.fontVariants.map( (variant, index) => { 
+                        return (
+                            <div>  
+                                <input name = "font" id = {variant} type = "radio" key = {`inputVariant-${index}`}
+                                    onClick = {() => { this.applyFont(variant, this.props.elementId) }}
+                                >
+                                </input> 
 
-                            <label name = "font" htmlFor = {variant} id = {`label-${variant}`} key = {`labelVariant-${index}`}
-                                dangerouslySetInnerHTML =  { this.displayFontVariant(variant) }>
-                            </label>
-                        </div>
-                    )
-                })}
+                                <label name = "font" htmlFor = {variant} id = {`label-${variant}`} key = {`labelVariant-${index}`}
+                                    dangerouslySetInnerHTML =  { this.displayFontVariant(variant) }>
+                                </label>
+                            </div>
+                        )
+                    })}
+                </div>
+            
+                <div> 
+                    <label htmlFor = "colorInput" name = "color">Select a color:</label>
+                    <input id = "colorInput" name = "color" type = 'color' onChange = { ()=>{this.colorHandler(this.props.elementId)} }></input>
+                </div>
+
+                <div> 
+                    <label htmlFor = "sizeInput" name = "size">Select font size:</label>
+                    <input id = "sizeInput" name = "size" type = 'range' min = "5" max = "500" onChange = { ()=>{this.sizeHandler(this.props.elementId)} }></input>
+                </div>
             </div>
         )
     }

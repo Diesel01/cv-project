@@ -1,6 +1,6 @@
 import React from "react"; 
 import {format} from "date-fns"; 
-import FontSelector from "./FontSelector"
+import StyleSelector from "./StyleSelector.js"
 
 const GenInfoForm = (props) => { 
     const { editGeneralInfo } = props; 
@@ -24,7 +24,7 @@ const GenInfoForm = (props) => {
                         pattern = "[0-9]{2}[0-9]{5}[0-9]{4}" onChange = {editGeneralInfo}/>
                 <small>Format: (55) 54321 - 4321</small>
 
-                <FontSelector elementId = "fullName"/>
+                <StyleSelector elementId = "fullName"/>
 
                 <button onClick = {
                     (e) => { e.preventDefault();

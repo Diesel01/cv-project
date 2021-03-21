@@ -1,7 +1,7 @@
 import React from "react";
 import Education from "./Education";
 import JobExp from './JobExp';
-import FontSelector from "./FontSelector";
+import FontSelector from "./StyleSelector";
 import Draggable from 'react-draggable';
 
 export default class ViewMode extends React.Component{ 
@@ -28,10 +28,7 @@ export default class ViewMode extends React.Component{
                     <ul className = "educationList">
                         {education.map( object => { 
                             return(
-                                <Education {...object} key = {object.id} 
-                                onClick = {
-                                    ()=>{return (<FontSelector classInput = "educationList" hidden = {false} />)}
-                                }/>
+                                <Education {...object} key = {object.id} />
                             ) 
                         } ) }
                     </ul>
