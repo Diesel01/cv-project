@@ -8,7 +8,6 @@ import { EducationForm } from "./components/EducationForm";
 import JobExp from './components/JobExp';
 import { JobExpForm } from "./components/JobExpForm";
 import ViewMode from "./components/ViewMode";
-import FontSelector from "./components/FontSelector"
 
 class App extends React.Component{ 
   constructor(){ 
@@ -19,7 +18,9 @@ class App extends React.Component{
 
       education: [ ],
 
-      jobExp: [ ]
+      jobExp: [ ], 
+
+      editMode: true
     } 
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
@@ -31,6 +32,8 @@ class App extends React.Component{
     this.deleteState = this.deleteState.bind(this)
 
     this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
+
+    this.changeMode = this.changeMode.bind(this)
   }
 
   editGeneralInfo(e){ 
@@ -137,9 +140,16 @@ class App extends React.Component{
 
   }
 
+  changeMode(){ 
+    let value = !this.state.editMode; 
+
+    this.setState({editMode: value})
+  }
+
   render(){ 
     return(
       <>
+      <div id = "editMode">
         <section>
           <GeneralInfo {... this.state.generalInfo} deleteGeneralInfo = {this.deleteGeneralInfo} />
           <button onClick = { () => {document.getElementById("editGenInfoForm").hidden = false} }> Edit general information </button>
@@ -177,11 +187,12 @@ class App extends React.Component{
           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>
         </section>
-        
-        <ViewMode {...this.state} />
-        <button onClick = {() => { document.getElementById("viewMode").hidden = false } }>Toggle full view mode</button>
 
-        <FontSelector></FontSelector>
+      </div>
+
+        <ViewMode {...this.state} />
+        <button onClick = {() => { document.getElementById("viewMode").hidden = false; document.getElementById("editMode").hidden = true} }>Toggle full view mode</button>
+      
       </>
     )
   }

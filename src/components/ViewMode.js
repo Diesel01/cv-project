@@ -1,6 +1,7 @@
 import React from "react";
 import Education from "./Education";
 import JobExp from './JobExp';
+import FontSelector from "./FontSelector";
 import Draggable from 'react-draggable';
 
 export default class ViewMode extends React.Component{ 
@@ -24,17 +25,22 @@ export default class ViewMode extends React.Component{
                 </Draggable>
 
                 <Draggable>
-                    <ul>
+                    <ul className = "educationList">
                         {education.map( object => { 
-                            return(<Education {...object} deleteState = {this.deleteState} key = {object.id}/>) 
+                            return(
+                                <Education {...object} key = {object.id} 
+                                onClick = {
+                                    ()=>{return (<FontSelector classInput = "educationList" hidden = {false} />)}
+                                }/>
+                            ) 
                         } ) }
                     </ul>
                 </Draggable>
 
                 <Draggable>
-                    <ul>
+                    <ul className = "jobExpList">
                         {jobExp.map( object => { 
-                            return(<JobExp {...object} deleteState = {this.deleteState} key = {object.id}/>) 
+                            return(<JobExp {...object} key = {object.id}/>) 
                         } ) }
                     </ul>
                 </Draggable>

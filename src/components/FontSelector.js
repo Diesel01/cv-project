@@ -1,18 +1,15 @@
 import React from 'react';
 
-// Put items of Google fonts api into an array and map them into a radio input. 
-// Put the imtes in a collapsible div and, after one is selected, display italics and weight options. 
-    // Maybe do another map iteration with this.state.fontVariants, instead of assigning values to range and radio inputs?
-// The inputs should be put into the 'data' url. 
-
-export default class FormSelector extends React.Component{ 
-    constructor(){ 
-        super(); 
+export default class FontSelector extends React.Component{ 
+    constructor(props){ 
+        super(props); 
+        
         this.state = { 
             fonts: [], 
             selectedFamily: "", 
-            fontVariants: []
+            fontVariants: [], 
         }
+
         this.applyFont = this.applyFont.bind(this)
         this.fontHandler = this.fontHandler.bind(this)
         this.displayFontVariant = this.displayFontVariant.bind(this)
@@ -20,7 +17,6 @@ export default class FormSelector extends React.Component{
 
     async componentDidMount(){ 
         let data = await fetch("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAfSLRqUkls5peRZBi6YmLucrPIDxJ_zLM&sort=popularity", { mode: 'cors' })
-        
         try { 
             let dataJson = await data.json(); 
             let families = dataJson.items; 
@@ -33,12 +29,10 @@ export default class FormSelector extends React.Component{
     }
 
     fontHandler(font){
-
         this.setState({ 
             selectedFamily: font.family, 
             fontVariants: font.variants
-
-        }, () => {console.log(this.state)})
+        })
     }
 
     displayFontVariant(variant){ 
@@ -54,54 +48,45 @@ export default class FormSelector extends React.Component{
     
 
     applyFont(variant, id){ 
-        let element = document.getElementById(`${id}`); 
-        let text = element.innerHTML
-
         let fam = this.state.selectedFamily.replace(/\s+/g, "+");
-        let weight; 
-        let italic;
+
+        let fontLink = document.getElementById("fontLink")
+        let href = fontLink.href;
+
         let url; 
+        let weight;  
         
         if (variant.slice(3) === "italic"){
             if ( parseInt(variant.slice(0, 3)) ){ 
                 weight = variant.slice(0, 3); 
-                url = `https://fonts.googleapis.com/css2?family=${fam}:ital,wght@1,${weight}&display=swap;text=${text}`
-            }else { 
-                weight = 400; 
-                url = `https://fonts.googleapis.com/css2?family=${fam}:ital,wght@1,${weight}&display=swap;text=${text}`
+                url = href.slice(0, 33) + `?family=${fam}:ital,wght@1,${weight}&` + href.slice(34)
+                fontLink.href = url; 
             }
-        }else{ 
+
+        } else{ 
             if ( parseInt(variant.slice(0, 3)) ){ 
                 weight = variant.slice(0, 3); 
-                url = `https://fonts.googleapis.com/css2?family=${fam}:wght@${weight}&display=swap;text=${text}`
+                url = href.slice(0, 33) + `?family=${fam}:wght@${weight}&` + href.slice(34)
+                fontLink.href = url; 
             }else { 
                 if (variant === "italic"){
-                    url = `https://fonts.googleapis.com/css2?family=${fam}:ital@1&display=swap;text=${text}`
+                    url = href.slice(0, 33) + `?family=${fam}:ital@1&` + href.slice(34)
+                    fontLink.href = url; 
                 } else{ 
-                    url = `https://fonts.googleapis.com/css2?family=${fam}&display=swap;text=${text}`
+                    url = href.slice(0, 33) + `?family=${fam}&` + href.slice(34)
+                    fontLink.href = url; 
                 }
             }
         }
-
         
-        if (document.getElementById(`font-for-${id}`) === null){
-            let style = document.createElement("link");
-                style.rel = "stylesheet"; 
-                style.href = url; 
-                style.id = `font-for-${id}`
-            document.head.appendChild(style)
-        }else{ 
-            let style = document.getElementById(`font-for-${id}`); 
-            style.href = url; 
-        }
-          
+        let element = document.getElementById(`${id}`); 
         element.style.fontFamily = `${this.state.selectedFamily}`
         element.style.fontWeight = weight
     }   
 
     render(){ 
         return(
-            <>
+            <div id = "fontSelector">
                 {this.state.fonts.map( (font, index) => { 
                     return (
                         <div>  
@@ -121,7 +106,7 @@ export default class FormSelector extends React.Component{
                     return (
                         <div>  
                             <input name = "font" id = {variant} type = "radio" key = {`inputVariant-${index}`}
-                                onClick = {() => { this.applyFont(variant, "fullName") }}
+                                onClick = {() => { this.applyFont(variant, this.props.elementId) }}
                             >
                             </input> 
 
@@ -131,7 +116,7 @@ export default class FormSelector extends React.Component{
                         </div>
                     )
                 })}
-            </>
+            </div>
         )
     }
 }
