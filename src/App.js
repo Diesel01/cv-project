@@ -8,6 +8,7 @@ import { EducationForm } from "./components/EducationForm";
 import JobExp from './components/JobExp';
 import { JobExpForm } from "./components/JobExpForm";
 import ViewMode from "./components/ViewMode";
+import StyleSelector from "./components/StyleSelector";
 
 class App extends React.Component{ 
   constructor(){ 
@@ -20,7 +21,13 @@ class App extends React.Component{
 
       jobExp: [ ], 
 
-      editMode: true
+      viewMode: false, 
+
+      styleSelector: { 
+        generalInfo: false, 
+        education: false, 
+        jobExp: false
+      }
     } 
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
@@ -33,7 +40,9 @@ class App extends React.Component{
 
     this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
 
-    this.changeMode = this.changeMode.bind(this)
+    this.changeStyle = this.changeStyle.bind(this)
+
+    this.changeViewMode = this.changeViewMode.bind(this)
   }
 
   editGeneralInfo(e){ 
@@ -140,22 +149,34 @@ class App extends React.Component{
 
   }
 
-  changeMode(){ 
-    let value = !this.state.editMode; 
+  changeStyle(element){ 
+    let value = !this.state.styleSelector[element]; 
+    this.setState({ styleSelector: { ...this.state.styleSelector, [element]: value} })
+  }
 
-    this.setState({editMode: value})
+  changeViewMode(){ 
+    let value = !this.state.viewMode; 
+    this.setState({ viewMode: value })
   }
 
   render(){ 
     return(
       <>
       <div id = "editMode">
+
+        {/* General infomation section ---------------------------------------------------------------------- */}
         <section>
           <GeneralInfo {... this.state.generalInfo} deleteGeneralInfo = {this.deleteGeneralInfo} />
+
           <button onClick = { () => {document.getElementById("editGenInfoForm").hidden = false} }> Edit general information </button>
           <GenInfoForm  editGeneralInfo = {this.editGeneralInfo}/>
+
+          <button onClick = { () => { this.changeStyle("generalInfo"); } }> Edit style </button>
+          { this.state.styleSelector.generalInfo ? <StyleSelector elementId = "fullName"/> : null }
         </section>
 
+
+        {/* Education section ---------------------------------------------------------------------- */}
         <section>
           <ul id = "educationList">
             {this.state.education.map( object => { 
@@ -170,8 +191,13 @@ class App extends React.Component{
 
           <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit education </button>
           <EducationForm editEducation = {this.editEducation}/>
+
+          <button onClick = { () => { this.changeStyle("education"); } }> Edit style </button>
+          { this.state.styleSelector.education ? <StyleSelector elementId = "educationList"/> : null }
         </section>
 
+
+        {/* Job exeperience section ---------------------------------------------------------------------- */}
         <section>
           <ul id = "jobExpList">
             {this.state.jobExp.map( object => { 
@@ -186,13 +212,16 @@ class App extends React.Component{
 
           <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
           <JobExpForm  editJobExp = {this.editJobExp}/>
+
+          <button onClick = { () => { this.changeStyle("jobExp"); } }> Edit style </button>
+          { this.state.styleSelector.jobExp ? <StyleSelector elementId = "jobExpList"/> : null }
         </section>
 
       </div>
 
-        <ViewMode {...this.state} />
-        <button onClick = {() => { document.getElementById("viewMode").hidden = false; document.getElementById("editMode").hidden = true} }>Toggle full view mode</button>
-      
+        <button onClick = {() => { this.changeViewMode(); document.getElementById("editMode").hidden = true; } }>Toggle full view mode</button>
+        {this.state.viewMode ? <ViewMode {...this.state} /> : null }
+
       </>
     )
   }

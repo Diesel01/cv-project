@@ -1,17 +1,13 @@
 import React from "react"; 
 import {format} from "date-fns"; 
-import StyleSelector from "./StyleSelector.js"
 
 const GenInfoForm = (props) => { 
     const { editGeneralInfo } = props; 
     return(
         <div>
             <form hidden id = "editGenInfoForm"> 
-                <label htmlFor = "firstNameEdit" name = 'firstName'>First name: </label>
-                <input type = 'text' id = "firstNameEdit" name = 'firstName' onChange = {editGeneralInfo} />
-
-                <label htmlFor = "secondNameEdit" name = 'secondName'>Second name: </label>
-                <input type = 'text' id = "secondNameEdit" name = 'secondName' onChange = {editGeneralInfo}/>
+                <label htmlFor = "fullNameEdit" name = 'fullName'>Full name: </label>
+                <input type = 'text' id = "fullNameEdit" name = 'fullName' onChange = {editGeneralInfo} />
 
                 <label htmlFor = "dateEdit" name = 'dateBirth'>Date of birth: </label>
                 <input type = 'date' id = "dateEdit" name = 'dateBirth'  max = {format(new Date(), "yyyy-MM-dd")} onChange = {editGeneralInfo}/>
@@ -23,8 +19,6 @@ const GenInfoForm = (props) => {
                 <input type = 'tel' id = "phoneEdit" name = 'phone' 
                         pattern = "[0-9]{2}[0-9]{5}[0-9]{4}" onChange = {editGeneralInfo}/>
                 <small>Format: (55) 54321 - 4321</small>
-
-                <StyleSelector elementId = "fullName"/>
 
                 <button onClick = {
                     (e) => { e.preventDefault();

@@ -55,26 +55,35 @@ export default class StyleSelector extends React.Component{
         let fontLink = document.getElementById("fontLink")
         let href = fontLink.href;
 
+        let italic; 
         let url; 
         let weight;  
         
         if (variant.slice(3) === "italic"){
             if ( parseInt(variant.slice(0, 3)) ){ 
+                italic = true
                 weight = variant.slice(0, 3); 
                 url = href.slice(0, 33) + `?family=${fam}:ital,wght@1,${weight}&` + href.slice(34)
                 fontLink.href = url; 
             }
-
+            
         } else{ 
             if ( parseInt(variant.slice(0, 3)) ){ 
+                italic = false
                 weight = variant.slice(0, 3); 
                 url = href.slice(0, 33) + `?family=${fam}:wght@${weight}&` + href.slice(34)
                 fontLink.href = url; 
+
             }else { 
                 if (variant === "italic"){
+                    italic = true
+                    weight = 400
                     url = href.slice(0, 33) + `?family=${fam}:ital@1&` + href.slice(34)
                     fontLink.href = url; 
+
                 } else{ 
+                    italic = false
+                    weight = 400
                     url = href.slice(0, 33) + `?family=${fam}&` + href.slice(34)
                     fontLink.href = url; 
                 }
@@ -84,6 +93,8 @@ export default class StyleSelector extends React.Component{
         let element = document.getElementById(`${id}`); 
         element.style.fontFamily = `${this.state.selectedFamily}`
         element.style.fontWeight = weight
+        
+        italic ? element.style.fontStyle = "italic" : element.style.fontStyle = "normal"
     }   
 
     colorHandler(id){ 

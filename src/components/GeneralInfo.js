@@ -2,13 +2,13 @@ import React from "react";
 
 export default class GeneralInfo extends React.Component{
     render(){ 
-        const {firstName, secondName, dateBirth, email, phone, deleteGeneralInfo} = this.props
+        const {fullName, dateBirth, email, phone, deleteGeneralInfo} = this.props
         return(
             <div> 
                 <h2 id = "fullName">
-                    {firstName} {secondName} 
+                    {fullName} 
                 </h2>
-                <button onClick = {() => {deleteGeneralInfo("generalInfo", "firstName")}}>x</button>                    
+                <button onClick = {() => {deleteGeneralInfo("fullName")}}>x</button>                    
 
                 <p> Date of birth: {dateBirth} <button onClick = {() => {deleteGeneralInfo("dateBirth")}}>x</button> </p>
 

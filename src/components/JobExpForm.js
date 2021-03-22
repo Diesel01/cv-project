@@ -1,5 +1,4 @@
 import React from "react"; 
-import StyleSelector from "./StyleSelector.js"
 
 const JobExpForm = (props) => { 
     const { editJobExp } = props; 
@@ -22,8 +21,6 @@ const JobExpForm = (props) => {
 
                 <label htmlFor = "endDate" name = 'endDateJob'>End date: </label>
                 <input type = 'month' id = 'endDateJob' name = 'endDateJob' />
-
-                <StyleSelector elementId = "jobExpList"/>
 
                 <button type = "submit" name = "submit" onClick = { 
                     (e) => { 

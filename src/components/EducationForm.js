@@ -1,5 +1,4 @@
 import React from "react"; 
-import StyleSelector from "./StyleSelector.js"
 
 const EducationForm = (props) => { 
     const { editEducation } = props; 
@@ -32,8 +31,6 @@ const EducationForm = (props) => {
 
                 <label htmlFor = "endDate" name = 'endDateGraduate'>End date: </label>
                 <input type = 'month' id = 'endDate' name = 'endDate' />
-
-                <StyleSelector elementId = "educationList"/>
 
                 <button type = "submit" name = "submit" onClick = { 
                     (e) => { 

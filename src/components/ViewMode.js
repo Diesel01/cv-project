@@ -7,11 +7,11 @@ export default class ViewMode extends React.Component{
     render(){ 
         const { generalInfo, education, jobExp } = this.props; 
         return(
-            <div id = "viewMode" hidden = {true}>
+            <div id = "viewMode">
                 <Draggable>
                     <div> 
                         <h2 id = "fullName">
-                            {generalInfo.firstName} {generalInfo.secondName} 
+                            {generalInfo.fullName}
                         </h2>
 
                         <p> Date of birth: {generalInfo.dateBirth} </p>
@@ -36,7 +36,9 @@ export default class ViewMode extends React.Component{
                 <Draggable>
                     <ul className = "jobExpList">
                         {jobExp.map( object => { 
-                            return(<JobExp {...object} key = {object.id}/>) 
+                            return(
+                                <JobExp {...object} key = {object.id}/>
+                            ) 
                         } ) }
                     </ul>
                 </Draggable>
