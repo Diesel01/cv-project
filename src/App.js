@@ -15,7 +15,9 @@ class App extends React.Component{
     super(); 
 
     this.state = { 
-      generalInfo: { }, 
+      generalInfo: { 
+        display: false
+      }, 
 
       education: [ ],
 
@@ -46,9 +48,10 @@ class App extends React.Component{
   }
 
   editGeneralInfo(e){ 
+
     if(e.target.name !== 'dateBirth'){ 
       this.setState({
-        generalInfo: { ...this.state.generalInfo, [e.target.name]: e.target.value }
+        generalInfo: { ...this.state.generalInfo, [e.target.name]: e.target.value, display: true }
       }, () => { console.log(this.state) })
     
     }else{ 
@@ -57,7 +60,7 @@ class App extends React.Component{
         if (date < today){
           let stringDate = format(date, "do 'of' MMMM, yyyy") 
           this.setState({
-            generalInfo: { ...this.state.generalInfo, [e.target.name]: stringDate }
+            generalInfo: { ...this.state.generalInfo, [e.target.name]: stringDate, display: true }
           }, () => { console.log(this.state) }) 
         }else{
           alert("Please insert a valid date")
@@ -166,7 +169,7 @@ class App extends React.Component{
 
         {/* General infomation section ---------------------------------------------------------------------- */}
         <section>
-          <GeneralInfo {... this.state.generalInfo} deleteGeneralInfo = {this.deleteGeneralInfo} />
+          { this.state.generalInfo.display ? <GeneralInfo {...this.state.generalInfo} deleteGeneralInfo = {this.deleteGeneralInfo} /> : null }
 
           <button onClick = { () => {document.getElementById("editGenInfoForm").hidden = false} }> Edit general information </button>
           <GenInfoForm  editGeneralInfo = {this.editGeneralInfo}/>
