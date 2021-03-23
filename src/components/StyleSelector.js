@@ -90,21 +90,34 @@ export default class StyleSelector extends React.Component{
             }
         }
 
-        let element = document.getElementById(`${id}`); 
-        element.style.fontFamily = `${this.state.selectedFamily}`
-        element.style.fontWeight = weight
-        
-        italic ? element.style.fontStyle = "italic" : element.style.fontStyle = "normal"
+        let cssRules = document.getElementById('editableStyles').sheet.cssRules; 
+
+        for (let i = 0; i < cssRules.length; i++){ 
+            if (cssRules[i].selectorText === `.${id}`){ 
+                cssRules[i].style.fontFamily = this.state.selectedFamily; 
+                cssRules[i].style.fontWeight = weight; 
+                
+                italic ? cssRules[i].style.fontStyle = "italic" : cssRules[i].style.fontStyle = "normal"
+            }
+        }
     }   
 
-    colorHandler(id){ 
-        let element = document.getElementById(`${id}`); 
-        element.style.color = document.getElementById("colorInput").value; 
+    colorHandler(color, id){ 
+        let cssRules = document.getElementById('editableStyles').sheet.cssRules; 
+        for (let i = 0; i < cssRules.length; i++){ 
+            if (cssRules[i].selectorText === `.${id}`){ 
+                cssRules[i].style.color = color
+            }
+        }
     }
 
-    sizeHandler(id){ 
-        let element = document.getElementById(`${id}`); 
-        element.style.fontSize = `${document.getElementById("sizeInput").value}%`; 
+    sizeHandler(size, id){ 
+        let cssRules = document.getElementById('editableStyles').sheet.cssRules; 
+        for (let i = 0; i < cssRules.length; i++){ 
+            if (cssRules[i].selectorText === `.${id}`){ 
+                cssRules[i].style.fontSize = `${size}%`
+            }
+        }
     }
 
     render(){ 
@@ -144,12 +157,24 @@ export default class StyleSelector extends React.Component{
             
                 <div> 
                     <label htmlFor = "colorInput" name = "color">Select a color:</label>
-                    <input id = "colorInput" name = "color" type = 'color' onChange = { ()=>{this.colorHandler(this.props.elementId)} }></input>
+                    <input id = "colorInput" name = "color" type = 'color' 
+                        onChange = { ()=>{
+                            let color = document.getElementById("colorInput").value
+                            this.colorHandler(color, this.props.elementId)
+                        }  
+                    }>    
+                    </input>
                 </div>
 
                 <div> 
                     <label htmlFor = "sizeInput" name = "size">Select font size:</label>
-                    <input id = "sizeInput" name = "size" type = 'range' min = "5" max = "500" onChange = { ()=>{this.sizeHandler(this.props.elementId)} }></input>
+                    <input id = "sizeInput" name = "size" type = 'range' min = "5" max = "500" 
+                        onChange = { ()=>{
+                            let size = document.getElementById("sizeInput").value
+                            this.sizeHandler(size, this.props.elementId)
+                        } 
+                    }>
+                    </input>
                 </div>
             </div>
         )

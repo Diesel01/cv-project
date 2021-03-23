@@ -5,7 +5,7 @@ export default class GeneralInfo extends React.Component{
         const {fullName, dateBirth, email, phone, deleteGeneralInfo} = this.props
         return(
             <div> 
-                <h2 id = "fullName">
+                <h2 className = "fullName">
                     {fullName} 
                 </h2>
                 <button onClick = {() => {deleteGeneralInfo("fullName")}}>x</button>                    
