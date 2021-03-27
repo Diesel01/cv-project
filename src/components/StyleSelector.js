@@ -1,12 +1,13 @@
 import React from 'react';
 
+let fontArray = []
 export default class StyleSelector extends React.Component{ 
     constructor(props){ 
         super(props); 
         
         this.state = { 
             fonts: [], 
-            selectedFamily: "", 
+            selectedFont: "", 
             fontVariants: [], 
         }
 
@@ -33,9 +34,9 @@ export default class StyleSelector extends React.Component{
 
     fontHandler(font){
         this.setState({ 
-            selectedFamily: font.family, 
+            selectedFont: font, 
             fontVariants: font.variants
-        })
+        }, () => {fontArray.push(font)})
     }
 
     displayFontVariant(variant){ 
@@ -50,7 +51,7 @@ export default class StyleSelector extends React.Component{
     }
 
     applyFont(variant, id){ 
-        let fam = this.state.selectedFamily.replace(/\s+/g, "+");
+        let fam = this.state.selectedFont.family.replace(/\s+/g, "+");
 
         let fontLink = document.getElementById("fontLink")
         let href = fontLink.href;
@@ -94,7 +95,7 @@ export default class StyleSelector extends React.Component{
 
         for (let i = 0; i < cssRules.length; i++){ 
             if (cssRules[i].selectorText === `.${id}`){ 
-                cssRules[i].style.fontFamily = this.state.selectedFamily; 
+                cssRules[i].style.fontFamily = this.state.selectedFont.family; 
                 cssRules[i].style.fontWeight = weight; 
                 
                 italic ? cssRules[i].style.fontStyle = "italic" : cssRules[i].style.fontStyle = "normal"
@@ -180,3 +181,5 @@ export default class StyleSelector extends React.Component{
         )
     }
 }
+
+export { fontArray }
