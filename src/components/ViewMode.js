@@ -2,7 +2,7 @@ import React from "react";
 import Education from "./Education";
 import JobExp from './JobExp';
 import Draggable from 'react-draggable';
-import pdfGenerator from "./pdfGenerator.js";
+import PdfGenerator from "./pdfGenerator.js";
 
 export default class ViewMode extends React.Component{ 
     render(){ 
@@ -48,9 +48,10 @@ export default class ViewMode extends React.Component{
 
                 </div>
 
-                <button onClick = { () => { pdfGenerator(generalInfo, education, jobExp) } }>
+                <button onClick = { () => { PdfGenerator(generalInfo, education, jobExp) } }> 
                     Click here to open your CV as a PDF
                 </button>
+                {/* maybe pass props as one object?  */}
             </>
         )
     }

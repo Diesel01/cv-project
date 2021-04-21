@@ -7,7 +7,7 @@ export default class StyleSelector extends React.Component{
         
         this.state = { 
             fonts: [], 
-            selectedFont: "", 
+            selectedFont: {}, 
             fontVariants: [], 
         }
 
@@ -36,7 +36,7 @@ export default class StyleSelector extends React.Component{
         this.setState({ 
             selectedFont: font, 
             fontVariants: font.variants
-        }, () => {fontsArray.push(font)})
+        })
     }
 
     displayFontVariant(variant){ 
@@ -78,13 +78,13 @@ export default class StyleSelector extends React.Component{
             }else { 
                 if (variant === "italic"){
                     italic = true
-                    weight = 400
+                    weight = "400"
                     url = href.slice(0, 33) + `?family=${fam}:ital@1&` + href.slice(34)
                     fontLink.href = url; 
 
                 } else{ 
                     italic = false
-                    weight = 400
+                    weight = "400"
                     url = href.slice(0, 33) + `?family=${fam}&` + href.slice(34)
                     fontLink.href = url; 
                 }
@@ -101,8 +101,27 @@ export default class StyleSelector extends React.Component{
                 italic ? cssRules[i].style.fontStyle = "italic" : cssRules[i].style.fontStyle = "normal"
             }
         }
-    }   
 
+        let variantSrc; 
+        for (let obj in this.state.selectedFont.files){ 
+            if (obj === variant){ 
+                variantSrc = this.state.selectedFont.files[obj]
+            } 
+        }
+        
+        let fontObj = {
+            elementId: id, 
+            family: this.state.selectedFont.family,
+            src: variantSrc, 
+            style: "", 
+            weight: weight
+        }
+        italic ? fontObj.style = "italic" : fontObj.style = "normal";
+        
+        fontsArray.push(fontObj); 
+        console.log(fontsArray)        
+    }
+    
     colorHandler(color, id){ 
         let cssRules = document.getElementById('editableStyles').sheet.cssRules; 
         for (let i = 0; i < cssRules.length; i++){ 
