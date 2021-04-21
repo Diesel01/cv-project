@@ -2,7 +2,7 @@ import React from "react";
 import Education from "./Education";
 import JobExp from './JobExp';
 import Draggable from 'react-draggable';
-import pdfGenerator from "../pdfGenerator.js";
+import pdfGenerator from "./pdfGenerator.js";
 
 export default class ViewMode extends React.Component{ 
     render(){ 

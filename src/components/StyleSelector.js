@@ -1,6 +1,6 @@
 import React from 'react';
 
-let fontArray = []
+let fontsArray = []
 export default class StyleSelector extends React.Component{ 
     constructor(props){ 
         super(props); 
@@ -36,7 +36,7 @@ export default class StyleSelector extends React.Component{
         this.setState({ 
             selectedFont: font, 
             fontVariants: font.variants
-        }, () => {fontArray.push(font)})
+        }, () => {fontsArray.push(font)})
     }
 
     displayFontVariant(variant){ 
@@ -46,7 +46,7 @@ export default class StyleSelector extends React.Component{
         } else { 
             let weight = variant.slice(0, 3) 
             let italic = variant.slice(3)
-            return { __html: `Weight: ${weight}; ${italic} `}
+            return { __html: `Weight: ${weight} ${italic} `}
         }
     }
 
@@ -125,35 +125,32 @@ export default class StyleSelector extends React.Component{
         return(
             <div>
                 <div id = "fontSelector">
-                    {this.state.fonts.map( (font, index) => { 
-                        return (
-                            <div>  
-                                <input name = "font" id = {font.family} type = "radio" key = {`input-${index}`}
-                                    onClick = {() => { this.fontHandler(font) }}
-                                >
-                                </input> 
 
-                                <label name = "font" htmlFor = {font.family} key = {`label-${index}`}>
-                                    {font.family}
-                                </label>
-                            </div>
-                        )
-                    })}
+                    <label htmlFor = "fonts">Choose a font</label>
+                    <select name = "fonts" id = "fonts">
+                        {this.state.fonts.map( font => { 
+                            return (
+                                <option key = {`${font.family}`} value = {`${font.family}`} onClick = {() => { this.fontHandler(font) }}>
+                                    {font.family} 
+                                </option>
+                            )
+                        })}
+                    </select>
 
-                    {this.state.fontVariants.map( (variant, index) => { 
-                        return (
-                            <div>  
-                                <input name = "font" id = {variant} type = "radio" key = {`inputVariant-${index}`}
+
+                    <label htmlFor = "fontVariants"> Choose a font variant </label>
+                    <select name = 'fontVariants' id = 'fontVariants'>
+                        {this.state.fontVariants.map( variant => { 
+                            return (
+                                <option 
+                                    key = {variant}
+                                    value = {variant} 
                                     onClick = {() => { this.applyFont(variant, this.props.elementId) }}
-                                >
-                                </input> 
-
-                                <label name = "font" htmlFor = {variant} id = {`label-${variant}`} key = {`labelVariant-${index}`}
-                                    dangerouslySetInnerHTML =  { this.displayFontVariant(variant) }>
-                                </label>
-                            </div>
-                        )
-                    })}
+                                    dangerouslySetInnerHTML =  { this.displayFontVariant(variant) }
+                                />
+                            )
+                        })}
+                    </select>
                 </div>
             
                 <div> 
@@ -182,4 +179,4 @@ export default class StyleSelector extends React.Component{
     }
 }
 
-export { fontArray }
+export { fontsArray }

@@ -74,33 +74,35 @@ class App extends React.Component{
 
     let startDate = document.getElementById('startDate').value;
       let startDateISO = parseISO(startDate); 
-      let startDString = format(startDateISO, "MMMM, yyyy");
+      let startDString = format(startDateISO, "do, MMMM, yyyy");
 
     let endDate = document.getElementById('endDate').value;
       let endDateISO = parseISO(endDate); 
-      let endDString = format(endDateISO, "MMMM, yyyy"); 
+      let endDString = format(endDateISO, "do, MMMM, yyyy"); 
 
     let id = uniqid(); 
 
     let array = document.getElementsByName('level'); 
-      for (let index = 0; index < array.length; index++) {
-        if (array[index].checked === true){ 
-          let level = array[index].value;
-          this.setState({
-            education: [ 
-              { 
-                id: id, 
-                level: level,
-                course: course, 
-                institution: institution, 
-                startDate: startDString, 
-                endDate: endDString
-              },
-              ...this.state.education
-            ]
-          }, ()=>{console.log(this.state)})
-        }    
-      }
+    for (let index = 0; index < array.length; index++) {
+      
+      if (array[index].checked === true){ 
+        let level = array[index].value;
+
+        this.setState({
+          education: [ 
+            { 
+              id: id, 
+              level: level,
+              course: course, 
+              institution: institution, 
+              startDate: startDString, 
+              endDate: endDString
+            },
+            ...this.state.education            
+          ]
+        }, ()=>{console.log(this.state)})
+      }    
+    }
   }
 
   deleteState(property, id){ 
@@ -129,10 +131,10 @@ class App extends React.Component{
     let responsibility = document.getElementById("responsibleFor").value; 
       
     let startDate = parseISO(document.getElementById("startDateJob").value); 
-    let stringStart = format(startDate, "MMMM, yyyy") 
+    let stringStart = format(startDate, "do, MMMM, yyyy") 
 
     let endDate = parseISO(document.getElementById("endDateJob").value); 
-    let stringEnd = format(endDate, "MMMM, yyyy") 
+    let stringEnd = format(endDate, "do, MMMM, yyyy") 
 
     let id = uniqid(); 
 

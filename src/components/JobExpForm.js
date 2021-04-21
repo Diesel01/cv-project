@@ -16,11 +16,15 @@ const JobExpForm = (props) => {
                 <label htmlFor = "responsibleFor" name = 'responsibleFor'>Responsible for: </label>
                 <input type = 'text' id = "responsibleFor" name = 'responsibleFor' />
                 
-                <label htmlFor = "startDate" name = 'startDateJob'>Start date: </label>
-                <input type = 'month' id = 'startDateJob' name = 'startDateJob' />
+                <span>
+                    <label htmlFor="startDate">Start date:</label>
+                    <input type = "date" id = "startDateJob"></input>
+                </span>
 
-                <label htmlFor = "endDate" name = 'endDateJob'>End date: </label>
-                <input type = 'month' id = 'endDateJob' name = 'endDateJob' />
+                <span>
+                    <label htmlFor="endDate">End date:</label>
+                    <input type = "date" id = "endDateJob"></input>
+                </span>
 
                 <button type = "submit" name = "submit" onClick = { 
                     (e) => { 

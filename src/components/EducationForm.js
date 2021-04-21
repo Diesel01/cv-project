@@ -26,11 +26,15 @@ const EducationForm = (props) => {
                 <label htmlFor = "institution" name = 'institution'>Institution: </label>
                 <input type = 'text' id = "institution" name = 'institution'  />
                 
-                <label htmlFor = "startDate" name = 'startDate'>Start date: </label>
-                <input type = 'month' id = 'startDate' name = 'startDate' />
+                <span>
+                    <label htmlFor="startDate">Start date:</label>
+                    <input type = "date" id = "startDate"></input>
+                </span>
 
-                <label htmlFor = "endDate" name = 'endDateGraduate'>End date: </label>
-                <input type = 'month' id = 'endDate' name = 'endDate' />
+                <span>
+                    <label htmlFor="endDate">End date:</label>
+                    <input type = "date" id = "endDate"></input>
+                </span>
 
                 <button type = "submit" name = "submit" onClick = { 
                     (e) => { 
