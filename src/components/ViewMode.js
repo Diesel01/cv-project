@@ -48,10 +48,7 @@ export default class ViewMode extends React.Component{
 
                 </div>
 
-                <button onClick = { () => { PdfGenerator(generalInfo, education, jobExp) } }> 
-                    Click here to open your CV as a PDF
-                </button>
-                {/* maybe pass props as one object?  */}
+                <PdfGenerator { ...this.props } />
             </>
         )
     }

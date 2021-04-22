@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Page, Text, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { Page, Text, Document, StyleSheet, Font, View, usePDF } from '@react-pdf/renderer';
 import { fontsArray } from "./StyleSelector";
 
 
@@ -19,6 +19,7 @@ const PdfGenerator = props => {
                 }]
             })
         }
+        console.log(Font)
     }
 
     function createStyles(){          
@@ -29,26 +30,30 @@ const PdfGenerator = props => {
                     flexDirection: 'row',
                     backgroundColor: '#E4E4E4'
                 },
+
+                view: { 
+                    padding: "15px"
+                },  
                 
                 fullName: { 
-                    fontFamily: cssRules[0].style.fontFamily, 
-                    fontSize: cssRules[0].style.fontSize, 
+                    fontFamily: cssRules[0].style.fontFamily !== "" ?  cssRules[0].style.fontFamily : "Roboto", 
+                    fontSize: parseInt(cssRules[0].style.fontSize), 
                     fontWeight: cssRules[0].style.fontWeight, 
                     fontStyle: cssRules[0].style.fontStyle, 
                     color: cssRules[0].style.color 
                 }, 
         
                 educationList: { 
-                    fontFamily: cssRules[1].style.fontFamily, 
-                    fontSize: cssRules[1].style.fontSize, 
+                    fontFamily: cssRules[1].style.fontFamily !== "" ?  cssRules[1].style.fontFamily : "Roboto",
+                    fontSize: parseInt(cssRules[1].style.fontSize), 
                     fontWeight: cssRules[1].style.fontWeight, 
                     fontStyle: cssRules[1].style.fontStyle, 
                     color: cssRules[1].style.color 
                 },  
         
                 jobExpList: { 
-                    fontFamily: cssRules[2].style.fontFamily, 
-                    fontSize: cssRules[2].style.fontSize, 
+                    fontFamily: cssRules[2].style.fontFamily !== "" ?  cssRules[2].style.fontFamily : "Roboto",
+                    fontSize: parseInt(cssRules[2].style.fontSize), 
                     fontWeight: cssRules[2].style.fontWeight, 
                     fontStyle: cssRules[2].style.fontStyle, 
                     color: cssRules[2].style.color 
@@ -61,20 +66,20 @@ const PdfGenerator = props => {
     }
 
     useEffect( () => {
-        async function getStyle(){
-            await getFont(); 
+        function getStyle(){
+            getFont(); 
             const styleSheet = createStyles(); 
             setStyles(styleSheet)
         }
-        
         getStyle()
     }, []) 
    
     const doc = (
         <Document>
             <Page size="A4" style={styles.page}>
-    
-                <Text style={styles.fullName}>
+
+                <View>
+                    <Text style={styles.fullName}>
                     {props.generalInfo.fullName}
         
                     Date of birth: {props.generalInfo.dateBirth}
@@ -82,9 +87,11 @@ const PdfGenerator = props => {
                     Email:  {props.generalInfo.email}
         
                     Phone: {props.generalInfo.phone}
-                </Text>
+                    </Text>
     
-                    
+                </View>
+               
+                <View style = {styles.view}>
                 {props.education.map(object => { 
                     return (
                         <Text style={styles.educationList}>
@@ -93,7 +100,9 @@ const PdfGenerator = props => {
                         )
                     })
                 }
-    
+                </View>
+
+                <View>
                 {props.jobExp.map(object => {
                     return ( 
                         <Text style={styles.jobExpList}>
@@ -102,12 +111,18 @@ const PdfGenerator = props => {
                         )
                     })
                 }
-                </Page>
-            </Document>
+                </View>
+            </Page>
+        </Document>
     )
-    return doc
+
+    const [instance] = usePDF( {document: doc} )
+
+    return (
+        <a href={instance.url} target= "_blank" rel = "noreferrer">Open in new tab</a>
+    )
 }
 
 export default PdfGenerator
 
-//maybe  put register fonts and sttyle maker into an async useEffect, that trigger when component mounts. This would requeire that the whole of pdfMAker is a functional component. 
+//pass Blob provider here? 
