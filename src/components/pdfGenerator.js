@@ -110,5 +110,3 @@ const PdfGenerator = props => {
 }
 
 export default PdfGenerator
-
-//pass Blob provider here? 
