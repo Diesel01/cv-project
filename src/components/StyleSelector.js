@@ -114,7 +114,7 @@ export default class StyleSelector extends React.Component{
             family: this.state.selectedFont.family,
             src: variantSrc, 
             style: "", 
-            weight: weight
+            weight: parseInt(weight)
         }
         italic ? fontObj.style = "italic" : fontObj.style = "normal";
         
@@ -135,7 +135,7 @@ export default class StyleSelector extends React.Component{
         let cssRules = document.getElementById('editableStyles').sheet.cssRules; 
         for (let i = 0; i < cssRules.length; i++){ 
             if (cssRules[i].selectorText === `.${id}`){ 
-                cssRules[i].style.fontSize = `${size}%`
+                cssRules[i].style.fontSize = `${size}pt`
             }
         }
     }
@@ -185,7 +185,7 @@ export default class StyleSelector extends React.Component{
 
                 <div> 
                     <label htmlFor = "sizeInput" name = "size">Select font size:</label>
-                    <input id = "sizeInput" name = "size" type = 'range' min = "5" max = "500" 
+                    <input id = "sizeInput" name = "size" type = 'range' min = "5" max = "60" 
                         onChange = { ()=>{
                             let size = document.getElementById("sizeInput").value
                             this.sizeHandler(size, this.props.elementId)
