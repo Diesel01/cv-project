@@ -19,6 +19,11 @@ const PdfGenerator = props => {
         }
     }
 
+    function convertTransformValue(id){ 
+        let newValue = id.replace(/px/g, "mm")
+        return newValue
+    }
+
     function createStyles() {
 
         getFont(); 
@@ -33,7 +38,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[0].style.fontWeight),
                 fontStyle: cssRules[0].style.fontStyle,
                 color: cssRules[0].style.color, 
-                transform: props.transformGeneralInfo
+                transform: `translate(${props.transformGeneralInfo.x}vw, ${props.transformGeneralInfo.y}vh)`
             },
 
             educationList: {
@@ -42,7 +47,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[1].style.fontWeight), 
                 fontStyle: cssRules[1].style.fontStyle, 
                 color: cssRules[1].style.color,
-                transform: props.transformEducation
+                transform: convertTransformValue(props.transformEducation)
             },
 
             jobExpList: {
@@ -51,7 +56,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[2].style.fontWeight), 
                 fontStyle: cssRules[2].style.fontStyle, 
                 color: cssRules[2].style.color,
-                transform: props.transformJobExp
+                transform: convertTransformValue(props.transformJobExp)
             }
 
         } )
@@ -69,7 +74,7 @@ const PdfGenerator = props => {
             <Page size="A4">
 
                 <View>
-                    <Text style={styling.fullName}>
+                    <Text style = {styling.fullName}>
                         {props.generalInfo.fullName}
 
                         Date of birth: {props.generalInfo.dateBirth}
