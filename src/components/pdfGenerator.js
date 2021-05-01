@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Page, Text, Document, StyleSheet, Font, View, usePDF } from '@react-pdf/renderer';
 import { fontsArray } from "./StyleSelector";
 
@@ -24,7 +24,6 @@ const PdfGenerator = props => {
         getFont(); 
 
         const cssRules = document.getElementById('editableStyles').sheet.cssRules;
-        console.log(cssRules)
 
         const styleSheets = StyleSheet.create( {
 
@@ -33,7 +32,8 @@ const PdfGenerator = props => {
                 fontSize: parseInt(cssRules[0].style.fontSize),
                 fontWeight: parseInt(cssRules[0].style.fontWeight),
                 fontStyle: cssRules[0].style.fontStyle,
-                color: cssRules[0].style.color
+                color: cssRules[0].style.color, 
+                transform: props.transformGeneralInfo
             },
 
             educationList: {
@@ -41,7 +41,8 @@ const PdfGenerator = props => {
                 fontSize: parseInt(cssRules[1].style.fontSize), 
                 fontWeight: parseInt(cssRules[1].style.fontWeight), 
                 fontStyle: cssRules[1].style.fontStyle, 
-                color: cssRules[1].style.color 
+                color: cssRules[1].style.color,
+                transform: props.transformEducation
             },
 
             jobExpList: {
@@ -49,7 +50,8 @@ const PdfGenerator = props => {
                 fontSize: parseInt(cssRules[2].style.fontSize), 
                 fontWeight: parseInt(cssRules[2].style.fontWeight), 
                 fontStyle: cssRules[2].style.fontStyle, 
-                color: cssRules[2].style.color 
+                color: cssRules[2].style.color,
+                transform: props.transformJobExp
             }
 
         } )
