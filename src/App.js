@@ -9,7 +9,6 @@ import JobExp from './components/JobExp';
 import { JobExpForm } from "./components/JobExpForm";
 import ViewMode from "./components/ViewMode";
 import StyleSelector from "./components/StyleSelector";
-
 class App extends React.Component{ 
   constructor(){ 
     super(); 
@@ -29,7 +28,9 @@ class App extends React.Component{
         generalInfo: false, 
         education: false, 
         jobExp: false
-      }
+      },
+
+      transformGeneralInfo: {} 
     } 
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
@@ -45,6 +46,8 @@ class App extends React.Component{
     this.changeStyle = this.changeStyle.bind(this)
 
     this.changeViewMode = this.changeViewMode.bind(this)
+
+    this.getTransformValues = this.getTransformValues.bind(this)
   }
 
   editGeneralInfo(e){ 
@@ -164,6 +167,33 @@ class App extends React.Component{
     this.setState({ viewMode: value })
   }
 
+  getTransformValues(index, id){
+    const element = document.getElementsByClassName("react-draggable")[index]
+    const style = window.getComputedStyle(element)
+    const matrix = style['transform'] || style.mozTransform;
+
+    let values = {};
+
+    if (matrix === 'none' || typeof matrix === 'undefined') { //I'm not sure if this conditional is really necessary
+        values = { x: 0, y: 0}
+        this.setState({
+            ...this.state, 
+            [`transform${id}`]: values
+        }, () => {console.log(this.state)})
+        return    
+    }
+
+    const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', '); 
+
+    values = { x: matrixValues[4], y: matrixValues[5]}
+
+    this.setState({
+        ...this.state, 
+        [`transform${id}`]: values
+    }, () => {console.log(this.state)})
+
+};
+
   render(){ 
     return(
       <>
@@ -171,13 +201,27 @@ class App extends React.Component{
 
         {/* General infomation section ---------------------------------------------------------------------- */}
         <section>
-          { this.state.generalInfo.display ? <GeneralInfo {...this.state.generalInfo} deleteGeneralInfo = {this.deleteGeneralInfo} /> : null }
+          { this.state.generalInfo.display ?                      
+            <GeneralInfo 
+              {...this.state.generalInfo} 
+              deleteGeneralInfo = {this.deleteGeneralInfo} 
+              onStopHandle = {this.getTransformValues} 
+            /> 
+            : 
+            null 
+          }
 
           <button onClick = { () => {document.getElementById("editGenInfoForm").hidden = false} }> Edit general information </button>
+          
           <GenInfoForm  editGeneralInfo = {this.editGeneralInfo}/>
-
+          
           <button onClick = { () => { this.changeStyle("generalInfo"); } }> Edit style </button>
-          { this.state.styleSelector.generalInfo ? <StyleSelector elementId = "fullName"/> : null }
+          
+          { this.state.styleSelector.generalInfo ? 
+            <StyleSelector elementId = "fullName"/> 
+            : 
+            null 
+          }
         </section>
 
 

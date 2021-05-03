@@ -11,49 +11,59 @@ export default class ViewMode extends React.Component{
             transformGeneralInfo: "", 
             transformEducation: "", 
             transformJobExp: "", 
-
-            activeDrags: 0,
-            deltaPosition: {
-                x: 0, y: 0
-            },
-            controlledPosition: {
-                x: -400, y: 200
-            }
         }
-        this.handleDrag = this.handleDrag.bind(this)
+
+        this.getTransformValues = this.getTransformValues.bind(this)
     }
 
-    handleDrag = event => {
-        let x = event.x; 
-        let y = event.y;
+    getTransformValues = (index, id) => {
+        const element = document.getElementsByClassName("react-draggable")[index]
+        const style = window.getComputedStyle(element)
+        const matrix = style['transform'] || style.mozTransform;
+
+        let values = {};
+
+        if (matrix === 'none' || typeof matrix === 'undefined') { //I'm not sure if this conditional is really necessary
+            values = { x: 0, y: 0}
+            this.setState({
+                ...this.state, 
+                [`transform${id}`]: values
+            }, () => {console.log(this.state)})
+            return    
+        }
+
+        const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', '); 
+
+        values = { x: matrixValues[4], y: matrixValues[5]}
+
         this.setState({
             ...this.state, 
-            deltaPosition: {
-                x: x,
-                y: y
-            }
-        }, () => {console.log(this.state.deltaPosition)});
+            [`transform${id}`]: values
+        }, () => {console.log(this.state)})
+
     };
+
     render(){ 
         const { generalInfo, education, jobExp } = this.props; 
         return(
             <>
                 <div id = "viewMode">
-                    <div style = {{
-                        position: 'relative',
-                        margin: '10px', 
-                        height: "842px", 
-                        width: "595px" 
-                    }}>
-                        <Draggable 
+                    <div 
+                        id = "pageA4" 
+                        style = {{
+                            position: 'relative',
+                            margin: '10px', 
+                            height: "842px", 
+                            width: "595px" 
+                        }}
+                    >
+                        {/* <Draggable 
                             bounds = "parent"
-                            onDrag = { () => { 
-                                let value = document.getElementsByClassName("react-draggable")[0].style.transform
-                                this.setState({ ...this.state, transformGeneralInfo: value })
+                            // offsetParent = {document.getElementById("pageA4")}
+                            onStop = { () =>{
+                                this.getTransformValues(0, "GeneralInfo");
                             }}
-                            onStop = {                                this.handleDrag
-                            } 
-                        >
+                        > */}
                             <div style = { {width: '50%'} }> 
                                 <h2 className = "fullName">
                                     {generalInfo.fullName}
@@ -66,14 +76,14 @@ export default class ViewMode extends React.Component{
                                 <p> Phone: {generalInfo.phone} </p>
 
                             </div>                
-                        </Draggable>
+                        {/* </Draggable> */}
 
                         <Draggable
                             bounds = "parent"
-                            onDrag = { () => { 
-                                let value = document.getElementsByClassName("react-draggable")[1].style.transform
-                                this.setState({ ...this.state, transformEducation: value })
-                            }} 
+                            offsetParent = {document.getElementById("pageA4")}
+                            onStop = { () =>{
+                                 this.getTransformValues(1, "Education");
+                            }}
                         >
                             <ul className = "educationList">
                                 {education.map( object => { 
@@ -86,10 +96,10 @@ export default class ViewMode extends React.Component{
 
                         <Draggable
                             bounds = "parent"
-                            onDrag = { () => { 
-                                let value = document.getElementsByClassName("react-draggable")[2].style.transform
-                                this.setState({ ...this.state, transformJobExp: value })
-                            }} 
+                            offsetParent = {document.getElementById("pageA4")}
+                            onStop = { () =>{
+                                 this.getTransformValues(2, "JobExp");
+                            }}
                         >
                             <ul className = "jobExpList">
                                 {jobExp.map( object => { 
@@ -104,7 +114,7 @@ export default class ViewMode extends React.Component{
 
                 <PdfGenerator 
                     { ... {...this.props, 
-                        transformGeneralInfo: this.state.deltaPosition,
+                        transformGeneralInfo: this.state.transformGeneralInfo,
                         transformEducation: this.state.transformEducation, 
                         transformJobExp: this.state.transformJobExp
                     } } 

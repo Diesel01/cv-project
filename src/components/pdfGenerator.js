@@ -20,8 +20,20 @@ const PdfGenerator = props => {
     }
 
     function convertTransformValue(id){ 
-        let newValue = id.replace(/px/g, "mm")
-        return newValue
+        const fullHeightPX = 842; 
+        const fullWidthPX = 595; 
+
+        const xValuePX = id.x; 
+        const yValuePX = id.y; 
+
+        const xValuePercentage = (xValuePX / fullHeightPX)*100
+        const yValuePercentage = (yValuePX / fullWidthPX)*100
+
+        console.log(xValuePercentage)
+        console.log(yValuePercentage)
+
+        return `translate(${xValuePercentage}%, ${yValuePercentage}%)`
+
     }
 
     function createStyles() {
@@ -38,7 +50,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[0].style.fontWeight),
                 fontStyle: cssRules[0].style.fontStyle,
                 color: cssRules[0].style.color, 
-                transform: `translate(${props.transformGeneralInfo.x}vw, ${props.transformGeneralInfo.y}vh)`
+                transform: convertTransformValue(props.transformGeneralInfo)
             },
 
             educationList: {
@@ -47,7 +59,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[1].style.fontWeight), 
                 fontStyle: cssRules[1].style.fontStyle, 
                 color: cssRules[1].style.color,
-                transform: convertTransformValue(props.transformEducation)
+                // transform: convertTransformValue(props.transformEducation)
             },
 
             jobExpList: {
@@ -56,12 +68,12 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[2].style.fontWeight), 
                 fontStyle: cssRules[2].style.fontStyle, 
                 color: cssRules[2].style.color,
-                transform: convertTransformValue(props.transformJobExp)
+                // transform: convertTransformValue(props.transformJobExp)
             }
 
         } )
 
-        console.log(styleSheets)
+        // console.log(styleSheets)
 
         return styleSheets
     }
