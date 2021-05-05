@@ -1,5 +1,4 @@
 import React from "react";
-
 export default class Education extends React.Component{ 
     render(){ 
         const { level, course, institution, startDate, endDate } = this.props; 

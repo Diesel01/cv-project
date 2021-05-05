@@ -12,7 +12,6 @@ export default class ViewMode extends React.Component{
             transformEducation: "", 
             transformJobExp: "", 
         }
-
         this.getTransformValues = this.getTransformValues.bind(this)
     }
 
@@ -20,7 +19,6 @@ export default class ViewMode extends React.Component{
         const element = document.getElementsByClassName("react-draggable")[index]
         const style = window.getComputedStyle(element)
         const matrix = style['transform'] || style.mozTransform;
-
         let values = {};
 
         if (matrix === 'none' || typeof matrix === 'undefined') { //I'm not sure if this conditional is really necessary
@@ -33,20 +31,18 @@ export default class ViewMode extends React.Component{
         }
 
         const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', '); 
-
         values = { x: matrixValues[4], y: matrixValues[5]}
-
         this.setState({
             ...this.state, 
             [`transform${id}`]: values
         }, () => {console.log(this.state)})
-
     };
 
     render(){ 
         const { generalInfo, education, jobExp } = this.props; 
         return(
             <>
+            {console.log(this.props)}
                 <div id = "viewMode">
                     <div 
                         id = "pageA4" 
@@ -112,13 +108,7 @@ export default class ViewMode extends React.Component{
                     </div>
                 </div>
 
-                <PdfGenerator 
-                    { ... {...this.props, 
-                        transformGeneralInfo: this.state.transformGeneralInfo,
-                        transformEducation: this.state.transformEducation, 
-                        transformJobExp: this.state.transformJobExp
-                    } } 
-                />
+                {/* <PdfGenerator {...this.props} /> */}
             </>
         )
     }

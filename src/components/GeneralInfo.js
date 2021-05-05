@@ -5,8 +5,11 @@ export default class GeneralInfo extends React.Component{
     render(){ 
         const {fullName, dateBirth, email, phone, deleteGeneralInfo, onStopHandle} = this.props
         return(
-            <Draggable onStop = { () => {onStopHandle(0, 'GeneralInfo')} }>
-                <div> 
+            <Draggable 
+                onStop = { () => {onStopHandle(0, 'GeneralInfo')} }
+                bounds = "parent"
+            >
+                <div style = { {width: '50%'} }> 
                     <h2 className = "fullName" id = "fullName">
                         {fullName} 
                     </h2>

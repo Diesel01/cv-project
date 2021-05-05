@@ -20,19 +20,25 @@ const PdfGenerator = props => {
     }
 
     function convertTransformValue(id){ 
+
+        if (typeof id === "undefined"){
+            return "translate(0pt, 0pt)" 
+        }
         const fullHeightPX = 842; 
         const fullWidthPX = 595; 
 
         const xValuePX = id.x; 
         const yValuePX = id.y; 
 
-        const xValuePercentage = (xValuePX / fullHeightPX)*100
-        const yValuePercentage = (yValuePX / fullWidthPX)*100
+        const xValuePercentage = xValuePX*0.75
+        // (xValuePX / fullHeightPX)*100
+        const yValuePercentage = yValuePX*0.75
+        // (yValuePX / fullWidthPX)*100
 
         console.log(xValuePercentage)
         console.log(yValuePercentage)
 
-        return `translate(${xValuePercentage}%, ${yValuePercentage}%)`
+        return `translate(${xValuePercentage}pt, ${yValuePercentage}pt)`
 
     }
 
@@ -59,7 +65,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[1].style.fontWeight), 
                 fontStyle: cssRules[1].style.fontStyle, 
                 color: cssRules[1].style.color,
-                // transform: convertTransformValue(props.transformEducation)
+                transform: convertTransformValue(props.transformEducation)
             },
 
             jobExpList: {
@@ -68,12 +74,12 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[2].style.fontWeight), 
                 fontStyle: cssRules[2].style.fontStyle, 
                 color: cssRules[2].style.color,
-                // transform: convertTransformValue(props.transformJobExp)
+                transform: convertTransformValue(props.transformJobExp)
             }
 
         } )
 
-        // console.log(styleSheets)
+        console.log(styleSheets)
 
         return styleSheets
     }
@@ -83,7 +89,7 @@ const PdfGenerator = props => {
     const doc = (
 
         <Document>
-            <Page size="A4">
+            <Page style = { {width: "595px", height: "842px"} } >
 
                 <View>
                     <Text style = {styling.fullName}>
