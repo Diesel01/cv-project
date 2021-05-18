@@ -2,10 +2,13 @@ import React from "react";
 import {format} from "date-fns"; 
 
 const GenInfoForm = (props) => { 
-    const { editGeneralInfo } = props; 
+    const { editGeneralInfo, toggleForm } = props; 
     return(
         <div>
-            <form hidden id = "editGenInfoForm"> 
+            <form id = "editGenInfoForm"> 
+                <p> <b>Please enter your general information:</b> </p>
+                <button onClick = {() => {toggleForm("generalInfo")}}>X</button>
+
                 <label htmlFor = "fullNameEdit" name = 'fullName'>Full name: </label>
                 <input type = 'text' id = "fullNameEdit" name = 'fullName' onChange = {editGeneralInfo} />
 
@@ -19,12 +22,6 @@ const GenInfoForm = (props) => {
                 <input type = 'tel' id = "phoneEdit" name = 'phone' 
                         pattern = "[0-9]{2}[0-9]{5}[0-9]{4}" onChange = {editGeneralInfo}/>
                 <small>Format: (55) 54321 - 4321</small>
-
-                <button onClick = {
-                    (e) => { e.preventDefault();
-                    let form = document.getElementById("editGenInfoForm"); form.hidden = true; form.reset() } }> 
-                    Close 
-                </button>
             </form>
         </div>
     )

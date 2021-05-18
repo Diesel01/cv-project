@@ -22,7 +22,9 @@ class App extends React.Component {
         id: 'generalInfo',
         fullName: "Mathes D.",
 
-        showStyleSelector: () => { this.changeStyle('generalInfo') }
+        deleteGeneralInfo: this.deleteGeneralInfo,  
+        showStyleSelector: () => { this.changeStyle('generalInfo') }, 
+        toggleForm: () => { this.toggleForm("generalInfo") }
       },
 
       education: {
@@ -43,16 +45,20 @@ class App extends React.Component {
         ],
         id: 'education',
 
-        showStyleSelector: () => { this.changeStyle('education') }
+        showStyleSelector: () => { this.changeStyle('education') }, 
+        toggleForm: () => { this.toggleForm("education") }
       },
 
       jobExp: {
         items: [
-          {}
+          {
+            id: "ed"
+          }
         ],
         id: 'jobExp', 
 
-        showStyleSelector: () => { this.changeStyle("jobExp") }
+        showStyleSelector: () => { this.changeStyle("jobExp") }, 
+        toggleForm: () => { this.toggleForm("jobExp") }
       },
 
       createPDF: false,
@@ -64,6 +70,12 @@ class App extends React.Component {
         education: false,
         jobExp: false
       },
+
+      showForm: {
+        generalInfo: false, 
+        education: false, 
+        jobExp: false
+      }
 
     }
 
@@ -78,6 +90,8 @@ class App extends React.Component {
     this.deleteGeneralInfo = this.deleteGeneralInfo.bind(this)
 
     this.changeStyle = this.changeStyle.bind(this)
+
+    this.toggleForm = this.toggleForm.bind(this)
 
     this.changecreatePDF = this.changecreatePDF.bind(this)
 
@@ -148,16 +162,19 @@ class App extends React.Component {
   }
 
   deleteState(property, id) {
-    let array = this.state[property];
+    let array = this.state[property].items;
 
     let indexofRemoval = array.findIndex((object) => {
       return object[id]
     })
 
     array.splice(indexofRemoval, 1);
-    console.log(array);
 
-    this.setState({ [property]: array })
+    this.setState({ 
+        [property]: {
+          ...[property], items: array
+        }
+      })
   }
 
   deleteGeneralInfo(property) {
@@ -204,9 +221,15 @@ class App extends React.Component {
 
   changeStyle(element) {
     let value = !this.state.styleSelector[element];
-    this.setState({ styleSelector: { ...this.state.styleSelector, [element]: value } }, 
-      console.log(this.state.styleSelector.jobExp))
+    this.setState({ styleSelector: { ...this.state.styleSelector, [element]: value } })
   }
+
+  toggleForm(element){ 
+    let value = !this.state.showForm[element]; 
+    this.setState({ showForm: {...this.state.showForm, [element]: value } }, 
+     () => {console.log(this.state)}
+    )
+  } 
 
   changecreatePDF() {
     let value = !this.state.createPDF;
@@ -243,13 +266,20 @@ class App extends React.Component {
     return (
       <>
         <DragDropContext onDragEnd={this.dragHandle}>
-          <DragnDrop {...this.state} />
+          <DragnDrop 
+            {...this.state} 
+            deleteState = {this.deleteState}
+          />
         </DragDropContext>
 
-        { this.state.styleSelector.generalInfo ? <StyleSelector elementId="generalInfo" /> : null}
-        { this.state.styleSelector.education ? <StyleSelector elementId="educationList" /> : null}
-        { this.state.styleSelector.jobExp ? <StyleSelector elementId="jobExpList" /> : null}
-      </>
+        { this.state.styleSelector.generalInfo ? <StyleSelector elementId = "generalInfo" /> : null }
+        { this.state.styleSelector.education ? <StyleSelector elementId = "educationList" /> : null }
+        { this.state.styleSelector.jobExp ? <StyleSelector elementId = "jobExpList" /> : null }
+
+        { this.state.showForm.generalInfo ? <GenInfoForm editGeneralInfo = {this.editGeneralInfo} toggleForm ={this.toggleForm}/> : null }
+        { this.state.showForm.education ? <EducationForm editEducation = {this.editEducation} toggleForm ={this.toggleForm}/> : null }
+        { this.state.showForm.jobExp ? <JobExpForm editJobExp = {this.editJobExp} toggleForm ={this.toggleForm}/> : null }
+      </> 
     )
   }
 }

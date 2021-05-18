@@ -16,16 +16,19 @@ export default class JobExp extends React.Component{
                             style = {{display: 'flex'}}
                         >
                             <h3>Professional Experience</h3>
-                            <button>Edit professional info</button>
+                            <button onClick = {this.props.toggleForm}>Edit professional info</button>
                             <button onClick = {this.props.showStyleSelector}>Edit styling</button>
                         </div>
 
                         <ul>
                             {this.props.items.map( item => {
                                 return( 
+                                    <>
                                     <li key = {item.id}>
                                         {item.positionTitle} in {item.company}, from {item.startDate} until {item.endDate}, responsible for {item.responsibleFor}
                                     </li>
+                                    <button onClick = {()=>{this.props.deleteState('jobExp', item.id)}}>x</button>
+                                    </>
                                 )
                             })}
                         </ul>

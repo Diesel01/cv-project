@@ -1,11 +1,12 @@
 import React from "react"; 
 
 const EducationForm = (props) => { 
-    const { editEducation } = props; 
+    const { editEducation, toggleForm } = props; 
     return(
         <div>
-            <form hidden id = "educationForm"> 
-                <p>Please enter your education level:</p> 
+            <form id = "educationForm"> 
+                <p><b>Please enter your educational information:</b> </p> 
+                <button onClick = {() => {toggleForm("education")}}>X</button>
 
                 <br />
                 <label htmlFor = "highSchool" name = 'level'>Highschool </label>
@@ -40,9 +41,10 @@ const EducationForm = (props) => {
                     (e) => { 
                     e.preventDefault();
                     editEducation(); 
-                    let form = document.getElementById("educationForm"); form.hidden = true; form.reset() } 
+                    let form = document.getElementById("educationForm"); 
+                    form.reset() } 
                 }> 
-                    Close 
+                    Submit 
                 </button>
             </form>
         </div>

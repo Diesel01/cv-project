@@ -1,7 +1,6 @@
 import React from "react";
 import {Draggable} from "react-beautiful-dnd";
 export default class Education extends React.Component{ 
-    
     render(){  
         return(
             <Draggable draggableId = "education" index = {this.props.index}>
@@ -16,14 +15,17 @@ export default class Education extends React.Component{
                             style = {{display: 'flex'}}
                         >
                             <h3>Education</h3>
-                            <button>Edit education info</button>
+                            <button onClick = {this.props.toggleForm}>Edit education info</button>
                             <button onClick = {this.props.showStyleSelector}>Edit styling</button>
                         </div>
 
                         <ul>
                             {this.props.items.map(item => {
                                 return (
-                                    <li key = {item.id}> {item.level} in {item.course} at {item.institution}, from {item.startDate} until {item.endDate} </li>                                    
+                                    <>
+                                    <li key = {item.id}> {item.level} in {item.course} at {item.institution}, from {item.startDate} until {item.endDate} </li>
+                                    <button onClick = {() => {this.props.deleteState("education", item.id)}}>x</button>
+                                    </>                              
                                 )
                             })}
                         </ul>

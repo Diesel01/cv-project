@@ -6,7 +6,7 @@ import JobExp from './JobExp';
 
 const DragnDrop = props => {
 
-    const {generalInfo, education, jobExp, componentOrder} = props; 
+    const {generalInfo, education, jobExp, componentOrder, deleteState} = props; 
 
     return (
         <div>
@@ -21,11 +21,11 @@ const DragnDrop = props => {
                             }
 
                             if (component === 'education' && education.items.length > 0){
-                                return <Education {...education} index = {index} /> 
+                                return <Education {...education} deleteState = {deleteState} index = {index} /> 
                             }
 
                             if (component === 'jobExp' && jobExp.items.length > 0){ 
-                                return <JobExp {...jobExp} index = {index} /> 
+                                return <JobExp {...jobExp} deleteState = {deleteState} index = {index} /> 
                             }
                         })}
                         
