@@ -22,7 +22,6 @@ class App extends React.Component {
         id: 'generalInfo',
         fullName: "Mathes D.",
 
-        deleteGeneralInfo: this.deleteGeneralInfo,  
         showStyleSelector: () => { this.changeStyle('generalInfo') }, 
         toggleForm: () => { this.toggleForm("generalInfo") }
       },
@@ -181,7 +180,7 @@ class App extends React.Component {
     let alteredState = this.state.generalInfo;
     delete alteredState[property];
 
-    this.setState({ generalInfo: { ...alteredState } }, () => { console.log(this.state) })
+    this.setState({ generalInfo: { ... this.state.generalInfo, alteredState } }, () => { console.log(this.state) })
   }
 
   editJobExp() {
@@ -268,6 +267,7 @@ class App extends React.Component {
         <DragDropContext onDragEnd={this.dragHandle}>
           <DragnDrop 
             {...this.state} 
+            deleteGeneralInfo = {this.deleteGeneralInfo}
             deleteState = {this.deleteState}
           />
         </DragDropContext>

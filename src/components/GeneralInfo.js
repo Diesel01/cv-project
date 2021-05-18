@@ -22,7 +22,7 @@ export default class GeneralInfo extends React.Component{
                         </div>
                             
 
-                        <button onClick = {() => console.log(this.props)}>x</button>                    
+                        <button onClick = {() => {deleteGeneralInfo("fullName")}}>x</button>                    
 
                         <p> Date of birth: {dateBirth} <button onClick = {() => {deleteGeneralInfo("dateBirth")}}>x</button> </p>
 
