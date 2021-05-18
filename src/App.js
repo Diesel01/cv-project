@@ -1,5 +1,5 @@
-import  React from "react";
-import uniqid from "uniqid"; 
+import React from "react";
+import uniqid from "uniqid";
 import { parseISO, format } from "date-fns";
 import GeneralInfo from "./components/GeneralInfo";
 import GenInfoForm from "./components/GenInfoForm";
@@ -7,33 +7,65 @@ import Education from "./components/Education";
 import { EducationForm } from "./components/EducationForm";
 import JobExp from './components/JobExp';
 import { JobExpForm } from "./components/JobExpForm";
-import ViewMode from "./components/ViewMode";
 import StyleSelector from "./components/StyleSelector";
 import PdfGenerator from "./components/pdfGenerator";
 import Draggable from "react-draggable";
-class App extends React.Component{ 
-  constructor(){ 
-    super(); 
+import { DragDropContext } from 'react-beautiful-dnd';
+import DragnDrop from "./components/DragnDrop";
+class App extends React.Component {
+  constructor() {
+    super();
 
-    this.state = { 
-      generalInfo: { 
-        display: false
-      }, 
+    this.state = {
+      generalInfo: {
+        display: false,
+        id: 'generalInfo',
+        fullName: "Mathes D.",
 
-      education: [ ],
+        showStyleSelector: () => { this.changeStyle('generalInfo') }
+      },
 
-      jobExp: [ ], 
+      education: {
+        items: [
+          {
+            id: "awd",
+            level: 'Undergraduate',
+            course: 'Shit',
+            institution: 'ah'
+          },
 
-      viewMode: false, 
+          {
+            id: "ad",
+            level: 'Undergraduate',
+            course: 'Shit',
+            institution: 'ah'
+          }
+        ],
+        id: 'education',
 
-      styleSelector: { 
-        generalInfo: false, 
-        education: false, 
+        showStyleSelector: () => { this.changeStyle('education') }
+      },
+
+      jobExp: {
+        items: [
+          {}
+        ],
+        id: 'jobExp', 
+
+        showStyleSelector: () => { this.changeStyle("jobExp") }
+      },
+
+      createPDF: false,
+
+      componentOrder: ['generalInfo', 'education', 'jobExp'],
+
+      styleSelector: {
+        generalInfo: false,
+        education: false,
         jobExp: false
       },
 
-      transformGeneralInfo: {} 
-    } 
+    }
 
     this.editGeneralInfo = this.editGeneralInfo.bind(this)
 
@@ -47,259 +79,177 @@ class App extends React.Component{
 
     this.changeStyle = this.changeStyle.bind(this)
 
-    this.changeViewMode = this.changeViewMode.bind(this)
+    this.changecreatePDF = this.changecreatePDF.bind(this)
 
-    this.getTransformValues = this.getTransformValues.bind(this)
+    this.dragHandle = this.dragHandle.bind(this)
   }
 
-  editGeneralInfo(e){ 
+  editGeneralInfo(e) {
 
-    if(e.target.name !== 'dateBirth'){ 
+    if (e.target.name !== 'dateBirth') {
       this.setState({
         generalInfo: { ...this.state.generalInfo, [e.target.name]: e.target.value, display: true }
       }, () => { console.log(this.state) })
-    
-    }else{ 
-      let date = parseISO(e.target.value); 
-      let today = new Date(); 
-        if (date < today){
-          let stringDate = format(date, "do 'of' MMMM, yyyy") 
-          this.setState({
-            generalInfo: { ...this.state.generalInfo, [e.target.name]: stringDate, display: true }
-          }, () => { console.log(this.state) }) 
-        }else{
-          alert("Please insert a valid date")
-        }
+
+    } else {
+      let date = parseISO(e.target.value);
+      let today = new Date();
+      if (date < today) {
+        let stringDate = format(date, "do 'of' MMMM, yyyy")
+        this.setState({
+          generalInfo: { ...this.state.generalInfo, [e.target.name]: stringDate, display: true }
+        }, () => { console.log(this.state) })
+      } else {
+        alert("Please insert a valid date")
+      }
     }
   }
-  
-  editEducation(){ 
-    let course = document.getElementById('course').value; 
-    let institution = document.getElementById('institution').value; 
+
+  editEducation() {
+    let course = document.getElementById('course').value;
+    let institution = document.getElementById('institution').value;
 
     let startDate = document.getElementById('startDate').value;
-      let startDateISO = parseISO(startDate); 
-      let startDString = format(startDateISO, "do, MMMM, yyyy");
+    let startDateISO = parseISO(startDate);
+    let startDString = format(startDateISO, "do, MMMM, yyyy");
 
     let endDate = document.getElementById('endDate').value;
-      let endDateISO = parseISO(endDate); 
-      let endDString = format(endDateISO, "do, MMMM, yyyy"); 
+    let endDateISO = parseISO(endDate);
+    let endDString = format(endDateISO, "do, MMMM, yyyy");
 
-    let id = uniqid(); 
+    let id = uniqid();
 
-    let array = document.getElementsByName('level'); 
+    let array = document.getElementsByName('level');
     for (let index = 0; index < array.length; index++) {
-      
-      if (array[index].checked === true){ 
+
+      if (array[index].checked === true) {
         let level = array[index].value;
 
+        let educationItems = this.state.education.items;
+        let newItem = {
+          id: id,
+          level: level,
+          course: course,
+          institution: institution,
+          startDate: startDString,
+          endDate: endDString
+        }
+        educationItems.splice(0, 0, newItem)
+
         this.setState({
-          education: [ 
-            { 
-              id: id, 
-              level: level,
-              course: course, 
-              institution: institution, 
-              startDate: startDString, 
-              endDate: endDString
-            },
-            ...this.state.education            
-          ]
-        }, ()=>{console.log(this.state)})
-      }    
+          ...this.state,
+          education: {
+            ...this.state.education,
+            items: educationItems
+          }
+        }, () => { })
+      }
     }
   }
 
-  deleteState(property, id){ 
-    let array = this.state[property]; 
-    
-    let indexofRemoval = array.findIndex((object)=>{
+  deleteState(property, id) {
+    let array = this.state[property];
+
+    let indexofRemoval = array.findIndex((object) => {
       return object[id]
     })
 
-    array.splice(indexofRemoval, 1);   
-    console.log(array); 
+    array.splice(indexofRemoval, 1);
+    console.log(array);
 
     this.setState({ [property]: array })
   }
 
-  deleteGeneralInfo(property){ 
-   let alteredState = this.state.generalInfo; 
-   delete alteredState[property]; 
-   
-   this.setState({ generalInfo: {...alteredState} }, () =>{console.log(this.state)})
+  deleteGeneralInfo(property) {
+    let alteredState = this.state.generalInfo;
+    delete alteredState[property];
+
+    this.setState({ generalInfo: { ...alteredState } }, () => { console.log(this.state) })
   }
 
-  editJobExp(){ 
-    let company = document.getElementById("company").value; 
-    let position = document.getElementById("positionTitle").value; 
-    let responsibility = document.getElementById("responsibleFor").value; 
-      
-    let startDate = parseISO(document.getElementById("startDateJob").value); 
-    let stringStart = format(startDate, "do, MMMM, yyyy") 
+  editJobExp() {
+    let company = document.getElementById("company").value;
+    let position = document.getElementById("positionTitle").value;
+    let responsibility = document.getElementById("responsibleFor").value;
 
-    let endDate = parseISO(document.getElementById("endDateJob").value); 
-    let stringEnd = format(endDate, "do, MMMM, yyyy") 
+    let startDate = parseISO(document.getElementById("startDateJob").value);
+    let stringStart = format(startDate, "do, MMMM, yyyy")
 
-    let id = uniqid(); 
+    let endDate = parseISO(document.getElementById("endDateJob").value);
+    let stringEnd = format(endDate, "do, MMMM, yyyy")
 
-    this.setState(prevState => ({
-      jobExp: [
-          { 
-          id: id, 
-          company: company, 
-          positionTitle: position, 
-          responsibleFor: responsibility, 
-          startDate: stringStart, 
-          endDate: stringEnd 
-        }, 
-        ...prevState.jobExp
-      ]
-    }), ()=>{ console.log(this.state) } )
+    let id = uniqid();
 
-  }
+    let newItem = {
+      id: id,
+      company: company,
+      positionTitle: position,
+      responsibleFor: responsibility,
+      startDate: stringStart,
+      endDate: stringEnd
+    };
 
-  changeStyle(element){ 
-    let value = !this.state.styleSelector[element]; 
-    this.setState({ styleSelector: { ...this.state.styleSelector, [element]: value} })
-  }
-
-  changeViewMode(){ 
-    let value = !this.state.viewMode; 
-    this.setState({ viewMode: value })
-  }
-
-  getTransformValues(index, id){
-    const element = document.getElementsByClassName("react-draggable")[index]
-    const style = window.getComputedStyle(element)
-    const matrix = style['transform'] || style.mozTransform;
-
-    let values = {};
-
-    if (matrix === 'none' || typeof matrix === 'undefined') { //I'm not sure if this conditional is really necessary
-        values = { x: 0, y: 0}
-        this.setState({
-            ...this.state, 
-            [`transform${id}`]: values
-        }, () => {console.log(this.state)})
-        return    
-    }
-
-    const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', '); 
-
-    values = { x: matrixValues[4], y: matrixValues[5]}
+    let jobExpItems = this.state.jobExp.items;
+    jobExpItems.splice(0, 0, newItem)
 
     this.setState({
-        ...this.state, 
-        [`transform${id}`]: values
-    }, () => {console.log(this.state)})
+      ...this.state,
+      jobExp: {
+        items: jobExpItems,
+        ...this.state.jobExp
+      }
+    })
 
-};
+  }
 
-  render(){ 
-    return(
-      <div 
-        style = {{
-          display: 'grid', 
-          gridTemplateColumns: "auto auto"
-        }}
-      >
-         
-      <div id = "editMode"
-        style = {{
-          position: 'relative',
-          margin: '10px', 
-          height: "842px", 
-          width: "595px" 
-        }}
-      >
+  changeStyle(element) {
+    let value = !this.state.styleSelector[element];
+    this.setState({ styleSelector: { ...this.state.styleSelector, [element]: value } }, 
+      console.log(this.state.styleSelector.jobExp))
+  }
 
-        {/* General infomation section ---------------------------------------------------------------------- */}
-          { this.state.generalInfo.display ?                      
-            <GeneralInfo 
-              {...this.state.generalInfo} 
-              deleteGeneralInfo = {this.deleteGeneralInfo} 
-              onStopHandle = {this.getTransformValues} 
-            /> 
-            : 
-            null 
-          }
+  changecreatePDF() {
+    let value = !this.state.createPDF;
+    this.setState({ createPDF: value })
+  }
 
-          <button onClick = { () => {document.getElementById("editGenInfoForm").hidden = false} }> Edit general information </button>
-          
-          <GenInfoForm  editGeneralInfo = {this.editGeneralInfo}/>
-          
-          <button onClick = { () => { this.changeStyle("generalInfo"); } }> Edit style </button>
-          
-          { this.state.styleSelector.generalInfo ? 
-            <StyleSelector elementId = "fullName"/> 
-            : 
-            null 
-          }
+  dragHandle(result) {
+    const { destination, source, draggableId } = result;
 
+    if (!destination) {
+      return;
+    }
 
-        {/* Education section ------------------------------------------------------------------------------- */}
-          <Draggable
-            onStop = { () => {this.getTransformValues(1, 'Education')} }
-            bounds = "parent"
-          >
-            <ul className = "educationList" style = {{position: "static"}}>
-              {this.state.education.map( object => { 
-                return(
-                  <>
-                    <Education {...object} />
-                    <button onClick = {() => {this.deleteState("education", object.id)} }> X </button>
-                  </>
-                )
-              })}
-            </ul>
-          </Draggable>
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
 
-          <button onClick = { () => {document.getElementById("educationForm").hidden = false} } > Edit education </button>
-          <EducationForm editEducation = {this.editEducation}/>
+    const newComponentOrder = Array.from(this.state.componentOrder);
+    newComponentOrder.splice(source.index, 1);
+    newComponentOrder.splice(destination.index, 0, draggableId);
 
-          <button onClick = { () => { this.changeStyle("education"); } }> Edit style </button>
-          { this.state.styleSelector.education ? <StyleSelector elementId = "educationList"/> : null }
+    const newState = {
+      ...this.state,
+      componentOrder: newComponentOrder
+    };
 
+    this.setState(newState);
+  }
 
-        {/* Job exeperience section ----------------------------------------------------------------------- */}
-          <Draggable
-            onStop = { () => {this.getTransformValues(2, 'JobExp')} }
-            bounds = "parent"
-          >
-            <ul className = "jobExpList">
+  render() {
+    return (
+      <>
+        <DragDropContext onDragEnd={this.dragHandle}>
+          <DragnDrop {...this.state} />
+        </DragDropContext>
 
-              {this.state.jobExp.map( object => { 
-
-                return(
-                  <>
-                    <JobExp 
-                      {...object}   
-                      deleteState = {this.deleteState} 
-                      onStopHandle = {this.getTransformValues}
-                      key = {object.id}
-                    />
-                    <button onClick = {() => {this.deleteState("jobExp", object.id)} }> X </button>
-                  </>
-                )
-
-              })}
-
-            </ul>
-          </Draggable>
-
-          <button onClick = { () => {document.getElementById("jobExpForm").hidden = false} } > Edit job experience </button>
-          <JobExpForm  editJobExp = {this.editJobExp}/>
-
-          <button onClick = { () => { this.changeStyle("jobExp"); } }> Edit style </button>
-          { this.state.styleSelector.jobExp ? <StyleSelector elementId = "jobExpList"/> : null }
-
-      </div>
-
-      <button onClick = {() => { this.changeViewMode() } }>Toggle full view mode</button>
-
-      {this.state.viewMode ? <ViewMode {...this.state} /> && <PdfGenerator {...this.state} /> : null }
-      </div>
+        { this.state.styleSelector.generalInfo ? <StyleSelector elementId="generalInfo" /> : null}
+        { this.state.styleSelector.education ? <StyleSelector elementId="educationList" /> : null}
+        { this.state.styleSelector.jobExp ? <StyleSelector elementId="jobExpList" /> : null}
+      </>
     )
   }
 }

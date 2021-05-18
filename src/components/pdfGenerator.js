@@ -24,21 +24,20 @@ const PdfGenerator = props => {
         if (typeof id === "undefined"){
             return "translate(0pt, 0pt)" 
         }
-        const fullHeightPX = 842; 
-        const fullWidthPX = 595; 
+        const fullHeightPX = 1403; 
+        const fullWidthPX = 992; 
 
         const xValuePX = id.x; 
         const yValuePX = id.y; 
 
-        const xValuePercentage = xValuePX*0.75
-        // (xValuePX / fullHeightPX)*100
-        const yValuePercentage = yValuePX*0.75
-        // (yValuePX / fullWidthPX)*100
+        const xValuePercentage = (xValuePX / fullWidthPX)*100
+
+        const yValuePercentage = (yValuePX / fullHeightPX)*100
 
         console.log(xValuePercentage)
         console.log(yValuePercentage)
 
-        return `translate(${xValuePercentage}pt, ${yValuePercentage}pt)`
+        return `translate(${xValuePercentage}%, ${yValuePercentage}%)` // either this or `translate(${xValuePercentage}pt, ${yValuePercentage}pt)`. The difference isn't huge
 
     }
 
@@ -56,6 +55,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[0].style.fontWeight),
                 fontStyle: cssRules[0].style.fontStyle,
                 color: cssRules[0].style.color, 
+                margin: "1.5%",  
                 transform: convertTransformValue(props.transformGeneralInfo)
             },
 
@@ -65,6 +65,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[1].style.fontWeight), 
                 fontStyle: cssRules[1].style.fontStyle, 
                 color: cssRules[1].style.color,
+                margin: "1.5%",  
                 transform: convertTransformValue(props.transformEducation)
             },
 
@@ -74,6 +75,7 @@ const PdfGenerator = props => {
                 fontWeight: parseInt(cssRules[2].style.fontWeight), 
                 fontStyle: cssRules[2].style.fontStyle, 
                 color: cssRules[2].style.color,
+                margin: "1.5%",  
                 transform: convertTransformValue(props.transformJobExp)
             }
 
@@ -89,16 +91,24 @@ const PdfGenerator = props => {
     const doc = (
 
         <Document>
-            <Page style = { {width: "595px", height: "842px"} } >
+            <Page 
+                // style = { { height: "992px", width: "1403px" } } 
+            >
 
                 <View>
                     <Text style = {styling.fullName}>
                         {props.generalInfo.fullName}
+                    </Text>
 
+                    <Text style = {styling.fullName}>
                         Date of birth: {props.generalInfo.dateBirth}
+                    </Text>
 
+                    <Text style = {styling.fullName}>
                         Email:  {props.generalInfo.email}
+                    </Text>
 
+                    <Text style = {styling.fullName}>
                         Phone: {props.generalInfo.phone}
                     </Text>
                 </View>
@@ -106,7 +116,7 @@ const PdfGenerator = props => {
                 <View>
                     {props.education.map(object => {
                         return (
-                            <Text style={styling.educationList}>
+                            <Text style={styling.educationList} debug>
                                 {object.level} in {object.course} at {object.institution}, from {object.startDate} until {object.endDate}
                             </Text>
                         )
