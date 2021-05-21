@@ -16,15 +16,27 @@ const DragnDrop = props => {
                     <div ref = {provided.innerRef} {...provided.droppableProps}>
 
                         {componentOrder.map( (component, index) => {
+                            // if (component === 'generalInfo'){  
+                            //     return <GeneralInfo {...generalInfo} deleteGeneralInfo = {deleteGeneralInfo} index = {index} /> 
+                            // }
+
+                            // if (component === 'education' && education.items.length > 0){
+                            //     return <Education {...education} deleteState = {deleteState} index = {index} /> 
+                            // }
+
+                            // if (component === 'jobExp' && jobExp.items.length > 0){ 
+                            //     return <JobExp {...jobExp} deleteState = {deleteState} index = {index} /> 
+                            // }
+
                             if (component === 'generalInfo'){  
                                 return <GeneralInfo {...generalInfo} deleteGeneralInfo = {deleteGeneralInfo} index = {index} /> 
                             }
 
-                            if (component === 'education' && education.items.length > 0){
+                            if (component === 'education'){
                                 return <Education {...education} deleteState = {deleteState} index = {index} /> 
                             }
 
-                            if (component === 'jobExp' && jobExp.items.length > 0){ 
+                            if (component === 'jobExp'){ 
                                 return <JobExp {...jobExp} deleteState = {deleteState} index = {index} /> 
                             }
                         })}

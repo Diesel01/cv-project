@@ -1,11 +1,8 @@
 import React from "react";
 import uniqid from "uniqid";
 import { parseISO, format } from "date-fns";
-import GeneralInfo from "./components/GeneralInfo";
 import GenInfoForm from "./components/GenInfoForm";
-import Education from "./components/Education";
 import { EducationForm } from "./components/EducationForm";
-import JobExp from './components/JobExp';
 import { JobExpForm } from "./components/JobExpForm";
 import StyleSelector from "./components/StyleSelector";
 import PdfGenerator from "./components/pdfGenerator";
@@ -51,7 +48,10 @@ class App extends React.Component {
       jobExp: {
         items: [
           {
-            id: "ed"
+            id: "ed", 
+            positionTitle: 'Piece of shit', 
+            company: 'Goddamn it', 
+            responsibleFor: 'X, Y, Z'
           }
         ],
         id: 'jobExp', 
@@ -180,7 +180,7 @@ class App extends React.Component {
     let alteredState = this.state.generalInfo;
     delete alteredState[property];
 
-    this.setState({ generalInfo: { ... this.state.generalInfo, alteredState } }, () => { console.log(this.state) })
+    this.setState({ generalInfo: { ...this.state.generalInfo, alteredState } }, () => { console.log(this.state) })
   }
 
   editJobExp() {
@@ -279,6 +279,19 @@ class App extends React.Component {
         { this.state.showForm.generalInfo ? <GenInfoForm editGeneralInfo = {this.editGeneralInfo} toggleForm ={this.toggleForm}/> : null }
         { this.state.showForm.education ? <EducationForm editEducation = {this.editEducation} toggleForm ={this.toggleForm}/> : null }
         { this.state.showForm.jobExp ? <JobExpForm editJobExp = {this.editJobExp} toggleForm ={this.toggleForm}/> : null }
+
+        <button onClick = {() => {this.changecreatePDF()}}>Click here to generate a PDF of your CV</button>
+        { this.state.createPDF ? 
+          <PdfGenerator 
+            generalInfo = {this.state.generalInfo} 
+            education = {this.state.education} 
+            jobExp = {this.state.jobExp} 
+            componentOrder = {this.state.componentOrder}
+          /> 
+          : 
+          null 
+        }
+      
       </> 
     )
   }

@@ -6,39 +6,32 @@ import { fontsArray } from "./StyleSelector";
 const PdfGenerator = props => {
 
     function getFont() {
-        for (let i = 0; i < fontsArray.length; i++) {
-            let font = fontsArray[i];
+
+        if (fontsArray.length < 3){
+
+            //fallback font: Open Sans
             Font.register({
-                family: font.family,
-                fonts: [{
-                    src: font.src,
-                    fontStyle: font.style,
-                    fontWeight: font.weight
-                }]
+                family: "Open Sans",
+                src: "font/OpenSansRegular.ttf",
+                fontStyle: 'normal',
+                fontWeight: 'normal'
             })
+            
+        } else {
+        
+            for (let i = 0; i < fontsArray.length; i++) {
+                let font = fontsArray[i];
+                Font.register({
+                    family: font.family,
+                    fonts: [{
+                        src: font.src,
+                        fontStyle: font.style,
+                        fontWeight: font.weight,
+                        format: 'truetype'
+                    }]
+                })
+            }
         }
-    }
-
-    function convertTransformValue(id){ 
-
-        if (typeof id === "undefined"){
-            return "translate(0pt, 0pt)" 
-        }
-        const fullHeightPX = 1403; 
-        const fullWidthPX = 992; 
-
-        const xValuePX = id.x; 
-        const yValuePX = id.y; 
-
-        const xValuePercentage = (xValuePX / fullWidthPX)*100
-
-        const yValuePercentage = (yValuePX / fullHeightPX)*100
-
-        console.log(xValuePercentage)
-        console.log(yValuePercentage)
-
-        return `translate(${xValuePercentage}%, ${yValuePercentage}%)` // either this or `translate(${xValuePercentage}pt, ${yValuePercentage}pt)`. The difference isn't huge
-
     }
 
     function createStyles() {
@@ -50,90 +43,100 @@ const PdfGenerator = props => {
         const styleSheets = StyleSheet.create( {
 
             fullName: {
-                fontFamily: cssRules[0].style.fontFamily !== "" ? cssRules[0].style.fontFamily : "Roboto",
-                fontSize: parseInt(cssRules[0].style.fontSize),
-                fontWeight: parseInt(cssRules[0].style.fontWeight),
+                fontFamily: cssRules[0].style.fontFamily !== "" ? cssRules[0].style.fontFamily : "Open Sans",
+                fontSize: parseInt(cssRules[0].style.fontSize) ,
+                fontWeight: cssRules[0].style.fontWeight !== "" ? parseInt(cssRules[0].style.fontWeight) : 400,
                 fontStyle: cssRules[0].style.fontStyle,
                 color: cssRules[0].style.color, 
                 margin: "1.5%",  
-                transform: convertTransformValue(props.transformGeneralInfo)
             },
 
             educationList: {
-                fontFamily: cssRules[1].style.fontFamily !== "" ?  cssRules[1].style.fontFamily : "Roboto",
+                fontFamily: cssRules[1].style.fontFamily !== "" ?  cssRules[1].style.fontFamily : "Open Sans",
                 fontSize: parseInt(cssRules[1].style.fontSize), 
-                fontWeight: parseInt(cssRules[1].style.fontWeight), 
+                fontWeight: cssRules[1].style.fontWeight !== "" ? parseInt(cssRules[0].style.fontWeight) : 400,
                 fontStyle: cssRules[1].style.fontStyle, 
                 color: cssRules[1].style.color,
                 margin: "1.5%",  
-                transform: convertTransformValue(props.transformEducation)
             },
 
             jobExpList: {
-                fontFamily: cssRules[2].style.fontFamily !== "" ?  cssRules[2].style.fontFamily : "Roboto",
+                fontFamily: cssRules[2].style.fontFamily !== "" ?  cssRules[2].style.fontFamily : "Open Sans",
                 fontSize: parseInt(cssRules[2].style.fontSize), 
-                fontWeight: parseInt(cssRules[2].style.fontWeight), 
+                fontWeight: cssRules[2].style.fontWeight !== "" ? parseInt(cssRules[0].style.fontWeight) : 400, 
                 fontStyle: cssRules[2].style.fontStyle, 
                 color: cssRules[2].style.color,
                 margin: "1.5%",  
-                transform: convertTransformValue(props.transformJobExp)
             }
 
         } )
 
-        console.log(styleSheets)
+        console.log(styleSheets); 
+        console.log(cssRules[0].style.fontWeight)
 
         return styleSheets
     }
 
-    const styling = createStyles()
+    const styling = createStyles(); 
     
+    const {generalInfo, education, jobExp, componentOrder} = props; 
+
     const doc = (
-
         <Document>
-            <Page 
-                // style = { { height: "992px", width: "1403px" } } 
-            >
+        <Page>
+            { componentOrder.map( (component) => {
 
-                <View>
-                    <Text style = {styling.fullName}>
-                        {props.generalInfo.fullName}
-                    </Text>
-
-                    <Text style = {styling.fullName}>
-                        Date of birth: {props.generalInfo.dateBirth}
-                    </Text>
-
-                    <Text style = {styling.fullName}>
-                        Email:  {props.generalInfo.email}
-                    </Text>
-
-                    <Text style = {styling.fullName}>
-                        Phone: {props.generalInfo.phone}
-                    </Text>
-                </View>
-
-                <View>
-                    {props.education.map(object => {
-                        return (
-                            <Text style={styling.educationList} debug>
-                                {object.level} in {object.course} at {object.institution}, from {object.startDate} until {object.endDate}
+                if (component === "generalInfo"){
+                    return(
+                        <View>
+                            <Text style = {styling.fullName}>
+                                {generalInfo.fullName}
                             </Text>
-                        )
-                    })}
-                </View>
 
-                <View>
-                    {props.jobExp.map(object => {
-                        return (
-                            <Text style={styling.jobExpList}>
-                                {object.positionTitle} in {object.company}, from {object.startDate} until {object.endDate}, responsible for {object.responsibleFor}
+                            <Text style = {styling.fullName}>
+                                Date of birth: {generalInfo.dateBirth}
                             </Text>
-                        )
-                    })}
-                </View>
 
-            </Page>
+                            <Text style = {styling.fullName}>
+                                Email:  {generalInfo.email}
+                            </Text>
+
+                            <Text style = {styling.fullName}>
+                                Phone: {generalInfo.phone}
+                            </Text>
+                        </View>
+                    )
+                }
+
+                if (component === 'education'){
+                    return(
+                        <View>
+                            {education.items.map(object => {
+                                return (
+                                    <Text style={styling.educationList}>
+                                        {object.level} in {object.course} at {object.institution}, from {object.startDate} until {object.endDate}
+                                    </Text>
+                                )
+                            })}
+                        </View>
+                    )
+                }
+
+                if (component === 'jobExp'){
+                    return(
+                        <View>
+                            {jobExp.items.map(object => {
+                                return (
+                                    <Text style={styling.jobExpList}>
+                                        {object.positionTitle} in {object.company}, from {object.startDate} until {object.endDate}, responsible for {object.responsibleFor}
+                                    </Text>
+                                )
+                            })}
+                        </View>
+                    )
+                }    
+            })}
+        </Page>
         </Document>
     )
 
