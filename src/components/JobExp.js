@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import { Draggable } from "react-beautiful-dnd";
+import "../styles/CV.css";
 
 const JobExp = props => {
     const [showItems, setShowItems] = useState(true); 
@@ -16,7 +17,7 @@ const JobExp = props => {
                     ref = {provided.innerRef}
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
-                    className = "jobExpList"
+                    className = "jobExpList draggable-div"
                 >
 
                     <div 

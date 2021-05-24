@@ -1,31 +1,41 @@
 import React from "react"; 
+import "../styles/Forms.css";
 
 const JobExpForm = (props) => { 
     const { editJobExp, toggleForm } = props; 
     return(
-            <form id = "jobExpForm"> 
-                <p>Please enter your job experience:</p> 
-                <button onClick = {() => {toggleForm("jobExp")}}>X</button>
-                <br />
+            <form id = "jobExpForm" className = "form"> 
 
-                <label htmlFor = "company" name = 'company'> Company: </label>
-                <input type = 'text' id = "company" name = 'company' />
+                <div className = "input" style = {{display: "flex"}}>
+                    <p> <b>Please enter your job experience:</b> </p> 
+                    <button onClick = {() => {toggleForm("jobExp")}}>X</button>
+                </div>
 
-                <label htmlFor = "positionTitle" name = 'positionTitle'>Position title: </label>
-                <input type = 'text' id = "positionTitle" name = 'positionTitle' />
+                <div className = "input">
+                    <label htmlFor = "company" name = 'company'> Company: </label>
+                    <input type = 'text' id = "company" name = 'company' />        
+                </div>
+        
+                <div className = "input">
+                    <label htmlFor = "positionTitle" name = 'positionTitle'>Position title: </label>
+                    <input type = 'text' id = "positionTitle" name = 'positionTitle' />
+                </div>
 
-                <label htmlFor = "responsibleFor" name = 'responsibleFor'>Responsible for: </label>
-                <input type = 'text' id = "responsibleFor" name = 'responsibleFor' />
+                <div className = "input">
+                    <label htmlFor = "responsibleFor" name = 'responsibleFor'>Responsible for: </label>
+                    <input type = 'text' id = "responsibleFor" name = 'responsibleFor' />
+                </div>
                 
-                <span>
+                <div className = "input">
                     <label htmlFor="startDate">Start date:</label>
                     <input type = "date" id = "startDateJob"></input>
-                </span>
+                </div>
 
-                <span>
+                <div className = "input">
                     <label htmlFor="endDate">End date:</label>
                     <input type = "date" id = "endDateJob"></input>
-                </span>
+                </div>
+                    
 
                 <button type = "submit" name = "submit" 
                     onClick = { (e) => { 

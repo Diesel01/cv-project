@@ -1,4 +1,5 @@
 import React from 'react';
+import "../styles/Forms.css";
 
 let fontsArray = []
 export default class StyleSelector extends React.Component{ 
@@ -142,38 +143,40 @@ export default class StyleSelector extends React.Component{
 
     render(){ 
         return(
-            <div>
-                <div id = "fontSelector">
-
-                    <label htmlFor = "fonts">Choose a font</label>
-                    <select name = "fonts" id = "fonts">
-                        {this.state.fonts.map( font => { 
-                            return (
-                                <option key = {`${font.family}`} value = {`${font.family}`} onClick = {() => { this.fontHandler(font) }}>
-                                    {font.family} 
-                                </option>
-                            )
-                        })}
-                    </select>
-
-
-                    <label htmlFor = "fontVariants"> Choose a font variant </label>
-                    <select name = 'fontVariants' id = 'fontVariants'>
-                        {this.state.fontVariants.map( variant => { 
-                            return (
-                                <option 
-                                    key = {variant}
-                                    value = {variant} 
-                                    onClick = {() => { this.applyFont(variant, this.props.elementId) }}
-                                    dangerouslySetInnerHTML =  { this.displayFontVariant(variant) }
-                                />
-                            )
-                        })}
-                    </select>
-                </div>
+            <div className = "form">
+                {/* <div id = "fontSelector"> */}
+                    <div>
+                        <label htmlFor = "fonts">Choose a font: </label>
+                        <select name = "fonts" id = "fonts">
+                            {this.state.fonts.map( font => { 
+                                return (
+                                    <option key = {`${font.family}`} value = {`${font.family}`} onClick = {() => { this.fontHandler(font) }}>
+                                        {font.family} 
+                                    </option>
+                                )
+                            })}
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label htmlFor = "fontVariants"> Choose a font variant: </label>
+                        <select name = 'fontVariants' id = 'fontVariants'>
+                            {this.state.fontVariants.map( variant => { 
+                                return (
+                                    <option 
+                                        key = {variant}
+                                        value = {variant} 
+                                        onClick = {() => { this.applyFont(variant, this.props.elementId) }}
+                                        dangerouslySetInnerHTML =  { this.displayFontVariant(variant) }
+                                    />
+                                )
+                            })}
+                        </select>
+                    </div>
+                {/* </div> */}
             
                 <div> 
-                    <label htmlFor = "colorInput" name = "color">Select a color:</label>
+                    <label htmlFor = "colorInput" name = "color">Select a color: </label>
                     <input id = "colorInput" name = "color" type = 'color' 
                         onChange = { ()=>{
                             let color = document.getElementById("colorInput").value
@@ -184,7 +187,7 @@ export default class StyleSelector extends React.Component{
                 </div>
 
                 <div> 
-                    <label htmlFor = "sizeInput" name = "size">Select font size:</label>
+                    <label htmlFor = "sizeInput" name = "size">Select font size: </label>
                     <input id = "sizeInput" name = "size" type = 'range' min = "5" max = "60" 
                         onChange = { ()=>{
                             let size = document.getElementById("sizeInput").value

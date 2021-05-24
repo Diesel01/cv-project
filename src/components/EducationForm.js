@@ -1,41 +1,50 @@
 import React from "react"; 
+import "../styles/Forms.css";
 
 const EducationForm = (props) => { 
     const { editEducation, toggleForm } = props; 
     return(
         <div>
-            <form id = "educationForm"> 
-                <p><b>Please enter your educational information:</b> </p> 
-                <button onClick = {() => {toggleForm("education")}}>X</button>
+            <form id = "educationForm" className = "form"> 
+                <div className = "input" style = {{display: "flex"}}>
+                    <p><b>Please enter your educational information:</b> </p> 
+                    <button onClick = {() => {toggleForm("education")}}>X</button>
+                </div>
 
-                <br />
-                <label htmlFor = "highSchool" name = 'level'>Highschool </label>
-                <input type = 'radio' id = "highSchool" name = 'level' value = "Highschool" />
+                <div className = "input">
+                    <label htmlFor = "highSchool" name = 'level'>Highschool </label>
+                    <input type = 'radio' id = "highSchool" name = 'level' value = "Highschool" />
+                </div>
 
-                <br />
-                <label htmlFor = "undergraduate" name = 'level'>Undergraduate </label>
-                <input type = 'radio' id = "undergraduate" name = 'level' value = "Undergraduate" />
+                <div className = "input">
+                    <label htmlFor = "undergraduate" name = 'level'>Undergraduate </label>
+                    <input type = 'radio' id = "undergraduate" name = 'level' value = "Undergraduate" />
+                </div>
 
-                <br />
-                <label htmlFor = "graduate" name = 'level'>Graduate </label>
-                <input type = 'radio' id = "graduate" name = 'level' value = 'Graduate' />
+                <div className = "input">
+                    <label htmlFor = "graduate" name = 'level'>Graduate </label>
+                    <input type = 'radio' id = "graduate" name = 'level' value = 'Graduate' />
+                </div>
 
+                <div className = "input">
+                    <label htmlFor = "course" name = 'course'>Course: </label>
+                    <input type = 'text' id = "course" name = 'course' />
+                </div>
 
-                <label htmlFor = "course" name = 'course'>Course: </label>
-                <input type = 'text' id = "course" name = 'course' />
-
-                <label htmlFor = "institution" name = 'institution'>Institution: </label>
-                <input type = 'text' id = "institution" name = 'institution'  />
+                <div className = "input">
+                    <label htmlFor = "institution" name = 'institution'>Institution: </label>
+                    <input type = 'text' id = "institution" name = 'institution'  />
+                </div>
                 
-                <span>
+                <div className = "input">
                     <label htmlFor="startDate">Start date:</label>
                     <input type = "date" id = "startDate"></input>
-                </span>
+                </div>
 
-                <span>
+                <div className = "input">
                     <label htmlFor="endDate">End date:</label>
                     <input type = "date" id = "endDate"></input>
-                </span>
+                </div>
 
                 <button type = "submit" name = "submit" onClick = { 
                     (e) => { 

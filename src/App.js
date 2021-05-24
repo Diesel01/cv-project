@@ -9,6 +9,7 @@ import PdfGenerator from "./components/pdfGenerator";
 import Draggable from "react-draggable";
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragnDrop from "./components/DragnDrop";
+import "./styles/App.css";
 class App extends React.Component {
   constructor() {
     super();
@@ -263,36 +264,43 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
-        <DragDropContext onDragEnd={this.dragHandle}>
-          <DragnDrop 
-            {...this.state} 
-            deleteGeneralInfo = {this.deleteGeneralInfo}
-            deleteState = {this.deleteState}
-          />
-        </DragDropContext>
+      <div className = "main-container">
+        
+        <div className = "form-div">
+          { this.state.styleSelector.generalInfo ? <StyleSelector elementId = "generalInfo" /> : null }
+          { this.state.styleSelector.education ? <StyleSelector elementId = "educationList" /> : null }
+          { this.state.styleSelector.jobExp ? <StyleSelector elementId = "jobExpList" /> : null }
 
-        { this.state.styleSelector.generalInfo ? <StyleSelector elementId = "generalInfo" /> : null }
-        { this.state.styleSelector.education ? <StyleSelector elementId = "educationList" /> : null }
-        { this.state.styleSelector.jobExp ? <StyleSelector elementId = "jobExpList" /> : null }
+          { this.state.showForm.generalInfo ? <GenInfoForm editGeneralInfo = {this.editGeneralInfo} toggleForm ={this.toggleForm}/> : null }
+          { this.state.showForm.education ? <EducationForm editEducation = {this.editEducation} toggleForm ={this.toggleForm}/> : null }
+          { this.state.showForm.jobExp ? <JobExpForm editJobExp = {this.editJobExp} toggleForm ={this.toggleForm}/> : null }
+        </div>
 
-        { this.state.showForm.generalInfo ? <GenInfoForm editGeneralInfo = {this.editGeneralInfo} toggleForm ={this.toggleForm}/> : null }
-        { this.state.showForm.education ? <EducationForm editEducation = {this.editEducation} toggleForm ={this.toggleForm}/> : null }
-        { this.state.showForm.jobExp ? <JobExpForm editJobExp = {this.editJobExp} toggleForm ={this.toggleForm}/> : null }
+        <div className = 'cv-div'>
+          <DragDropContext onDragEnd={this.dragHandle}>
+            <DragnDrop 
+              {...this.state} 
+              deleteGeneralInfo = {this.deleteGeneralInfo}
+              deleteState = {this.deleteState}
+            />
+          </DragDropContext>
+        </div>
 
-        <button onClick = {() => {this.changecreatePDF()}}>Click here to generate a PDF of your CV</button>
-        { this.state.createPDF ? 
-          <PdfGenerator 
-            generalInfo = {this.state.generalInfo} 
-            education = {this.state.education} 
-            jobExp = {this.state.jobExp} 
-            componentOrder = {this.state.componentOrder}
-          /> 
-          : 
-          null 
-        }
+        <div className = "open-pdf-div">
+          <button onClick = {() => {this.changecreatePDF()}}>Click here to generate a PDF of your CV</button>
+          { this.state.createPDF ? 
+            <PdfGenerator 
+              generalInfo = {this.state.generalInfo} 
+              education = {this.state.education} 
+              jobExp = {this.state.jobExp} 
+              componentOrder = {this.state.componentOrder}
+            /> 
+            : 
+            null 
+          }
+        </div>
       
-      </> 
+      </div> 
     )
   }
 }

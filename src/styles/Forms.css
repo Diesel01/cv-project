@@ -1,0 +1,21 @@
+.form{
+    /* display: grid;
+    grid-template-rows: 10% 10% 10% 10%;
+    row-gap: 9%;
+    justify-self: center; */
+    margin: 2.5%;
+    padding: 3%;
+    background: #FFFFFF;
+    border: 0.7px solid #000000;
+    height: -moz-available;
+}
+
+#fontSelector{
+    display: grid;
+    grid-template-rows: auto auto;
+    row-gap: 10%;
+}
+
+.input{
+    margin-bottom: 1.5%
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import {Draggable} from "react-beautiful-dnd";
+import "../styles/CV.css";
 
 export default class GeneralInfo extends React.Component{
     render(){ 
@@ -11,7 +12,7 @@ export default class GeneralInfo extends React.Component{
                         ref = {provided.innerRef} 
                         {...provided.dragHandleProps}
                         {...provided.draggableProps}
-                        className = "generalInfo"
+                        className = "generalInfo draggable-div"
                     > 
                         <div 
                             style = {{display: "flex"}}

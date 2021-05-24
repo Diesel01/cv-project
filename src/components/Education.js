@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Draggable} from "react-beautiful-dnd";
+import "../styles/CV.css";
 
 const Education = props => { 
 
@@ -17,7 +18,7 @@ const Education = props => {
                     ref = {provided.innerRef} 
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
-                    className = "educationList"
+                    className = "educationList draggable-div"
                 >
                      
                     <div 

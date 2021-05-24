@@ -2,7 +2,6 @@ import React from 'react';
 import { Page, Text, Document, StyleSheet, Font, View, usePDF } from '@react-pdf/renderer';
 import { fontsArray } from "./StyleSelector";
 
-
 const PdfGenerator = props => {
 
     function getFont() {
@@ -12,7 +11,7 @@ const PdfGenerator = props => {
             //fallback font: Open Sans
             Font.register({
                 family: "Open Sans",
-                src: "font/OpenSansRegular.ttf",
+                src: "./font/OpenSansRegular.ttf",
                 fontStyle: 'normal',
                 fontWeight: 'normal'
             })
@@ -26,8 +25,7 @@ const PdfGenerator = props => {
                     fonts: [{
                         src: font.src,
                         fontStyle: font.style,
-                        fontWeight: font.weight,
-                        format: 'truetype'
+                        fontWeight: font.weight
                     }]
                 })
             }
