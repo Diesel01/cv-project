@@ -18,8 +18,13 @@ export default class GeneralInfo extends React.Component{
                             style = {{display: "flex"}}
                         >
                             <h2> {fullName} </h2>
-                            <button onClick = {toggleForm}>Edit general info</button>
-                            <button onClick = {showStyleSelector}>Edit styling</button>
+                            <button onClick = {toggleForm}>
+                                <img src = 'imgs/editInfo.svg' alt = 'Edit general info' />
+                            </button>
+
+                            <button onClick = {showStyleSelector}>
+                                <img src = 'imgs/editStyle.svg' alt = 'Edit styling' />
+                            </button>
                         </div>
                             
 

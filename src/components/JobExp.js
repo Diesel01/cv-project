@@ -24,8 +24,14 @@ const JobExp = props => {
                         style = {{display: 'flex'}}
                     >
                         <h3>Professional Experience</h3>
-                        <button onClick = {props.toggleForm}>Edit professional info</button>
-                        <button onClick = {props.showStyleSelector}>Edit styling</button>
+                        <button onClick = {props.toggleForm}>
+                            <img src = 'imgs/editInfo.svg' alt = 'Edit professional experience' />
+                        </button>
+                        
+                        <button onClick = {props.showStyleSelector}>
+                            <img src = 'imgs/editStyle.svg' alt = 'Edit styling' />
+                        </button>
+
                         <button onClick = {() => {toggleShowItems()}}>
                             { showItems ? 
                                 <img src = 'imgs/expandLess.svg' alt = 'Hide professional experience header' />

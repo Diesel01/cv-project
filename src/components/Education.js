@@ -25,8 +25,14 @@ const Education = props => {
                         style = {{display: 'flex'}}
                     >
                         <h3>Education</h3>
-                        <button onClick = {props.toggleForm}>Edit education info</button>
-                        <button onClick = {props.showStyleSelector}>Edit styling</button>
+                        <button onClick = {props.toggleForm}>
+                            <img src = 'imgs/editInfo.svg' alt = 'Edit education info' />
+                        </button>
+                        
+                        <button onClick = {props.showStyleSelector}>
+                            <img src = 'imgs/editStyle.svg' alt = 'Edit styling' />
+                        </button>
+ 
                         <button onClick = {() => {toggleShowItems()}}>
                             { showItems ? 
                                 <img src = 'imgs/expandLess.svg' alt = 'Hide education header' />
@@ -43,7 +49,10 @@ const Education = props => {
                                     return (
                                         <>
                                         <li key = {item.id}> {item.level} in {item.course} at {item.institution}, from {item.startDate} until {item.endDate} </li>
-                                        <button onClick = {() => {props.deleteState("education", item.id)}}>x</button>
+                                        
+                                        <button onClick = {() => {props.deleteState("education", item.id)}}>
+                                            <img src = 'imgs/close.svg' alt = 'Show education header' />
+                                        </button>
                                         </>                              
                                     )
                                 })}
