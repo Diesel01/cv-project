@@ -20,19 +20,17 @@ const JobExp = props => {
                     className = "jobExpList draggable-div"
                 >
 
-                    <div 
-                        style = {{display: 'flex'}}
-                    >
+                    <div className = "item-div">
                         <h3>Professional Experience</h3>
-                        <button onClick = {props.toggleForm}>
+                        <button onClick = {() => {props.toggleForm("jobExp")}} className = "button">
                             <img src = 'imgs/editInfo.svg' alt = 'Edit professional experience' />
                         </button>
                         
-                        <button onClick = {props.showStyleSelector}>
+                        <button onClick = {() => {props.showStyleSelector("jobExp")}} className = "button">
                             <img src = 'imgs/editStyle.svg' alt = 'Edit styling' />
                         </button>
 
-                        <button onClick = {() => {toggleShowItems()}}>
+                        <button onClick = {() => {toggleShowItems()}} className = "button">
                             { showItems ? 
                                 <img src = 'imgs/expandLess.svg' alt = 'Hide professional experience header' />
                                 :
@@ -46,12 +44,14 @@ const JobExp = props => {
                             <ul>
                                 {props.items.map( item => {
                                     return( 
-                                        <>
-                                        <li key = {item.id}>
-                                            {item.positionTitle} in {item.company}, from {item.startDate} until {item.endDate}, responsible for {item.responsibleFor}
-                                        </li>
-                                        <button onClick = {()=>{props.deleteState('jobExp', item.id)}}>x</button>
-                                        </>
+                                        <div className = "item-div">
+                                            <li key = {item.id}>
+                                                {item.positionTitle} in {item.company}, from {item.startDate} until {item.endDate}, responsible for {item.responsibleFor}
+                                            </li>
+                                            <button onClick = {()=>{props.deleteState('jobExp', item.id)}} className = "button">
+                                                <img src = 'imgs/close.svg' alt = 'Delete' />
+                                            </button>
+                                        </div>
                                     )
                                 })}
                             </ul>

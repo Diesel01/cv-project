@@ -19,9 +19,6 @@ class App extends React.Component {
         display: false,
         id: 'generalInfo',
         fullName: "Mathes D.",
-
-        showStyleSelector: () => { this.changeStyle('generalInfo') }, 
-        toggleForm: () => { this.toggleForm("generalInfo") }
       },
 
       education: {
@@ -40,10 +37,7 @@ class App extends React.Component {
             institution: 'ah'
           }
         ],
-        id: 'education',
-
-        showStyleSelector: () => { this.changeStyle('education') }, 
-        toggleForm: () => { this.toggleForm("education") }
+        id: 'education'
       },
 
       jobExp: {
@@ -55,10 +49,7 @@ class App extends React.Component {
             responsibleFor: 'X, Y, Z'
           }
         ],
-        id: 'jobExp', 
-
-        showStyleSelector: () => { this.changeStyle("jobExp") }, 
-        toggleForm: () => { this.toggleForm("jobExp") }
+        id: 'jobExp'
       },
 
       createPDF: false,
@@ -226,9 +217,9 @@ class App extends React.Component {
 
   toggleForm(element){ 
     let value = !this.state.showForm[element]; 
-    this.setState({ showForm: {...this.state.showForm, [element]: value } }, 
-     () => {console.log(this.state)}
-    )
+    this.setState({
+      showForm: {...this.state.showForm, [element]: value } 
+    })
   } 
 
   changecreatePDF() {
@@ -280,6 +271,8 @@ class App extends React.Component {
           <DragDropContext onDragEnd={this.dragHandle}>
             <DragnDrop 
               {...this.state} 
+              toggleForm = {this.toggleForm}
+              showStyleSelector = {this.changeStyle} 
               deleteGeneralInfo = {this.deleteGeneralInfo}
               deleteState = {this.deleteState}
             />

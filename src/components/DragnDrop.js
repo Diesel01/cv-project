@@ -6,7 +6,7 @@ import JobExp from './JobExp';
 
 const DragnDrop = props => {
 
-    const {generalInfo, education, jobExp, componentOrder, deleteGeneralInfo, deleteState} = props; 
+    const {generalInfo, education, jobExp, componentOrder, toggleForm, showStyleSelector, deleteGeneralInfo, deleteState} = props; 
 
     return (
         <div>
@@ -29,15 +29,36 @@ const DragnDrop = props => {
                             // }
 
                             if (component === 'generalInfo'){  
-                                return <GeneralInfo {...generalInfo} deleteGeneralInfo = {deleteGeneralInfo} index = {index} /> 
+                                return ( 
+                                    <GeneralInfo {...generalInfo} 
+                                        toggleForm = {toggleForm}
+                                        showStyleSelector = {showStyleSelector} 
+                                        deleteGeneralInfo = {deleteGeneralInfo} 
+                                        index = {index} 
+                                    />
+                                )
                             }
 
                             if (component === 'education'){
-                                return <Education {...education} deleteState = {deleteState} index = {index} /> 
+                                return(
+                                    <Education {...education} 
+                                        toggleForm = {toggleForm}
+                                        showStyleSelector = {showStyleSelector} 
+                                        deleteState = {deleteState} 
+                                        index = {index} 
+                                    /> 
+                                )
                             }
 
                             if (component === 'jobExp'){ 
-                                return <JobExp {...jobExp} deleteState = {deleteState} index = {index} /> 
+                                return(
+                                    <JobExp {...jobExp}
+                                        toggleForm = {toggleForm}
+                                        showStyleSelector = {showStyleSelector}
+                                        deleteState = {deleteState} 
+                                        index = {index} 
+                                    />
+                                ) 
                             }
                         })}
                         

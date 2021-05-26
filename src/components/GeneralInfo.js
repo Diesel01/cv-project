@@ -14,27 +14,42 @@ export default class GeneralInfo extends React.Component{
                         {...provided.draggableProps}
                         className = "generalInfo draggable-div"
                     > 
-                        <div 
-                            style = {{display: "flex"}}
-                        >
+                        <div className = "item-div">
                             <h2> {fullName} </h2>
-                            <button onClick = {toggleForm}>
+
+                            <button onClick = {() => {deleteGeneralInfo("fullName")}} className = "button">
+                                <img src = 'imgs/close.svg' alt = 'Delete' />
+                            </button>
+
+                            <button onClick = {() => {toggleForm("generalInfo")}} className = "button">
                                 <img src = 'imgs/editInfo.svg' alt = 'Edit general info' />
                             </button>
 
-                            <button onClick = {showStyleSelector}>
+                            <button onClick = {() => {showStyleSelector("generalInfo")}} className = "button">
                                 <img src = 'imgs/editStyle.svg' alt = 'Edit styling' />
                             </button>
                         </div>
-                            
 
-                        <button onClick = {() => {deleteGeneralInfo("fullName")}}>x</button>                    
-
-                        <p> Date of birth: {dateBirth} <button onClick = {() => {deleteGeneralInfo("dateBirth")}}>x</button> </p>
-
-                        <p> Email:  {email} <button onClick = {() => {deleteGeneralInfo("email")}}>x</button> </p>
-
-                        <p> Phone: {phone} <button onClick = {() => {deleteGeneralInfo("phone")}}>x</button></p>
+                        <div className = "item-div">
+                            <p> Date of birth: {dateBirth}</p>
+                            <button onClick = {() => {deleteGeneralInfo("dateBirth")}} className = "button">
+                                <img src = 'imgs/close.svg' alt = 'Delete' />
+                            </button>
+                        </div> 
+                        
+                        <div className = "item-div">
+                            <p> Email: {email}</p>
+                            <button onClick = {() => {deleteGeneralInfo("email")}} className = "button">
+                                <img src = 'imgs/close.svg' alt = 'Delete' />
+                            </button>
+                        </div> 
+                        
+                        <div className = "item-div">
+                            <p> Phone: {phone}</p>
+                            <button onClick = {() => {deleteGeneralInfo("phone")}} className = "button">
+                                <img src = 'imgs/close.svg' alt = 'Delete' />
+                            </button>
+                        </div> 
 
                     </div>
                 )}
