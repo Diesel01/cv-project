@@ -1,6 +1,7 @@
 import React from "react"; 
 import {format} from "date-fns"; 
 import "../styles/Forms.css";
+import "../styles/CV.css";
 
 const GenInfoForm = (props) => { 
     const { editGeneralInfo, toggleForm } = props; 
@@ -9,7 +10,9 @@ const GenInfoForm = (props) => {
             <form id = "editGenInfoForm" className = "form">
                 <div className = "input" style = {{display: "flex"}}>
                     <p> <b>Please enter your general information:</b> </p>
-                    <button onClick = {() => {toggleForm("generalInfo")}}>X</button>
+                    <button onClick = {() => {toggleForm("generalInfo")}} className = 'button'>
+                        <img src = 'imgs/close.svg' alt = 'Close general info form' />
+                    </button>
                 </div>
                 
                 <div className = "input">

@@ -8,7 +8,9 @@ const EducationForm = (props) => {
             <form id = "educationForm" className = "form"> 
                 <div className = "input" style = {{display: "flex"}}>
                     <p><b>Please enter your educational information:</b> </p> 
-                    <button onClick = {() => {toggleForm("education")}}>X</button>
+                    <button onClick = {() => {toggleForm("education")}} className = 'button'>
+                        <img src = 'imgs/close.svg' alt = 'Close general info form' />
+                    </button>
                 </div>
 
                 <div className = "input">
@@ -46,13 +48,17 @@ const EducationForm = (props) => {
                     <input type = "date" id = "endDate"></input>
                 </div>
 
-                <button type = "submit" name = "submit" onClick = { 
-                    (e) => { 
-                    e.preventDefault();
-                    editEducation(); 
-                    let form = document.getElementById("educationForm"); 
-                    form.reset() } 
-                }> 
+                <button 
+                    className = "button-Form"
+                    type = "submit" 
+                    name = "submit" 
+                    onClick = { 
+                        (e) => { 
+                            e.preventDefault();
+                        editEducation(); 
+                        let form = document.getElementById("educationForm"); 
+                        form.reset() } 
+                    }> 
                     Submit 
                 </button>
             </form>

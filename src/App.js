@@ -258,9 +258,9 @@ class App extends React.Component {
       <div className = "main-container">
         
         <div className = "form-div">
-          { this.state.styleSelector.generalInfo ? <StyleSelector elementId = "generalInfo" /> : null }
-          { this.state.styleSelector.education ? <StyleSelector elementId = "educationList" /> : null }
-          { this.state.styleSelector.jobExp ? <StyleSelector elementId = "jobExpList" /> : null }
+          { this.state.styleSelector.generalInfo ? <StyleSelector elementId = "generalInfo" showStyleSelector = {this.changeStyle}/> : null }
+          { this.state.styleSelector.education ? <StyleSelector elementId = "education" showStyleSelector = {this.changeStyle}/> : null }
+          { this.state.styleSelector.jobExp ? <StyleSelector elementId = "jobExp" showStyleSelector = {this.changeStyle}/> : null }
 
           { this.state.showForm.generalInfo ? <GenInfoForm editGeneralInfo = {this.editGeneralInfo} toggleForm ={this.toggleForm}/> : null }
           { this.state.showForm.education ? <EducationForm editEducation = {this.editEducation} toggleForm ={this.toggleForm}/> : null }
@@ -280,7 +280,7 @@ class App extends React.Component {
         </div>
 
         <div className = "open-pdf-div">
-          <button onClick = {() => {this.changecreatePDF()}}>Click here to generate a PDF of your CV</button>
+          <button onClick = {() => {this.changecreatePDF()}} className = 'button-App'>Generate a PDF document</button>
           { this.state.createPDF ? 
             <PdfGenerator 
               generalInfo = {this.state.generalInfo} 

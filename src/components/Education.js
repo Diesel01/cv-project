@@ -18,7 +18,7 @@ const Education = props => {
                     ref = {provided.innerRef} 
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
-                    className = "educationList draggable-div"
+                    className = "education draggable-div"
                 >
                      
                     <div className = "item-div">

@@ -8,7 +8,9 @@ const JobExpForm = (props) => {
 
                 <div className = "input" style = {{display: "flex"}}>
                     <p> <b>Please enter your job experience:</b> </p> 
-                    <button onClick = {() => {toggleForm("jobExp")}}>X</button>
+                    <button onClick = {() => {toggleForm("jobExp")}} className = 'button'>
+                        <img src = 'imgs/close.svg' alt = 'Close general info form' />
+                    </button>
                 </div>
 
                 <div className = "input">
@@ -38,6 +40,7 @@ const JobExpForm = (props) => {
                     
 
                 <button type = "submit" name = "submit" 
+                    className = "button-Form"
                     onClick = { (e) => { 
                         e.preventDefault();                     
                         editJobExp();

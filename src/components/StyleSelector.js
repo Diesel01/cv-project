@@ -1,5 +1,6 @@
 import React from 'react';
 import "../styles/Forms.css";
+import "../styles/CV.css";
 
 let fontsArray = []
 export default class StyleSelector extends React.Component{ 
@@ -145,6 +146,15 @@ export default class StyleSelector extends React.Component{
         return(
             <div className = "form">
                 {/* <div id = "fontSelector"> */}
+                    <button 
+                        onClick = {() => {
+                            this.props.showStyleSelector(this.props.elementId)
+                        }} 
+                        className = 'button'
+                    >
+                        <img src = 'imgs/close.svg' alt = 'Close styling form' />
+                    </button>
+
                     <div>
                         <label htmlFor = "fonts">Choose a font: </label>
                         <select name = "fonts" id = "fonts">

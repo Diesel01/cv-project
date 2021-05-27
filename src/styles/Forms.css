@@ -19,3 +19,13 @@
 .input{
     margin-bottom: 1.5%
 }
+
+.button-Form{
+    background-color: black;
+    color: white;
+    border: 0px;
+    padding: 2%;
+    border-radius: 20px;
+    width: 30%;
+    margin-top: 4%;
+}

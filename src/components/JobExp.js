@@ -17,7 +17,7 @@ const JobExp = props => {
                     ref = {provided.innerRef}
                     {...provided.dragHandleProps}
                     {...provided.draggableProps}
-                    className = "jobExpList draggable-div"
+                    className = "jobExp draggable-div"
                 >
 
                     <div className = "item-div">
