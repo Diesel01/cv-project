@@ -6,7 +6,6 @@ import { EducationForm } from "./components/EducationForm";
 import { JobExpForm } from "./components/JobExpForm";
 import StyleSelector from "./components/StyleSelector";
 import PdfGenerator from "./components/pdfGenerator";
-import Draggable from "react-draggable";
 import { DragDropContext } from 'react-beautiful-dnd';
 import DragnDrop from "./components/DragnDrop";
 import "./styles/App.css";

@@ -20,23 +20,29 @@ const JobExp = props => {
                     className = "jobExp draggable-div"
                 >
 
-                    <div className = "item-div">
+                    <div className = "item-div item-header">
                         <h3>Professional Experience</h3>
-                        <button onClick = {() => {props.toggleForm("jobExp")}} className = "button">
-                            <img src = 'imgs/editInfo.svg' alt = 'Edit professional experience' />
-                        </button>
-                        
-                        <button onClick = {() => {props.showStyleSelector("jobExp")}} className = "button">
-                            <img src = 'imgs/editStyle.svg' alt = 'Edit styling' />
-                        </button>
 
-                        <button onClick = {() => {toggleShowItems()}} className = "button">
-                            { showItems ? 
-                                <img src = 'imgs/expandLess.svg' alt = 'Hide professional experience header' />
-                                :
-                                <img src = 'imgs/expandMore.svg' alt = 'Show professional experience header' />   
-                            }
-                        </button>
+                        <div className = 'btns-div-itemHeader'>
+                            <button onClick = {() => {props.toggleForm("jobExp")}} className = "button">
+                                <img src = 'imgs/editInfo.svg' alt = 'Edit professional experience' />
+                            </button>
+                            
+                            <button onClick = {() => {props.showStyleSelector("jobExp")}} className = "button">
+                                <img src = 'imgs/editStyle.svg' alt = 'Edit styling' />
+                            </button>
+
+                            <button onClick = {() => {toggleShowItems()}} className = "button">
+                                { showItems ? 
+                                    <img src = 'imgs/expandLess.svg' alt = 'Hide professional experience header' />
+                                    :
+                                    <img src = 'imgs/expandMore.svg' alt = 'Show professional experience header' />   
+                                }
+                            </button>
+                            <span class = "dragMe">
+                                    <p>Drag me!</p>
+                            </span>
+                        </div>
                     </div>
                     
                     { showItems ?
@@ -44,11 +50,11 @@ const JobExp = props => {
                             <ul>
                                 {props.items.map( item => {
                                     return( 
-                                        <div className = "item-div">
+                                        <div className = "item-div list-item">
                                             <li key = {item.id}>
                                                 {item.positionTitle} in {item.company}, from {item.startDate} until {item.endDate}, responsible for {item.responsibleFor}
                                             </li>
-                                            <button onClick = {()=>{props.deleteState('jobExp', item.id)}} className = "button">
+                                            <button onClick = {()=>{props.deleteState('jobExp', item.id)}} className = "button item-button">
                                                 <img src = 'imgs/close.svg' alt = 'Delete' />
                                             </button>
                                         </div>
